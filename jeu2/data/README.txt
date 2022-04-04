@@ -9,6 +9,55 @@ Format données :
 4 1 1
 5 1 2
 
+2 1 #Aretes horizontales : x y
+2 4
+3 2
+3 3
+3 5
+4 4
+
+1 2 #Aretes verticales : x y
+1 3
+2 2
+2 3
+3 1
+3 2
+3 4
+4 2
+4 3
+4 4
+5 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Bof ca :
 3 1 0 1 #Remplissage des palissades : x y dx dy
 3 2 1 0
 4 2 0 1

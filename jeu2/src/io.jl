@@ -17,15 +17,77 @@ function readInputFile(inputFile::String)
 
     data = readlines(datafile)
     close(datafile)
+    line = data[1]
+    ls = split(line, " ")
+    n = parse(Int64, ls[1])
+    p = parse(Int64, ls[2])
+    t = Array{Int64}(undef, n, p)
+    horiz = Array{Int64}(undef, n-1, p)
+    vertic = Array{Int64}(undef, n, p-1)
+    fill!(t, -1)
+    fill!(horiz, 0)
+    fill!(vertic, 0)
 
     # For each line of the input file
-    for line in data
-
-        # TODO
-        println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
-
+    k = 2
+    line = data[k]
+    while line != "\n"
+    	ls = split(line, " ")
+    	x = parse(Int64, ls[1])
+    	y = parse(Int64, ls[2])
+    	v = parse(Int64, ls[3])
+    	t[y,x] = v
+    	k += 1
+    	line = data[k]
     end
+    k += 1
+    line = data[k]
+    while line != "\n"
+    	ls = split(line, " ")
+    	x = parse(Int64, ls[1])
+    	y = parse(Int64, ls[2])
+    	horiz[y, x] = 1
+    	k += 1
+    	line = data[k]
+    end
+    k += 1
+    for line in data[k:end]
+    	ls = split(line, " ")
+    	x = parse(Int64, ls[1])
+    	y = parse(Int64, ls[2])
+    	vertic[y, x] = 1
+    	k += 1
+    	line = data[k]
+    end
+    
+    println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
 
+end
+
+function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
+	
+	n = size(t, 1)
+	p = size(t, 2)
+	
+	println(" ", "-"^(2*p-1)," ")
+	for y in 1:n
+		for x in 1:p
+			if t[y,x] == -1
+				print(" ")
+			else
+				print(t[y,x])
+			end
+			if x == p
+				print("|")
+			else
+				if vertic[y,x]
+					print("|")
+				else
+					print(" ")
+				end
+			end #REPRENDRE A PARTIR D'ICI
+		end
+	end
 end
 
 
