@@ -129,7 +129,20 @@ function cplexSolve(neighborhood::Array{Int64,2})
     # 1 - true if an optimum is found
     # 2 - the resolution time
     # 3 - Value of the found admissible point
-    return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start, JuMP.value.(x)
+   
+   
+   ##DEBUG
+   println("DEBUG ",JuMP.primal_status(m) == NO_SOLUTION )
+   
+   ##  
+   if JuMP.primal_status(m) != NO_SOLUTION
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(x)
+   else
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,0
+   end
+   
+    
+    
     
 end 
 
@@ -208,7 +221,6 @@ function solveDataSet()
                     # Solve it and get the results
               
                     isOptimal, resolutionTime, admissible_point_x = cplexSolve(neighborhood)
-                    
                     nr=size(admissible_point_x,1)
                     nc=size(admissible_point_x,2)
                     display_x = Array{String,2}(undef,nr,nc)
@@ -222,7 +234,6 @@ function solveDataSet()
                            end
                        end
                     end
-                    
                    display(display_x)####
             
                     # If a solution is found, write it
