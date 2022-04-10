@@ -223,7 +223,8 @@ function solveDataSet()
                        end
                     end
                     
-                   
+                   display(display_x)####
+            
                     # If a solution is found, write it
                     if isOptimal
                         # TODO
@@ -235,7 +236,7 @@ function solveDataSet()
                            end
                            print(fout,"\n")
                          end                       
-                      
+                      	print(fout,"\n")
                         
                     end
 
@@ -266,7 +267,7 @@ function solveDataSet()
                     if isOptimal
 
                         # TODO
-                        println("In file resolution.jl, in method solveDataSet(), TODO: write the heuristic solution in fout")
+                        #println("In file resolution.jl, in method solveDataSet(), TODO: write the heuristic solution in fout")
                         
                     end 
                 end
@@ -281,7 +282,6 @@ function solveDataSet()
 
             # Display the results obtained with the method on the current instance
             #include(outputFile)      
-            display(display_x)####
             
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
             println(resolutionMethod[methodId], " time: " * string(round(solveTime, sigdigits=2)) * "s\n")
