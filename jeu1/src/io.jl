@@ -9,6 +9,9 @@ Read an instance from an input file
 
 - Argument:
 inputFile: path of the input file
+
+- Output:
+neighborhood : matrix of black squares neigbors
 """
 function readInputFile(inputFile::String)
 
@@ -19,12 +22,27 @@ function readInputFile(inputFile::String)
     close(datafile)
 
     # For each line of the input file
+    
+    
+    m = length(split(data[1],","))
+    neighborhood = Array{Int64,2}(undef,0,m)
+   
     for line in data
 
-        # TODO
-        println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
+        #TODO
+        if(m>1) #This condition is false when the matrix has a single colomn
+           split_line=split(line,",")
+        else
+           split_line = split(line,"\n")
+        end
+     
+        int_line=[number != " " ? parse(Int64,number) : -1 for number in split_line]
+        neighborhood=vcat(neighborhood, transpose(int_line[:,:]))
+         
 
     end
+    
+    return neighborhood
 
 end
 
