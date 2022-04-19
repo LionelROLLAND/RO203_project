@@ -131,10 +131,7 @@ function cplexSolve(neighborhood::Array{Int64,2})
     # 3 - Value of the found admissible point
    
    
-   ##DEBUG
-   println("DEBUG ",JuMP.primal_status(m) == NO_SOLUTION )
    
-   ##  
    if JuMP.primal_status(m) != NO_SOLUTION
    	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(x)
    else
@@ -242,7 +239,7 @@ function solveDataSet()
                         #println("In file resolution.jl, in method solveDataSet(), TODO: write cplex solution in fout")
                         for i in 1:nr
                            print(fout,display_x[i,1])
-                           for j in 2:(nc-1)
+                           for j in 2:nc
                                print(fout," ",display_x[i,j])
                            end
                            print(fout,"\n")
