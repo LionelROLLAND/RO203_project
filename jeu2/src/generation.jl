@@ -13,7 +13,15 @@ function generateInstance(n::Int64, density::Float64)
     # TODO
     println("In file generation.jl, in method generateInstance(), TODO: generate an instance")
     
-end 
+end
+
+function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep::Int64, x_arr::Int64, y_arr::Int64)
+	dx = 1
+	dy = 0
+end
+
+
+
 
 """
 Generate all the instances
