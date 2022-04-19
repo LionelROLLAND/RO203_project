@@ -64,6 +64,51 @@ function readInputFile(inputFile::String)
 
 end
 
+function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2}
+	
+	fd = open(OutPutFile)
+	n = size(t,1)
+	p = size(t,2)
+	
+	print(fd, n)
+	print(fd, " ")
+	println(fd, p)
+	for y in 1:n
+		for x in 1:p
+			if t[y,x] >= 0
+				print(fd, x)
+				print(fd, " ")
+				print(fd, y)
+				print(fd, " ")
+				println(fd, t[y,x])
+			end
+		end
+	end
+	print("\n")
+	for y in 1:n-1
+		for x in 1:p
+			if horiz[y,x]
+				print(fd, x)
+				print(fd, " ")
+				println(fd, y)
+			end
+		end
+	end
+	
+	print("\n")
+	for y in 1:n
+		for x in 1:p-1
+			if vertic[y,x]
+				print(fd, x)
+				print(fd, " ")
+				println(fd, y)
+			end
+		end
+	end
+end
+	
+	
+
 function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
 	
 	n = size(t, 1)
@@ -71,6 +116,7 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
 	
 	println(" ", "-"^(2*p-1)," ")
 	for y in 1:n
+		print("|")
 		for x in 1:p
 			if t[y,x] == -1
 				print(" ")
@@ -86,6 +132,19 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
 					print(" ")
 				end
 			end #REPRENDRE A PARTIR D'ICI
+		end
+		print("\n|")
+		if y == n
+			println(" ", "-"^(2*p-1)," ")
+		else
+			for x in 1:p
+				if horiz[y,x]
+					print("-")
+				else
+					print(" ")
+				end
+			end
+			println("|")
 		end
 	end
 end
