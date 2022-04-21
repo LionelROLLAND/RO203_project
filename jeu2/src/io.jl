@@ -61,6 +61,7 @@ function readInputFile(inputFile::String)
     end
     
     println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
+    return t, horiz, vertic
 
 end
 
