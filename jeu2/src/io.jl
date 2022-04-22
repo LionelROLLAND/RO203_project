@@ -32,32 +32,32 @@ function readInputFile(inputFile::String)
     k = 2
     line = data[k]
     while line != "\n"
-    	ls = split(line, " ")
-    	x = parse(Int64, ls[1])
-    	y = parse(Int64, ls[2])
-    	v = parse(Int64, ls[3])
-    	t[y,x] = v
-    	k += 1
-    	line = data[k]
+        ls = split(line, " ")
+        x = parse(Int64, ls[1])
+        y = parse(Int64, ls[2])
+        v = parse(Int64, ls[3])
+        t[y,x] = v
+        k += 1
+        line = data[k]
     end
     k += 1
     line = data[k]
     while line != "\n"
-    	ls = split(line, " ")
-    	x = parse(Int64, ls[1])
-    	y = parse(Int64, ls[2])
-    	horiz[y, x] = 1
-    	k += 1
-    	line = data[k]
+        ls = split(line, " ")
+        x = parse(Int64, ls[1])
+        y = parse(Int64, ls[2])
+        horiz[y, x] = 1
+        k += 1
+        line = data[k]
     end
     k += 1
     for line in data[k:end]
-    	ls = split(line, " ")
-    	x = parse(Int64, ls[1])
-    	y = parse(Int64, ls[2])
-    	vertic[y, x] = 1
-    	k += 1
-    	line = data[k]
+        ls = split(line, " ")
+        x = parse(Int64, ls[1])
+        y = parse(Int64, ls[2])
+        vertic[y, x] = 1
+        k += 1
+        line = data[k]
     end
     
     println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
@@ -66,88 +66,88 @@ function readInputFile(inputFile::String)
 end
 
 function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2}
-	
-	fd = open(OutPutFile)
-	n = size(t,1)
-	p = size(t,2)
-	
-	print(fd, n)
-	print(fd, " ")
-	println(fd, p)
-	for y in 1:n
-		for x in 1:p
-			if t[y,x] >= 0
-				print(fd, x)
-				print(fd, " ")
-				print(fd, y)
-				print(fd, " ")
-				println(fd, t[y,x])
-			end
-		end
-	end
-	print("\n")
-	for y in 1:n-1
-		for x in 1:p
-			if horiz[y,x]
-				print(fd, x)
-				print(fd, " ")
-				println(fd, y)
-			end
-		end
-	end
-	
-	print("\n")
-	for y in 1:n
-		for x in 1:p-1
-			if vertic[y,x]
-				print(fd, x)
-				print(fd, " ")
-				println(fd, y)
-			end
-		end
-	end
+    
+    fd = open(OutPutFile)
+    n = size(t,1)
+    p = size(t,2)
+    
+    print(fd, n)
+    print(fd, " ")
+    println(fd, p)
+    for y in 1:n
+        for x in 1:p
+            if t[y,x] >= 0
+                print(fd, x)
+                print(fd, " ")
+                print(fd, y)
+                print(fd, " ")
+                println(fd, t[y,x])
+            end
+        end
+    end
+    print("\n")
+    for y in 1:n-1
+        for x in 1:p
+            if horiz[y,x]
+                print(fd, x)
+                print(fd, " ")
+                println(fd, y)
+            end
+        end
+    end
+    
+    print("\n")
+    for y in 1:n
+        for x in 1:p-1
+            if vertic[y,x]
+                print(fd, x)
+                print(fd, " ")
+                println(fd, y)
+            end
+        end
+    end
 end
-	
-	
+    
+    
 
 function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
-	
-	n = size(t, 1)
-	p = size(t, 2)
-	
-	println(" ", "-"^(2*p-1)," ")
-	for y in 1:n
-		print("|")
-		for x in 1:p
-			if t[y,x] == -1
-				print(" ")
-			else
-				print(t[y,x])
-			end
-			if x == p
-				print("|")
-			else
-				if vertic[y,x]
-					print("|")
-				else
-					print(" ")
-				end
-			end #REPRENDRE A PARTIR D'ICI
-		end
-		print("\n|")
-		if y == n
-			println(" ", "-"^(2*p-1)," ")
-		else
-			for x in 1:p
-				if horiz[y,x]
-					print("-")
-				else
-					print(" ")
-				end
-			end
-			println("|")
-		end
-	end
+    
+    n = size(t, 1)
+    p = size(t, 2)
+    
+    println(" ", "-"^(2*p-1)," ")
+    for y in 1:n
+        print("|")
+        for x in 1:p
+            if t[y,x] == -1
+                print(" ")
+            else
+                print(t[y,x])
+            end
+            if x == p
+                print("|")
+            else
+                if vertic[y,x]
+                    print("|")
+                else
+                    print(" ")
+                end
+            end #REPRENDRE A PARTIR D'ICI
+        end
+        print("\n|")
+        if y == n
+            println(" ", "-"^(2*p-1)," ")
+        else
+            for x in 1:p
+                if horiz[y,x]
+                    print("-")
+                else
+                    print(" ")
+                end
+            end
+            println("|")
+        end
+    end
 end
 
 
