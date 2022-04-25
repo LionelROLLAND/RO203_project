@@ -302,10 +302,13 @@ function generateInstance(n::Int64, p::Int64, size::Int64, density::Float64)
     fill!(horiz, 0)
     fill!(vertic, 0)
     
+    #=
     displayGrid(t, horiz, vertic)
     displayGrid(res, horiz, vertic)
 
     println("In file generation.jl, in method generateInstance(), TODO: generate an instance")
+    =#
+    
     return res, horiz, vertic
     
 end

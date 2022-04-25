@@ -31,7 +31,9 @@ function readInputFile(inputFile::String)
     # For each line of the input file
     k = 2
     line = data[k]
-    while line != "\n"
+    while line != ""
+        #println(k)
+        #println(line)
         ls = split(line, " ")
         x = parse(Int64, ls[1])
         y = parse(Int64, ls[2])
@@ -42,7 +44,7 @@ function readInputFile(inputFile::String)
     end
     k += 1
     line = data[k]
-    while line != "\n"
+    while line != ""
         ls = split(line, " ")
         x = parse(Int64, ls[1])
         y = parse(Int64, ls[2])
@@ -56,8 +58,6 @@ function readInputFile(inputFile::String)
         x = parse(Int64, ls[1])
         y = parse(Int64, ls[2])
         vertic[y, x] = 1
-        k += 1
-        line = data[k]
     end
     
     println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
@@ -66,7 +66,7 @@ function readInputFile(inputFile::String)
 end
 
 function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
-    file_des = open(OutputFile)
+    file_des = open(OutputFile, "w")
     n = size(t,1)
     p = size(t,2)
     
@@ -84,10 +84,10 @@ function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{In
             end
         end
     end
-    print("\n")
+    print(file_des, "\n")
     for y in 1:n-1
         for x in 1:p
-            if horiz[y,x]
+            if horiz[y,x] != 0
                 print(file_des, x)
                 print(file_des, " ")
                 println(file_des, y)
@@ -95,16 +95,17 @@ function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{In
         end
     end
     
-    print("\n")
+    print(file_des, "\n")
     for y in 1:n
         for x in 1:p-1
-            if vertic[y,x]
+            if vertic[y,x] != 0
                 print(file_des, x)
                 print(file_des, " ")
                 println(file_des, y)
             end
         end
     end
+    close(file_des)
 end
     
     
@@ -144,7 +145,19 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
                     print(" ")
                 end
                 if x != p
-                    print(" ")
+                    if horiz[y,x] != 0 || horiz[y,x+1] != 0
+                        if (horiz[y,x] != 0 && horiz[y,x+1] == 0) || (horiz[y,x] == 0 && horiz[y,x+1] != 0)
+                            print("+")
+                        else
+                            print("-")
+                        end
+                    else
+                        if vertic[y, x] != 0 && vertic[y+1, x] != 0
+                            print("|")
+                        else
+                            print(" ")
+                        end
+                    end
                 end
             end
             println("|")
