@@ -60,7 +60,7 @@ function readInputFile(inputFile::String)
         vertic[y, x] = 1
     end
     
-    println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
+    #println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
     return t, horiz, vertic
 
 end
@@ -109,7 +109,7 @@ function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{In
 end
     
     
-
+#=
 function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
     
     n = size(t, 1)
@@ -132,7 +132,7 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
                 else
                     print(" ")
                 end
-            end #REPRENDRE A PARTIR D'ICI
+            end
         end
         if y == n
             println("\n ", "-"^(2*p-1)," ")
@@ -162,6 +162,102 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
             end
             println("|")
         end
+    end
+end
+=#
+
+function b_to_i(b::Bool)
+    if b
+        return 1
+    else
+        return 0
+    end
+end
+
+function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
+    #GDHB
+    #smartTab = [[[["┼", "┴"], ["┬","─"]],[["┤", "╯"],["╮", "?"]]], [[["├", "╯"], ["╭", "?"]], [["│", "?"], ["?", " "]]]]
+    
+    smartTab = [[[[" ", "?"], ["?", "│"]], [["?", "╭"], ["╰", "├"]]], [[["?", "╮"], ["╯", "┤"]], [["─", "┬"], ["┴", "┼"]]]]
+
+    n = size(t, 1)
+    p = size(t, 2)
+
+    cT = Array{String}(undef, 2*n+1, 2*p+1)
+    fill!(cT, " ")
+    cT[1,1] = "╭"
+    cT[1,2*p+1] = "╮"
+    cT[2*n+1,1] = "╰"
+    cT[2*n+1,2*p+1] = "╯"
+    for j in 1:p
+        cT[1, 2*j] = "─"
+        cT[2*n+1, 2*j] = "─"
+    end
+    for i in 1:n
+        cT[2*i, 1] = "│"
+        cT[2*i, 2*p+1] = "│"
+    end
+
+    for y in 1:n
+        for x in 1:p
+            if t[y,x] == -1
+                cT[2*y, 2*x] = " "
+            else
+                cT[2*y, 2*x] = string(t[y,x])
+            end
+        end
+    end
+
+    for y in 1:n-1
+        for x in 1:p
+            if horiz[y, x] != 0
+                cT[2*y+1,2*x] = "─"
+            else
+                cT[2*y+1,2*x] = " "
+            end
+        end
+    end
+
+    for y in 1:n
+        for x in 1:p-1
+            if vertic[y, x] != 0
+                cT[2*y,2*x+1] = "│"
+            else
+                cT[2*y,2*x+1] = " "
+            end
+        end
+    end
+
+    for y in 1:n-1
+        for x in 1:p-1 #cT[2*y+1, 2*x+1]
+            g = 1 + b_to_i(cT[2*y+1, 2*x] == "─")
+            d = 1 + b_to_i(cT[2*y+1, 2*x+2] == "─")
+            h = 1 + b_to_i(cT[2*y, 2*x+1] == "│")
+            b = 1 + b_to_i(cT[2*y+2, 2*x+1] == "│")
+            cT[2*y+1, 2*x+1] = smartTab[g][d][h][b]
+        end
+    end
+
+    for y in 1:n-1
+        d = 1 + b_to_i(cT[2*y+1, 2] == "─")
+        cT[2*y+1, 1] = smartTab[1][d][2][2]
+        g = 1 + b_to_i(cT[2*y+1, 2*p] == "─")
+        cT[2*y+1, 2*p+1] = smartTab[g][1][2][2]
+    end
+
+    for x in 1:p-1
+        b = 1 + b_to_i(cT[2, 2*x+1] == "│")
+        cT[1, 2*x+1] = smartTab[2][2][1][b]
+        h = 1 + b_to_i(cT[2*n, 2*x+1] == "│")
+        cT[2*n+1, 2*x+1] = smartTab[2][2][h][1]
+    end
+
+    print("\n")
+    for i in 1:2*n+1
+        for j in 1:2*p+1
+            print(cT[i,j])
+        end
+        print("\n")
     end
 end
 
