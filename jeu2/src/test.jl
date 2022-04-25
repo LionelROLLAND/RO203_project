@@ -21,6 +21,8 @@ function test_rw(n::Int64, p::Int64, size::Int64, fname::String)
     displayGrid(r_t, r_horiz, r_vertic)
 end
 
-#test_gene(4, 6, 8)
+for i in 1:60
+    test_gene(4, 6, 6)
+end
 #generateInstance(4, 6, 8, 0.2)
-test_rw(4, 6, 8, "Jean-Claude.txt")
+#test_rw(4, 6, 6, "Jean-Claude.txt")
