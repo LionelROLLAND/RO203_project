@@ -11,4 +11,5 @@ function test(n::Int64, p::Int64, size::Int64)
 end
 
 
-test(4, 6, 8)
+#test(4, 6, 8)
+generateInstance(4, 6, 8, 0.2)

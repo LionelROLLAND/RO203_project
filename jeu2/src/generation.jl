@@ -11,6 +11,38 @@ Argument
 
 #count(u->(u==-1), t[1,1:p])
 
+function printTab(t::Array{Int64, 2})
+    n = size(t, 1)
+    p = size(t, 2)
+    for y in 1:n
+        println(t[y, 1:p])
+    end
+    print("\n")
+end
+
+function numNbEqI(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, i_r::Int64) #Nombre de voisins egaux a i
+    res = 0
+
+    dx = 1
+    dy = 0
+    temp = -1
+
+    for i in 1:4
+        temp = dy
+        dy = dx
+        dx = -temp
+    
+        nx = x+dx
+        ny = y+dy
+        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+            if t[ny,nx] == i_r
+                res += 1
+            end
+        end
+    end
+    return res
+end
+
 function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64)
     t[y,x] = -2
     
@@ -61,8 +93,17 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
     end
 
     if found
+        t_copy[y,x] = -3
         connComp(t_copy, n, p, nx, ny)
-        
+
+        #=
+        print("--\n")
+        printTab(t)
+        println(y, ", ", x)
+        printTab(t_copy)
+        print("--\n\n\n")
+        =#
+
         #On checke que toutes les cases vides autour de l'emplacement sont dans la meme composante connexe
         for i in 1:4
             temp = dy
@@ -119,7 +160,7 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
                 nx = x+dx
                 ny = y+dy
                 if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-                    if t[ny,nx] == -1
+                    if t[ny,nx] == -1 && numNbEqI(t, n, p, nx, ny, i_region) == 1
                         push!(new_x_adj, nx)
                         push!(new_y_adj, ny)
                         new_n_adj += 1
@@ -128,8 +169,10 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
             end
             finished = recRegion(t, n, p, full_size, size-1, i_region, new_x_adj, new_y_adj, new_n_adj)
             if finished
+                #println("+ ", y, ", ", x, "  : ", i_region, " -> ", size)
                 return true
             end
+            t[y,x] = -1
         end
         I += 1
         next_cell = 1 + rem(next_cell, n_adj)
@@ -191,6 +234,7 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
             finished = recRegion(t, n, p, size, size-1, i_region, x_adj, y_adj, n_adj)
 
             if finished
+                #println("+ ", y, ", ", x, "  : ", i_region, " -> ", size)
                 return true
             end
             t[y,x] = -1
@@ -235,17 +279,31 @@ function countPali(t::Array{Int64,2})
     return palis
 end
 
-function generateInstance(n::Int64, p::Int64, size::Float64)
+function generateInstance(n::Int64, p::Int64, size::Int64, density::Float64)
 
     t = Array{Int64}(undef, n, p)
     fill!(t, -1)
     n_regions = div(n*p, size)
     buildRegion(t, n, p, size, n_regions)
-    res = countPali(t)
+    pali = countPali(t)
+
+    res = Array{Int64}(undef, n, p)
+    fill!(res, -1)
+    for y in 1:n
+        for x in 1:p
+            if rand(Float64) < density
+                res[y,x] = pali[y,x]
+            end
+        end
+    end
+
     horiz = Array{Int64}(undef, n-1, p)
     vertic = Array{Int64}(undef, n, p-1)
     fill!(horiz, 0)
     fill!(vertic, 0)
+    
+    displayGrid(t, horiz, vertic)
+    displayGrid(res, horiz, vertic)
 
     println("In file generation.jl, in method generateInstance(), TODO: generate an instance")
     return res, horiz, vertic
@@ -291,6 +349,7 @@ end
 
 ####### INUTILE A PRIORI :
 
+#=
 function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep::Int64, x_arr::Int64, y_arr::Int64)
     if x_dep == x_arr && y_dep == y_arr
         return true
@@ -317,7 +376,7 @@ function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep:
     end
     return false
 end
-
+=#
 
 
 
