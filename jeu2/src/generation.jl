@@ -9,8 +9,32 @@ Argument
 - density: percentage in [0, 1] of initial values in the grid
 """
 
+#count(u->(u==-1), t[1,1:p])
+
+function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64)
+    t[y,x] = -2
+    
+    dx = 1
+    dy = 0
+    temp = -1
+    for i in 1:4
+        temp = dy
+        dy = dx
+        dx = -temp
+
+        nx = x_dep+dx
+        ny = y_dep+dy
+        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+            if t[ny,nx] == -1
+                connComp(t, n, p, nx, ny)
+            end
+        end
+    end
+end
+
+
 function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
-    temp = deepcopy(t)
+    t_copy = deepcopy(t)
     
     dx = 1
     dy = 0
@@ -37,7 +61,7 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
     end
 
     if found
-        connComp(temp, n, p, nx, ny)
+        connComp(t_copy, n, p, nx, ny)
         
         #On checke que toutes les cases vides autour de l'emplacement sont dans la meme composante connexe
         for i in 1:4
@@ -48,7 +72,7 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
             nx = x+dx
             ny = y+dy
             if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-                if t[ny,nx] == -1 && temp[ny,nx] != -2
+                if t[ny,nx] == -1 && t_copy[ny,nx] != -2
                     return false
                 end
             end
@@ -59,7 +83,6 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
 end
 
 
-#RAJOUTER VERIF CASE OK
 function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, size::Int64,
     i_region::Int64, x_adj::Array{Int64, 1}, y_adj::Array{Int64, 1}, n_adj::Int64)
     if size == 0
@@ -76,32 +99,34 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
     while I < n_adj
         x = x_adj[next_cell]
         y = y_adj[next_cell]
-        t[y,x] = i_region
+        if isValidPlace(t, n, p, x, y)
+            t[y,x] = i_region
 
-        new_x_adj = deepcopy(x_adj)
-        new_y_adj = deepcopy(y_adj)
-        deleteat!(new_x_adj, next_cell)
-        deleteat!(new_y_adj, next_cell)
-        new_n_adj = n_adj-1
+            new_x_adj = deepcopy(x_adj)
+            new_y_adj = deepcopy(y_adj)
+            deleteat!(new_x_adj, next_cell)
+            deleteat!(new_y_adj, next_cell)
+            new_n_adj = n_adj-1
 
-        for i in 1:4
-            temp = dy
-            dy = dx
-            dx = -temp
-    
-            nx = x+dx
-            ny = y+dy
-            if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-                if t[ny,nx] == -1
-                    push!(new_x_adj, nx)
-                    push!(new_y_adj, ny)
-                    new_n_adj += 1
+            for i in 1:4
+                temp = dy
+                dy = dx
+                dx = -temp
+        
+                nx = x+dx
+                ny = y+dy
+                if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+                    if t[ny,nx] == -1
+                        push!(new_x_adj, nx)
+                        push!(new_y_adj, ny)
+                        new_n_adj += 1
+                    end
                 end
             end
-        end
-        finished = recRegion(t, n, p, full_size, size-1, i_region, new_x_adj, new_y_adj, new_n_adj)
-        if finished
-            return true
+            finished = recRegion(t, n, p, full_size, size-1, i_region, new_x_adj, new_y_adj, new_n_adj)
+            if finished
+                return true
+            end
         end
         I += 1
         next_cell = 1 + rem(next_cell, n_adj)
@@ -110,13 +135,16 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
 end
 
 
-#RAJOUTER VERIF CASE OK
 function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_region::Int64)
     if i_region == 0
         return true
     end
 
-    empty_cells = n*p - (i-1)*size
+    dx = 1
+    dy = 0
+    temp = -1
+
+    empty_cells = i_region*size
     first_cell = 1 + rem(abs(rand(Int64)), empty_cells) #le diviseur est le nb de cellule vides
     i_cell = 0
     x = 1
@@ -133,14 +161,36 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
             end
             i_cell = rem(i_cell+1, n*p)
         end
-        t[y,x] = i_region
+        if isValidPlace(t, n, p, x, y)
+            t[y,x] = i_region
 
-        #CONSTRUIRE LISTES D'ADJACENCE
 
-        finished = recRegion(t, n, p, size, size-1, i_region, x_adj, y_adj, 4)
+            x_adj = Array{Int64}(undef, 0)
+            y_adj = Array{Int64}(undef, 0)
+            n_adj = 0
 
-        if finished
-            return true
+            for i in 1:4
+                temp = dy
+                dy = dx
+                dx = -temp
+            
+                nx = x+dx
+                ny = y+dy
+                if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+                    if t[ny,nx] == -1
+                        push!(x_adj, nx)
+                        push!(y_adj, ny)
+                        n_adj += 1
+                    end
+                end
+            end
+
+            finished = recRegion(t, n, p, size, size-1, i_region, x_adj, y_adj, n_adj)
+
+            if finished
+                return true
+            end
+            t[y,x] = -1
         end
         first_cell = 1
         I += 1
@@ -149,66 +199,87 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
 end
 
 
+function countPali(t::Array{Int64,2})
+    n = size(t,1)
+    p = size(t,2)
+    palis = Array{Int64}(undef, n, p)
+    
+    dx = 1
+    dy = 0
+    temp = -1
+
+    for y in 1:n
+        for x in 1:p
+            n_pali = 0
+            for i in 1:4
+                temp = dy
+                dy = dx
+                dx = -temp
+            
+                nx = x+dx
+                ny = y+dy
+                if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+                    if t[ny,nx] != t[y,x]
+                        n_pali += 1
+                    end
+                else
+                    n_pali += 1
+                end
+            end
+            palis[y,x] = n_pali
+        end
+    end
+    return palis
+end
+
 function generateInstance(n::Int64, p::Int64, size::Float64)
 
     t = Array{Int64}(undef, n, p)
     fill!(t, -1)
     n_regions = div(n*p, size)
+    buildRegion(t, n, p, size, n_regions)
+    res = countPali(t)
+    horiz = Array{Int64}(undef, n-1, p)
+    vertic = Array{Int64}(undef, n, p-1)
+
+    println("In file generation.jl, in method generateInstance(), TODO: generate an instance")
+    return res, horiz, vertic
+    
+end
+
+function generatePali(t::Array{Int64, 2})
+    n = size(t,1)
+    p = size(t,2)
+    horiz = Array{Int64}(undef, n-1, p)
+    vertic = Array{Int64}(undef, n, p-1)
+    fill!(horiz, 0)
+    fill!(vertic, 0)
     
     dx = 1
     dy = 0
     temp = -1
-    
-    for i in 1:n_regions
-        x_adj = Array{Int64}(undef, 0)
-        y_adj = Array{Int64}(undef, 0)
-        
-        
-        #Choper une premiere cellule vide au hasard :
-        first_cell = 1 + rem(abs(rand(Int64)), n*p - (i-1)*size) #le diviseur est le nb de cellule vides
-        i_cell = 0
-        x = 1
-        y = 1
-        while first_cell #On parcourt jusqu'a trouver la first_cell-ieme cellule vide
-            x = 1 + rem(i_cell, p)
-            y = 1 + div(i_cell, p)
-            if t[y, x] == -1
-                first_cell -= 1
-            end
-            i_cell += 1
-        end
-        t[y,x] = i
-        #count(u->(u==-1), t[1,1:p])
-        
-        
-        
-        #Agreger toutes celles d'apres a la premiere
-        for j in 2:size
-        
-            for i in 1:4
 
-                temp = dy #On fait tourner dx, dy
+    for y in 1:n
+        for x in 1:p
+            for i in 1:4
+                temp = dy
                 dy = dx
                 dx = -temp
-
-                nx = x+dx #On rajoute les voisins aux cellules adjacentes a la region
+            
+                nx = x+dx
                 ny = y+dy
                 if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-                    if t[ny,nx] == -1
-                        push!(x_adj, nx)
-                        push!(y_adj, ny)
+                    if nx && t[y, x] != t[ny, nx]
+                        vertic[y, div(x+nx, 2)] = 1
+                    end
+                    if ny && t[y,x] != t[ny,nx]
+                        horiz[div(y+ny, 2), x] = 1
                     end
                 end
-            end ### STOP :: probleme de faisabilite
-        
-        
-        
-        
-            
+            end
         end
     end
-    println("In file generation.jl, in method generateInstance(), TODO: generate an instance")
-    
+    return horiz, vertic
 end
 
 function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep::Int64, x_arr::Int64, y_arr::Int64)
@@ -222,6 +293,7 @@ function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep:
         temp = dy
         dy = dx
         dx = -temp
+
         nx = x_dep+dx
         ny = y_dep+dy
         if nx >= 1 && nx <= p && ny >= 1 && ny <= n
@@ -237,27 +309,6 @@ function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep:
     return false
 end
 
-
-function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64)
-    t[y,x] = -2
-    
-    dx = 1
-    dy = 0
-    temp = -1
-    for i in 1:4
-        temp = dy
-        dy = dx
-        dx = -temp
-
-        nx = x_dep+dx
-        ny = y_dep+dy
-        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-            if t[ny,nx] == -1
-                connComp(t, n, p, nx, ny)
-            end
-        end
-    end
-end
 
 
 
