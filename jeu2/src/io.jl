@@ -126,21 +126,24 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
             if x == p
                 print("|")
             else
-                if vertic[y,x]
+                if vertic[y,x] != 0
                     print("|")
                 else
                     print(" ")
                 end
             end #REPRENDRE A PARTIR D'ICI
         end
-        print("\n|")
         if y == n
-            println(" ", "-"^(2*p-1)," ")
+            println("\n ", "-"^(2*p-1)," ")
         else
+            print("\n|")
             for x in 1:p
-                if horiz[y,x]
+                if horiz[y,x] != 0
                     print("-")
                 else
+                    print(" ")
+                end
+                if x != p
                     print(" ")
                 end
             end

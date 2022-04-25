@@ -22,8 +22,8 @@ function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64)
         dy = dx
         dx = -temp
 
-        nx = x_dep+dx
-        ny = y_dep+dy
+        nx = x+dx
+        ny = y+dy
         if nx >= 1 && nx <= p && ny >= 1 && ny <= n
             if t[ny,nx] == -1
                 connComp(t, n, p, nx, ny)
@@ -89,6 +89,9 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
         return buildRegion(t, n, p, full_size, i_region-1)
     end
 
+    if n_adj == 0
+        return false
+    end
     dx = 1
     dy = 0
     temp = -1
@@ -153,7 +156,7 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
     I = 0
     while I < empty_cells
         #On parcourt jusqu'a trouver la first_cell-ieme cellule vide >= a l'actuelle
-        while first_cell
+        while first_cell > 0
             x = 1 + rem(i_cell, p)
             y = 1 + div(i_cell, p)
             if t[y, x] == -1
@@ -241,6 +244,8 @@ function generateInstance(n::Int64, p::Int64, size::Float64)
     res = countPali(t)
     horiz = Array{Int64}(undef, n-1, p)
     vertic = Array{Int64}(undef, n, p-1)
+    fill!(horiz, 0)
+    fill!(vertic, 0)
 
     println("In file generation.jl, in method generateInstance(), TODO: generate an instance")
     return res, horiz, vertic
@@ -269,10 +274,10 @@ function generatePali(t::Array{Int64, 2})
                 nx = x+dx
                 ny = y+dy
                 if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-                    if nx && t[y, x] != t[ny, nx]
+                    if dx != 0 && t[y, x] != t[ny, nx]
                         vertic[y, div(x+nx, 2)] = 1
                     end
-                    if ny && t[y,x] != t[ny,nx]
+                    if dy != 0 && t[y,x] != t[ny,nx]
                         horiz[div(y+ny, 2), x] = 1
                     end
                 end
@@ -281,6 +286,10 @@ function generatePali(t::Array{Int64, 2})
     end
     return horiz, vertic
 end
+
+
+
+####### INUTILE A PRIORI :
 
 function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep::Int64, x_arr::Int64, y_arr::Int64)
     if x_dep == x_arr && y_dep == y_arr
