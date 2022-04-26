@@ -174,12 +174,13 @@ function b_to_i(b::Bool)
     end
 end
 
-function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
+function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2}, w_limits::Bool=false)
     #GDHB
-    #smartTab = [[[["┼", "┴"], ["┬","─"]],[["┤", "╯"],["╮", "?"]]], [[["├", "╯"], ["╭", "?"]], [["│", "?"], ["?", " "]]]]
-    
-    smartTab = [[[[" ", "?"], ["?", "│"]], [["?", "╭"], ["╰", "├"]]], [[["?", "╮"], ["╯", "┤"]], [["─", "┬"], ["┴", "┼"]]]]
-
+    if w_limits
+        smartTab = [[[["┼", "?"], ["?", "┼"]], [["?", "┼"], ["┼", "┼"]]], [[["?", "┼"], ["┼", "┼"]], [["┼", "┼"], ["┼", "┼"]]]]
+    else
+        smartTab = [[[[" ", "?"], ["?", "│"]], [["?", "╭"], ["╰", "├"]]], [[["?", "╮"], ["╯", "┤"]], [["─", "┬"], ["┴", "┼"]]]]
+    end
     n = size(t, 1)
     p = size(t, 2)
 
@@ -238,18 +239,30 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
         end
     end
 
-    for y in 1:n-1
-        d = 1 + b_to_i(cT[2*y+1, 2] == "─")
-        cT[2*y+1, 1] = smartTab[1][d][2][2]
-        g = 1 + b_to_i(cT[2*y+1, 2*p] == "─")
-        cT[2*y+1, 2*p+1] = smartTab[g][1][2][2]
-    end
+    if w_limits
+        for y in 1:n-1
+            cT[2*y+1, 1] = "├"
+            cT[2*y+1, 2*p+1] = "┤"
+        end
 
-    for x in 1:p-1
-        b = 1 + b_to_i(cT[2, 2*x+1] == "│")
-        cT[1, 2*x+1] = smartTab[2][2][1][b]
-        h = 1 + b_to_i(cT[2*n, 2*x+1] == "│")
-        cT[2*n+1, 2*x+1] = smartTab[2][2][h][1]
+        for x in 1:p-1
+            cT[1, 2*x+1] = "┬"
+            cT[2*n+1, 2*x+1] = "┴"
+        end
+    else
+        for y in 1:n-1
+            d = 1 + b_to_i(cT[2*y+1, 2] == "─")
+            cT[2*y+1, 1] = smartTab[1][d][2][2]
+            g = 1 + b_to_i(cT[2*y+1, 2*p] == "─")
+            cT[2*y+1, 2*p+1] = smartTab[g][1][2][2]
+        end
+
+        for x in 1:p-1
+            b = 1 + b_to_i(cT[2, 2*x+1] == "│")
+            cT[1, 2*x+1] = smartTab[2][2][1][b]
+            h = 1 + b_to_i(cT[2*n, 2*x+1] == "│")
+            cT[2*n+1, 2*x+1] = smartTab[2][2][h][1]
+        end
     end
 
     print("\n")
