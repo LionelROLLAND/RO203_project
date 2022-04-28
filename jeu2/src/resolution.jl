@@ -210,10 +210,12 @@ function solveDataSet()
     for file in filter(x->occursin(".txt", x), readdir(dataFolder))  
         
         println("-- Resolution of ", file)
-        readInputFile(dataFolder * file)
-
+        t, horiz, vertic= readInputFile(dataFolder * file)
+        nr = size(t,1)
+        nc = size(t,2)
+        K = nc
         # TODO
-        println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
+        #println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
         
         # For each resolution method
         for methodId in 1:size(resolutionMethod, 1)
@@ -232,17 +234,53 @@ function solveDataSet()
                 if resolutionMethod[methodId] == "cplex"
                     
                     # TODO 
-                    println("In file resolution.jl, in method solveDataSet(), TODO: fix cplexSolve() arguments and returned values")
+                    #println("In file resolution.jl, in method solveDataSet(), TODO: fix cplexSolve() arguments and returned values")
                     
                     # Solve it and get the results
-                    isOptimal, resolutionTime = cplexSolve()
+                    isOptimal, resolutionTime, cases, palissades = cplexSolve(t)
                     
                     # If a solution is found, write it
                     if isOptimal
                         # TODO
-                        println("In file resolution.jl, in method solveDataSet(), TODO: write cplex solution in fout") 
-                    end
+                        #println("In file resolution.jl, in method solveDataSet(), TODO: write cplex solution in fout")
+                        for i in 1:nr
+                            for j in 1:nc
+                                for k in 1:K
+                                   if cases[i,j,k]!=0
+                                       t[i,j]=k
+                                   end
+                                end  
+                            end
+                        end
+                        
+                        for i in 1:(nr+1)
+                            for j in 1:(nc+1)
+                                for k in 1:K
+                                   if cases[i,j,k]!=0
+                                       t[i,j]=k
+                                   end
+                                end  
+                            end
+                        end
 
+                        for i in 1:(nr-1)
+                            for j in 1:nc
+                                if palissades[1+i,j,1+i,j+1] == 1
+                                    horiz[i,j]=1
+                                end
+                            end
+                        end
+
+                        for i in 1:nr
+                            for j in 1:(nc-1)
+                                if palissades[i,1+j,i+1,1+j]==1
+                                    vertic[i,j]=1    
+                                end
+                            end
+                        end
+                    end
+                    
+                    writeOutputFile(fout,t,horiz,vertic)
                 # If the method is one of the heuristics
                 else
                     
@@ -284,7 +322,8 @@ function solveDataSet()
 
 
             # Display the results obtained with the method on the current instance
-            include(outputFile)
+            #include(outputFile)
+            displayGrid(t, horiz, vertic, true)
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
             println(resolutionMethod[methodId], " time: " * string(round(solveTime, sigdigits=2)) * "s\n")
         end         
