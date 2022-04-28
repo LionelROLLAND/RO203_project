@@ -63,7 +63,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     for i in 1:nr
         @constraint(m,palissades[i,1,i+1,1]==1)
-        @constraint(m,palissades[i,nc+1,i,nc+1]==1)
+        @constraint(m,palissades[i,nc+1,i+1,nc+1]==1)
     end
     
     #une palissade ne se place que dans les directions des 4 points cardinaux
@@ -71,7 +71,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
         for j in 1:(nc+1)
             for u in 1:(nr+1)
                 for v in 1:(nc+1)
-                    if ( (u!=i-1 || u!=i+1) && v!=j ) && ( u!=i&& (v!=j-1||v!=j+1) )         
+                    if ( (u!=i-1 && u!=i+1) || v!=j ) && ( u!=i || (v!=j-1 && v!=j+1) )        
                         @constraint(m,palissades[i,j,u,v]==0)
                     end
                 end
@@ -125,7 +125,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
                for j in 1:nc
                    for u in 1:nr
                        for v in 1:nc
-                           if ( (u!=i-1 || u!=i+1) && v!=j ) && ( u!=i&& (v!=j-1||v!=j+1) )  
+                           if ( (u!=i-1 && u!=i+1) || v!=j ) && ( u!=i || (v!=j-1 && v!=j+1) )   
                                @constraint(m,snakes[k,step,i,j,u,v]==0) #un serpent ne peut se déplacer que sur une case adjacente  
                            end
                            
