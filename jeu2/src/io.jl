@@ -77,6 +77,7 @@ function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{In
     print(file_des, p)
     print(file_des, " ")
     println(file_des, cell_size)
+    
     for y in 1:n
         for x in 1:p
             if t[y,x] >= 0

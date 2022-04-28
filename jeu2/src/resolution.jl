@@ -11,7 +11,7 @@ Solve an instance with CPLEX
 function cplexSolve(t::Array{Int64, 2})
 
     # Create the model
-    m = Model(with_optimizer(CPLEX.Optimizer))
+    m = Model(CPLEX.Optimizer)
 
     # TODO
     #println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
@@ -46,13 +46,13 @@ function cplexSolve(t::Array{Int64, 2})
     for i in 1:nr
         for j in 1:nc
             #Une seule zone par case
-            @constraint(m, sum(x[i,j,k] for k in 1:K) == 1) 
+            @constraint(m, sum(cases[i,j,k] for k in 1:K) == 1) 
         end     
     end
     
     for k in 1:K
         #Dans chaque zone on a nr*nc/K cases
-        @constraint(m, sum(x[i,j,k] for i in 1:nr for j in 1:nc) == div(nr*nc,K)) 
+        @constraint(m, sum(cases[i,j,k] for i in 1:nr for j in 1:nc) == div(nr*nc,K)) 
     end
     
     ##palissades
@@ -133,7 +133,7 @@ function cplexSolve(t::Array{Int64, 2})
                            
                            @constraint(m,2*(1-snakes[k,step,i,j,u,v]) + cases[i,j,k] + cases[u,v,k] >=2) # un serpent ne peut pas sortir d'une zone
                            if step >=2
-                               @constraint(m, 1 - snakes[k,step,i,j,u,v] + sum( snakes[k,step-1,x,y,j,u,v] for x in 1:nr for y in 1:nc) >=1) #si un serpent sort d'une case, il doit y être venu
+                               @constraint(m, 1 - snakes[k,step,i,j,u,v] + sum( snakes[k,step-1,x,y,u,v] for x in 1:nr for y in 1:nc) >=1) #si un serpent sort d'une case, il doit y être venu
                            end
                        end
                    end
@@ -145,7 +145,7 @@ function cplexSolve(t::Array{Int64, 2})
     
     for k in 1:K
         for step in 1:K*(K-1)
-            @constraint(m, sum( snake[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nv ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
+            @constraint(m, sum( snakes[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nc ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
         end
     end
     
