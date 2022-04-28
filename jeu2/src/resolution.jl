@@ -12,7 +12,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
 
     # Create the model
     m = Model(CPLEX.Optimizer)
-
+	
     # TODO
     #println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
     
@@ -36,7 +36,8 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     @variable(m, 0<=south_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
     
     #les serpents servant à vérifier la connexité
-    #@variable(m, 0<=snakes[1:K,1:(K*(K-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
+    cellSize= div(nr*nc,K)
+    @variable(m, 0<=snakes[1:K,1:(cellSize*(cellSize-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
     
     
     ###CONSTRAINTS
@@ -49,7 +50,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     for k in 1:K
         #Dans chaque zone on a nr*nc/K cases
-        @constraint(m, sum(cases[i,j,k] for i in 1:nr for j in 1:nc) == div(nr*nc,K)) 
+        @constraint(m, sum(cases[i,j,k] for i in 1:nr for j in 1:nc) == cellSize) 
     end
     
     ##palissades
@@ -119,7 +120,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     
     for k in 1:K
-        for step in 1:(K*(K-1))
+        for step in 1:(cellSize*(cellSize-1))
            for i in 1:nr
                for j in 1:nc
                    for u in 1:nr
@@ -141,7 +142,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     
     for k in 1:K
-        for step in 1:K*(K-1)
+        for step in 1:(cellSize*(cellSize-1))
             @constraint(m, sum( snakes[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nc ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
         end
     end
