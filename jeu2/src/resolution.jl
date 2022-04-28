@@ -37,7 +37,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     #les serpents servant à vérifier la connexité
     cellSize= div(nr*nc,K)
-    #@variable(m, 0<=snakes[1:K,1:(cellSize*(cellSize-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
+    @variable(m, 0<=snakes[1:K,1:(cellSize*(cellSize-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
     
     
     ###CONSTRAINTS
@@ -54,6 +54,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     end
     
     ##palissades
+    
     
     #les bords de la grille
     for j in 1:nc
@@ -117,7 +118,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
         end
     end
     
-    """
+    
     ##serpents
     
     
@@ -148,7 +149,17 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
             @constraint(m, sum( snakes[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nc ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
         end
     end
-    """
+    
+    #pour chaque case d'une zone k, le serpent k doit y passer
+    
+    for k in 1:K
+        for i in 1:nr
+            for j in 1:nc
+                @constraint(m, cases[i,j,k] <= sum(snakes[k,step,i,j,u,v] + snakes[k,step,u,v,i,j] for u in 1:nr for v in 1:nc for step in 1:(cellSize*(cellSize-1)) ) )
+            end
+        end
+    end
+    
     # Start a chronometer
     start = time()
 
