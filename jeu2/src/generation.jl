@@ -394,7 +394,7 @@ Generate all the instances
 """
 function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instance_", suff::String=".txt",
     randSize::Bool=false)
-    
+    print("\n0 % done")
     for i in 1:nbInstance
         n = 1 + rem(abs(rand(Int64)), sizeMax)
         p = 1 + rem(abs(rand(Int64)), sizeMax)
@@ -405,7 +405,9 @@ function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instan
         end
         t, horiz, vertic = generateInstance(n, p, cellSize, rand(Float64))
         writeOutputFile("../data/"*pref * string(i) * suff, t, horiz, vertic, cellSize)
+        print("\r"*string(floor(100*i/nbInstance))*" % done")
     end
+    print("\n")
     #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
     
 end
