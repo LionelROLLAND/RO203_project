@@ -116,6 +116,7 @@ end
 ##version IOStream
 function writeOutputFile(file_des::IOStream, t::Array{Int64, 2}, horiz::Array{Int64, 2},
     vertic::Array{Int64, 2}, cell_size::Int64=-1)
+    
     n = size(t,1)
     p = size(t,2)
     
