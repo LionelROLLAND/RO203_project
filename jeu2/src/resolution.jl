@@ -52,7 +52,7 @@ function cplexSolve(t::Array{Int64, 2})
     
     for k in 1:K
         #Dans chaque zone on a nr*nc/K cases
-        @constraint(m, sum(x[i,j,k] for i in 1:nr for j in 1:nc) == nr) 
+        @constraint(m, sum(x[i,j,k] for i in 1:nr for j in 1:nc) == div(nr*nc,K)) 
     end
     
     ##palissades
@@ -210,10 +210,15 @@ function solveDataSet()
     for file in filter(x->occursin(".txt", x), readdir(dataFolder))  
         
         println("-- Resolution of ", file)
-        t, horiz, vertic= readInputFile(dataFolder * file)
+        t, horiz, vertic,cellSize= readInputFile(dataFolder * file)
         nr = size(t,1)
         nc = size(t,2)
-        K = nc
+        
+        if cellSize>0
+            K = div(nr*nc,cellSize)
+        else
+            K=nc
+        end
         # TODO
         #println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
         
