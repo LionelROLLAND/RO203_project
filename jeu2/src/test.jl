@@ -1,18 +1,18 @@
 include("io.jl")
 include("generation.jl")
 
-function test_gene(n::Int64, p::Int64, size::Int64)
+function test_gene(n::Int64, p::Int64, regionSize::Int64)
     t = Array{Int64}(undef, n, p)
     fill!(t, -1)
-    n_regions = div(n*p, size)
-    buildRegion(t, n, p, size, n_regions)
+    n_regions = div(n*p, regionSize)
+    buildRegion(t, n, p, regionSize, n_regions)
     horiz, vertic = generatePali(t)
     displayGrid(t, horiz, vertic)
     return t, horiz, vertic
 end
 
-function test_rw(n::Int64, p::Int64, size::Int64, fname::String)
-    t, horiz, vertic = test_gene(n, p, size)
+function test_rw(n::Int64, p::Int64, regionSize::Int64, fname::String)
+    t, horiz, vertic = test_gene(n, p, regionSize)
     writeOutputFile(fname, t, horiz, vertic)
 
     print("\n")
@@ -21,8 +21,8 @@ function test_rw(n::Int64, p::Int64, size::Int64, fname::String)
     displayGrid(r_t, r_horiz, r_vertic)
 end
 
-function testInstance(n::Int64, p::Int64, size::Int64, density::Float64)
-    t, horiz, vertic = generateInstance(n, p, size, density)
+function testInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
+    t, horiz, vertic = generateInstance(n, p, regionSize, density)
     displayGrid(t, horiz, vertic, true)
 end
 
@@ -33,4 +33,4 @@ end
 testInstance(4, 6, 8, 0.2)
 test_rw(4, 6, 6, "Jean-Claude.txt")
 =#
-generateDataSet(5, 10, "test_test__", ".txt")
+generateDataSet(5, 10, ".test_test__", ".txt")

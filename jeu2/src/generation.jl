@@ -1,14 +1,6 @@
 # This file contains methods to generate a data set of instances (i.e., sudoku grids)
 include("io.jl")
 
-"""
-Generate an n*n grid with a given density
-
-Argument
-- n: size of the grid
-- density: percentage in [0, 1] of initial values in the grid
-"""
-
 #count(u->(u==-1), t[1,1:p])
 
 #Affiche un tableau de maniere potable
@@ -129,9 +121,9 @@ end
 
 #Construit une region dont certaines cases ont deja ete placees + appelle buildRegion
 #pour continuer la generation
-function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, size::Int64,
+function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, remSize::Int64,
     i_region::Int64, x_adj::Array{Int64, 1}, y_adj::Array{Int64, 1}, n_adj::Int64)
-    if size == 0
+    if remSize == 0
         return buildRegion(t, n, p, full_size, i_region-1)
     end
 
@@ -172,9 +164,9 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
                     end
                 end
             end
-            finished = recRegion(t, n, p, full_size, size-1, i_region, new_x_adj, new_y_adj, new_n_adj)
+            finished = recRegion(t, n, p, full_size, remSize-1, i_region, new_x_adj, new_y_adj, new_n_adj)
             if finished
-                #println("+ ", y, ", ", x, "  : ", i_region, " -> ", size)
+                #println("+ ", y, ", ", x, "  : ", i_region, " -> ", remSize)
                 return true
             end
             t[y,x] = -1
@@ -185,8 +177,9 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
     return false
 end
 
+
 #Place la premiere case d'une region puis appelle recRegion pour finir
-function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_region::Int64)
+function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, full_size::Int64, i_region::Int64)
     if i_region == 0
         return true
     end
@@ -195,7 +188,7 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
     dy = 0
     temp = -1
 
-    empty_cells = i_region*size
+    empty_cells = i_region*full_size
     first_cell = 1 + rem(abs(rand(Int64)), empty_cells) #le diviseur est le nb de cellule vides
     i_cell = 0
     x = 1
@@ -236,10 +229,10 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
                 end
             end
 
-            finished = recRegion(t, n, p, size, size-1, i_region, x_adj, y_adj, n_adj)
+            finished = recRegion(t, n, p, full_size, full_size-1, i_region, x_adj, y_adj, n_adj)
 
             if finished
-                #println("+ ", y, ", ", x, "  : ", i_region, " -> ", size)
+                #println("+ ", y, ", ", x, "  : ", i_region, " -> ", full_size)
                 return true
             end
             t[y,x] = -1
@@ -284,12 +277,51 @@ function countPali(t::Array{Int64,2})
     return palis
 end
 
-function generateInstance(n::Int64, p::Int64, size::Int64, density::Float64)
+
+"""
+Generate an n*p grid with a given density
+
+Argument
+- n: height of the grid
+- p: width of the grid
+- size: size of each region (number of cells)
+- density: probability in [0, 1] of a cell to have an initial value in the grid
+"""
+
+function diviseurs(n::Int64)
+    if n == 0
+        return [-1], -1
+    end
+    if n == 1
+        return [1], 1
+    end
+
+    d = 2
+    while rem(n, d) != 0
+        d += 1
+    end
+    p = 1
+    rest = div(n, d)
+    while rem(rest, d) == 0
+        p += 1
+        rest = div(rest, d)
+    end
+    new_div, new_n = diviseurs(rest)
+    res = Array{Int64}(undef, 0)
+    for i in 0:p
+        for new_d in new_div
+            push!(res, (d^i)*new_d)
+        end
+    end
+    return res, (p+1)*new_n
+end
+
+function generateInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
 
     t = Array{Int64}(undef, n, p)
     fill!(t, -1)
-    n_regions = div(n*p, size)
-    buildRegion(t, n, p, size, n_regions)
+    n_regions = div(n*p, regionSize)
+    buildRegion(t, n, p, regionSize, n_regions)
     pali = countPali(t)
 
     res = Array{Int64}(undef, n, p)
@@ -359,17 +391,20 @@ end
 
 """
 Generate all the instances
-
-Remark: a grid is generated only if the corresponding output file does not already exist
 """
-function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instance_", suff::String=".txt")
+function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instance_", suff::String=".txt",
+    randSize::Bool=false)
     
     for i in 1:nbInstance
         n = 1 + rem(abs(rand(Int64)), sizeMax)
         p = 1 + rem(abs(rand(Int64)), sizeMax)
-        size = n
-        t, horiz, vertic = generateInstance(n, p, size, rand(Float64))
-        writeOutputFile(pref * string(i) * suff, t, horiz, vertic)
+        l_div, n_div = diviseurs(n*p)
+        cellSize = n
+        if randSize
+            cellSize = l_div[1+rem(abs(rand(Int64)), n_div)]
+        end
+        t, horiz, vertic = generateInstance(n, p, cellSize, rand(Float64))
+        writeOutputFile(pref * string(i) * suff, t, horiz, vertic, cellSize)
     end
     #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
     

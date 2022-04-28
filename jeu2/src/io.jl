@@ -21,6 +21,7 @@ function readInputFile(inputFile::String)
     ls = split(line, " ")
     n = parse(Int64, ls[1])
     p = parse(Int64, ls[2])
+    regionSize = parse(Int64, ls[3])
     t = Array{Int64}(undef, n, p)
     horiz = Array{Int64}(undef, n-1, p)
     vertic = Array{Int64}(undef, n, p-1)
@@ -61,18 +62,21 @@ function readInputFile(inputFile::String)
     end
     
     #println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
-    return t, horiz, vertic
+    return t, horiz, vertic, regionSize
 
 end
 
-function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
+function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{Int64, 2},
+    vertic::Array{Int64, 2}, cell_size::Int64=-1)
     file_des = open(OutputFile, "w")
     n = size(t,1)
     p = size(t,2)
     
     print(file_des, n)
     print(file_des, " ")
-    println(file_des, p)
+    print(file_des, p)
+    print(file_des, " ")
+    println(file_des, cell_size)
     for y in 1:n
         for x in 1:p
             if t[y,x] >= 0
