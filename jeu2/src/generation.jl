@@ -388,10 +388,16 @@ Generate all the instances
 
 Remark: a grid is generated only if the corresponding output file does not already exist
 """
-function generateDataSet()
-
-    # TODO
-    println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
+function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instance_", suff::String=".txt")
+    
+    for i in 1:nbInstance
+        n = 1 + rem(abs(rand(Int64)), sizeMax)
+        p = 1 + rem(abs(rand(Int64)), sizeMax)
+        size = n
+        t, horiz, vertic = generateInstance(n, p, size, rand(Float64))
+        writeOutputFile(pref * string(i) * suff, t, horiz, vertic)
+    end
+    #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
     
 end
 
