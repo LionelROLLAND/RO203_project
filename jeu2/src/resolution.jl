@@ -107,11 +107,13 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
             end
         end
     end
-    """
+    
     #contraintes sur le nombre de palissades autour des cases
     for i in 1:nr
         for j in 1:nc
-            @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[i,j])
+            if(t[i,j] > 0)
+                @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[i,j])
+            end
         end
     end
     
@@ -146,7 +148,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
             @constraint(m, sum( snakes[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nc ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
         end
     end
-    """
+    
     # Start a chronometer
     start = time()
 
