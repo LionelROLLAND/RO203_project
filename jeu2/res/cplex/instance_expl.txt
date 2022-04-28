@@ -41,5 +41,5 @@
 2 3
 4 3
 2 4
-solveTime = 222.53728103637695
+solveTime = 255.90064311027527
 isOptimal = true
