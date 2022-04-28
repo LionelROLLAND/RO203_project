@@ -107,64 +107,7 @@ function writeOutputFile(OutputFile::String, t::Array{Int64, 2}, horiz::Array{In
     end
     close(file_des)
 end
-    
-    
-#=
-function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2})
-    
-    n = size(t, 1)
-    p = size(t, 2)
-    
-    println(" ", "-"^(2*p-1)," ")
-    for y in 1:n
-        print("|")
-        for x in 1:p
-            if t[y,x] == -1
-                print(" ")
-            else
-                print(t[y,x])
-            end
-            if x == p
-                print("|")
-            else
-                if vertic[y,x] != 0
-                    print("|")
-                else
-                    print(" ")
-                end
-            end
-        end
-        if y == n
-            println("\n ", "-"^(2*p-1)," ")
-        else
-            print("\n|")
-            for x in 1:p
-                if horiz[y,x] != 0
-                    print("-")
-                else
-                    print(" ")
-                end
-                if x != p
-                    if horiz[y,x] != 0 || horiz[y,x+1] != 0
-                        if (horiz[y,x] != 0 && horiz[y,x+1] == 0) || (horiz[y,x] == 0 && horiz[y,x+1] != 0)
-                            print("+")
-                        else
-                            print("-")
-                        end
-                    else
-                        if vertic[y, x] != 0 && vertic[y+1, x] != 0
-                            print("|")
-                        else
-                            print(" ")
-                        end
-                    end
-                end
-            end
-            println("|")
-        end
-    end
-end
-=#
+
 
 function b_to_i(b::Bool)
     if b

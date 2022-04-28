@@ -11,6 +11,7 @@ Argument
 
 #count(u->(u==-1), t[1,1:p])
 
+#Affiche un tableau de maniere potable
 function printTab(t::Array{Int64, 2})
     n = size(t, 1)
     p = size(t, 2)
@@ -43,7 +44,9 @@ function numNbEqI(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, i_
     return res
 end
 
-function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64)
+
+#Calcule la composante connexe a laquelle appartient la case (x, y) -> prend les cases vides par défaut
+function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, comp::Int64=-1)
     t[y,x] = -2
     
     dx = 1
@@ -57,8 +60,8 @@ function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64)
         nx = x+dx
         ny = y+dy
         if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-            if t[ny,nx] == -1
-                connComp(t, n, p, nx, ny)
+            if t[ny,nx] == comp
+                connComp(t, n, p, nx, ny, comp)
             end
         end
     end
@@ -94,7 +97,7 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
 
     if found
         t_copy[y,x] = -3
-        connComp(t_copy, n, p, nx, ny)
+        connComp(t_copy, n, p, nx, ny, -1)
 
         #=
         print("--\n")
@@ -124,6 +127,8 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
 end
 
 
+#Construit une region dont certaines cases ont deja ete placees + appelle buildRegion
+#pour continuer la generation
 function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, size::Int64,
     i_region::Int64, x_adj::Array{Int64, 1}, y_adj::Array{Int64, 1}, n_adj::Int64)
     if size == 0
@@ -180,7 +185,7 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, siz
     return false
 end
 
-
+#Place la premiere case d'une region puis appelle recRegion pour finir
 function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_region::Int64)
     if i_region == 0
         return true
@@ -245,7 +250,7 @@ function buildRegion(t::Array{Int64,2}, n::Int64, p::Int64, size::Int64, i_regio
     return false
 end
 
-
+#Construit un tableau dont les cases comptent le nombre de palissades autour des cases du tableau argument
 function countPali(t::Array{Int64,2})
     n = size(t,1)
     p = size(t,2)
@@ -313,6 +318,8 @@ function generateInstance(n::Int64, p::Int64, size::Int64, density::Float64)
     
 end
 
+
+#Construit les tableaux des palissades en fonction du tableau des regions
 function generatePali(t::Array{Int64, 2})
     n = size(t,1)
     p = size(t,2)
@@ -347,39 +354,6 @@ function generatePali(t::Array{Int64, 2})
     end
     return horiz, vertic
 end
-
-
-
-####### INUTILE A PRIORI :
-
-#=
-function deepSearch(t::Array{Int64, 2}, n::Int64, p::Int64, x_dep::Int64, y_dep::Int64, x_arr::Int64, y_arr::Int64)
-    if x_dep == x_arr && y_dep == y_arr
-        return true
-    end
-    dx = 1
-    dy = 0
-    temp = -1
-    for i in 1:4
-        temp = dy
-        dy = dx
-        dx = -temp
-
-        nx = x_dep+dx
-        ny = y_dep+dy
-        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-            if t[ny,nx] == -1
-                t[ny,nx] = -2
-                child = deepSearch(t, n, p, nx, ny, x_arr, y_arr)
-                if child
-                    return true
-                end
-            end
-        end
-    end
-    return false
-end
-=#
 
 
 
