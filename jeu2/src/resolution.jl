@@ -15,7 +15,140 @@ function cplexSolve(t::Array{Int64, 2})
 
     # TODO
     #println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
+    
+    nr = size(t,1)
+    nc = size(t,2)
+    
+    K = nc #number of regions
+    
+    @variable(m, 0<= cases[1:nr,1:nc,1:K] <= 1, Int) #cases
+    @variable(m, 0<= palissades[1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int) #palissades
+    
+    
+    #variable utilitaire servant à décider où mettre une palissade
+    @variable(m, 0<=east_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    @variable(m, 0<=east_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    
+    @variable(m, 0<=north_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    @variable(m, 0<=north_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
 
+    @variable(m, 0<=west_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    @variable(m, 0<=west_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+  
+    @variable(m, 0<=south_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    @variable(m, 0<=south_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    
+    #les serpents servant à vérifier la connexité
+    @variable(m, 0<=snakes[1:K,1:(K*(K-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
+    
+    
+    ###CONSTRAINTS
+    for i in 1:nr
+        for j in 1:nc
+            #Une seule zone par case
+            @constraint(m, sum(x[i,j,k] for k in 1:K) == 1) 
+        end     
+    end
+    
+    for k in 1:K
+        #Dans chaque zone on a nr*nc/K cases
+        @constraint(m, sum(x[i,j,k] for i in 1:nr for j in 1:nc) == nr) 
+    end
+    
+    ##palissades
+    
+    #les bords de la grille
+    for j in 1:nc
+        @constraint(m,palissades[1,j,1,j+1]==1)
+        @constraint(m,palissades[nr+1,j,nr+1,j+1]==1)
+    end
+    
+    for i in 1:nr
+        @constraint(m,palissades[i,1,i+1,1]==1)
+        @constraint(m,palissades[i,nc+1,nc+1,1]==1)
+    end
+    
+    #une palissade ne se place que dans les directions des 4 points cardinaux
+    for i in 1:(nr+1)
+        for j in 1:(nc+1)
+            for v in 1:(nr+1)
+                for u in 1:(nc+1)
+                    if !( (u,v) in [(i-1,j) (i+1,j) (i,j-1) (i,j+1)] )
+                        @constraint(m,palissades[i,j,u,v]==0)
+                    end
+                end
+            end
+        end
+    end
+    
+    #contraintes de placement des palissades
+    
+    for i in 2:(nr-1)
+        for j in 2:(nc-1)
+            for k in 1:K
+                @constraint(m,east_pos[i,j,k] - east_neg[i,j,k]== cases[i,j,k] + sum( cases[i,j+1,h] for h in filter(x->x != k, 1:K)) -1 ) # -1 et 1, il faut mettre une palissade; 0, indeterminé
+                @constraint(m,east_pos[i,j,k] + east_neg[i,j,k]<=1)
+                @constraint(m, 1-palissades[i,j,i,j+1] + east_pos[i,j,k] + east_neg[i,j,k] <=1) #condition : -1 ou 1 => palissade
+                @constraint(m, cases[i,j,k] + cases[i,j+1,k] + palissades[i,j,i,j+1] <= 2)# condition : palissade => ij et i(j+1) pas dans la même zone
+                
+                @constraint(m,north_pos[i,j,k] - north_neg[i,j,k]== cases[i,j,k] + sum( cases[i-1,j,h] for h in filter(x->x != k, 1:K)) -1 )
+                @constraint(m,north_pos[i,j,k] + north_neg[i,j,k]<=1)
+                @constraint(m, 1-palissades[i,j,i-1,j] + north_pos[i,j,k] + north_neg[i,j,k] <=1)
+                @constraint(m, cases[i,j,k] + cases[i-1,j,k] + palissades[i,j,i-1,j] <= 2)
+                
+                @constraint(m,west_pos[i,j,k] - west_neg[i,j,k]== cases[i,j,k] + sum( cases[i,j-1,h] for h in filter(x->x != k, 1:K)) -1 )
+                @constraint(m,west_pos[i,j,k] + west_neg[i,j,k]<=1)
+                @constraint(m, 1-palissades[i,j,i,j-1] + west_pos[i,j,k] + west_neg[i,j,k] <=1)
+                @constraint(m, cases[i,j,k] + cases[i,j-1,k] + palissades[i,j,i,j-1] <= 2)
+                
+                @constraint(m,south_pos[i,j,k] - south_neg[i,j,k]== cases[i,j,k] + sum( cases[i+1,j,h] for h in filter(x->x != k, 1:K)) -1 )
+                @constraint(m,south_pos[i,j,k] + south_neg[i,j,k]<=1)
+                @constraint(m, 1-palissades[i,j,i+1,j] + south_pos[i,j,k] + south_neg[i,j,k] <=1)
+                @constraint(m, cases[i,j,k] + cases[i+1,j,k] + palissades[i,j,i+1,j] <= 2)
+               
+            end
+        end
+    end
+    
+    #contraintes sur le nombre de palissades autour des cases
+    for i in 1:nr
+        for j in 1:nc
+            @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[i,j])
+        end
+    end
+    
+    
+    ##serpents
+    
+    
+    for k in 1:K
+        for step in 1:(K*(K-1))
+           for i in 1:nr
+               for j in 1:nc
+                   for u in 1:nr
+                       for v in 1:nc
+                           if !( (u,v) in [(i-1,j) (i+1,j) (i,j-1) (i,j+1)] )
+                               @constraint(m,snakes[k,step,i,j,u,v]==0) #un serpent ne peut se déplacer que sur une case adjacente  
+                           end
+                           
+                           @constraint(m,2*(1-snakes[k,step,i,j,u,v) + cases[i,j,k] + cases[u,v,k] >=2) # un serpent ne peut pas sortir d'une zone
+                           if step >=2
+                               @constraint(m, 1 - snakes[k,step,i,j,u,v] + sum( snakes[k,step-1,x,y,j,u,v] for x in 1:nr for y in 1:nc) >=1) #si un serpent sort d'une case, il doit y être venu
+                           end
+                       end
+                   end
+               end
+           end
+        end
+    end
+    
+    
+    for k in 1:K
+        for step in 1:K*(K-1)
+            @constraint(m, sum( snake[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nv ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
+        end
+    end
+    
     # Start a chronometer
     start = time()
 
@@ -26,9 +159,9 @@ function cplexSolve(t::Array{Int64, 2})
     # 1 - true if an optimum is found
     # 2 - the resolution time
     if JuMP.primal_status(m) != NO_SOLUTION
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(x)
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(palissades)
    else
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,0
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1
    end
     
 end
