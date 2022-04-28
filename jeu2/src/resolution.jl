@@ -8,7 +8,7 @@ TOL = 0.00001
 """
 Solve an instance with CPLEX
 """
-function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
+function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
 
     # Create the model
     m = Model(CPLEX.Optimizer)
@@ -16,16 +16,7 @@ function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
     # TODO
     #println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
     
-    nc = size(t,1)
-    nr = size(t,2)
-    
-    #number of regions
-    
-    if cellSize > 0
-        K=div(nr*nc,cellSize)
-    else
-        K=nc
-    end
+
     
     @variable(m, 0<= cases[1:nr,1:nc,1:K] <= 1, Int) #cases
     @variable(m, 0<= palissades[1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int) #palissades
@@ -45,7 +36,7 @@ function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
     @variable(m, 0<=south_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
     
     #les serpents servant à vérifier la connexité
-    @variable(m, 0<=snakes[1:K,1:(K*(K-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
+    #@variable(m, 0<=snakes[1:K,1:(K*(K-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
     
     
     ###CONSTRAINTS
@@ -79,7 +70,7 @@ function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
         for j in 1:(nc+1)
             for u in 1:(nr+1)
                 for v in 1:(nc+1)
-                    if !( (u,v) in [(i-1,j) (i+1,j) (i,j-1) (i,j+1)] )
+                    if ( (u!=i-1 || u!=i+1) && v!=j ) && ( u!=i&& (v!=j-1||v!=j+1) )         
                         @constraint(m,palissades[i,j,u,v]==0)
                     end
                 end
@@ -115,11 +106,11 @@ function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
             end
         end
     end
-    
+    """
     #contraintes sur le nombre de palissades autour des cases
     for i in 1:nr
         for j in 1:nc
-            @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[j,i])
+            @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[i,j])
         end
     end
     
@@ -133,7 +124,7 @@ function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
                for j in 1:nc
                    for u in 1:nr
                        for v in 1:nc
-                           if !( (u,v) in [(i-1,j) (i+1,j) (i,j-1) (i,j+1)] )
+                           if ( (u!=i-1 || u!=i+1) && v!=j ) && ( u!=i&& (v!=j-1||v!=j+1) )  
                                @constraint(m,snakes[k,step,i,j,u,v]==0) #un serpent ne peut se déplacer que sur une case adjacente  
                            end
                            
@@ -154,7 +145,7 @@ function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
             @constraint(m, sum( snakes[k,step,i,j,u,v] for i in 1:nr for j in 1:nc for u in 1:nr for v in 1:nc ) == 1)  # à chaque step et pour chaque zone, on veut un unique déplacement de serpent
         end
     end
-    
+    """
     # Start a chronometer
     start = time()
 
@@ -218,6 +209,17 @@ function solveDataSet()
         println("-- Resolution of ", file)
         t, horiz, vertic,cellSize= readInputFile(dataFolder * file)
         
+        nr = size(t,1)
+        nc = size(t,2)
+    
+       #number of regions
+    
+       if cellSize > 0
+          K=div(nr*nc,cellSize)
+       else
+          K=nc
+       end
+        
        
         # TODO
         #println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
@@ -242,7 +244,7 @@ function solveDataSet()
                     #println("In file resolution.jl, in method solveDataSet(), TODO: fix cplexSolve() arguments and returned values")
                     
                     # Solve it and get the results
-                    isOptimal, resolutionTime, cases, palissades = cplexSolve(t,cellSize)
+                    isOptimal, resolutionTime, cases, palissades = cplexSolve(t,nr,nc,K)
                     
                     # If a solution is found, write it
                     if isOptimal
@@ -252,17 +254,7 @@ function solveDataSet()
                             for j in 1:nc
                                 for k in 1:K
                                    if cases[i,j,k]!=0
-                                       t[j,i]=k
-                                   end
-                                end  
-                            end
-                        end
-                        
-                        for i in 1:(nr+1)
-                            for j in 1:(nc+1)
-                                for k in 1:K
-                                   if cases[i,j,k]!=0
-                                       t[j,i]=k
+                                       t[i,j]=k
                                    end
                                 end  
                             end
@@ -271,7 +263,7 @@ function solveDataSet()
                         for i in 1:(nr-1)
                             for j in 1:nc
                                 if palissades[1+i,j,1+i,j+1] == 1
-                                    horiz[j,i]=1
+                                    horiz[i,j]=1
                                 end
                             end
                         end
@@ -279,7 +271,7 @@ function solveDataSet()
                         for i in 1:nr
                             for j in 1:(nc-1)
                                 if palissades[i,1+j,i+1,1+j]==1
-                                    vertic[j,i]=1    
+                                    vertic[i,j]=1    
                                 end
                             end
                         end
