@@ -405,7 +405,7 @@ function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instan
         end
         t, horiz, vertic = generateInstance(n, p, cellSize, rand(Float64))
         writeOutputFile("../data/"*pref * string(i) * suff, t, horiz, vertic, cellSize)
-        print("\r"*string(floor(100*i/nbInstance))*" % done")
+        print("\r"*string(div(100*i, nbInstance))*" % done")
     end
     print("\n")
     #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")

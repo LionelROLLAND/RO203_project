@@ -199,6 +199,30 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
 end
 
+
+function initGrids(t::Arrya{Int64,2}, n::Int64, p::Int64)
+    regions = Array{Int64}(undef, n, p)
+    for y in 1:n
+        for x in 1:p
+            regions[y,x] = (y-1)*p + x
+        end
+    end
+    sizes = Array{Int64}(undef, n, p)
+    fill!(sizes, -1)
+    exceed = Array{Int64}(undef, n, p)
+    fill!(exceed, 5)
+    for y in 1:n
+        for x in 1:p
+            if t[y, x] != -1
+                exceed[y, x] = 4 - t[y, x]
+            end
+        end
+    end
+    return regions, sizes, exceed
+end
+
+
+
 """
 Heuristically solve an instance
 """
