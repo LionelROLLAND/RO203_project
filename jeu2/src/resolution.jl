@@ -358,7 +358,7 @@ function solveDataSet()
             # Display the results obtained with the method on the current instance
             #include(outputFile)
             displayGrid(t, horiz, vertic, false)
-            displayGrid(solved_t, horiz, vertic, true)
+            displayGrid(solved_t, horiz, vertic, false)
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
             println(resolutionMethod[methodId], " time: " * string(round(solveTime, sigdigits=2)) * "s\n")
         end         
