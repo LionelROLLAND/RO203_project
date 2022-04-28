@@ -37,7 +37,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     #les serpents servant à vérifier la connexité
     cellSize= div(nr*nc,K)
-    @variable(m, 0<=snakes[1:K,1:(cellSize*(cellSize-1)),1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int)
+    @variable(m, 0<=snakes[1:K,1:(cellSize*(cellSize-1)),1:nr, 1:nc, 1:nr, 1:nc]<=1, Int)
     
     
     ###CONSTRAINTS
@@ -128,13 +128,13 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
                for j in 1:nc
                    for u in 1:nr
                        for v in 1:nc
-                           if ( (u!=i-1 && u!=i+1) || v!=j ) && ( u!=i || (v!=j-1 && v!=j+1) )   
+                           if ( (u!=i-1 && u!=i+1) || v!=j ) && ( u!=i || (v!=j-1 && v!=j+1) )
                                @constraint(m,snakes[k,step,i,j,u,v]==0) #un serpent ne peut se déplacer que sur une case adjacente  
                            end
                            
                            @constraint(m,2*(1-snakes[k,step,i,j,u,v]) + cases[i,j,k] + cases[u,v,k] >=2) # un serpent ne peut pas sortir d'une zone
                            if step >=2
-                               @constraint(m, 1 - snakes[k,step,i,j,u,v] + sum( snakes[k,step-1,x,y,u,v] for x in 1:nr for y in 1:nc) >=1) #si un serpent sort d'une case, il doit y être venu
+                               @constraint(m, 1 - snakes[k,step,i,j,u,v] + sum( snakes[k,step-1,x,y,i,j] for x in 1:nr for y in 1:nc) >=1) #si un serpent sort d'une case, il doit y être venu
                            end
                        end
                    end
@@ -153,6 +153,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     #pour chaque case d'une zone k, le serpent k doit y passer
     
     for k in 1:K
+  
         for i in 1:nr
             for j in 1:nc
                 @constraint(m, cases[i,j,k] <= sum(snakes[k,step,i,j,u,v] + snakes[k,step,u,v,i,j] for u in 1:nr for v in 1:nc for step in 1:(cellSize*(cellSize-1)) ) )
@@ -165,7 +166,27 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
 
     # Solve the model
     optimize!(m)
-
+    
+    #DEBUG
+     for k in 1:K
+        for step in 1:(cellSize*(cellSize-1))
+           for i in 1:nr
+               for j in 1:nc
+                   for u in 1:nr
+                       for v in 1:nc
+                            if(snakes[k,step,i,j,u,v]==1) 
+                                display((i,j,u,v))
+                            end
+                       
+                       end
+                   end
+                   
+               end
+          end
+       end
+       
+    end
+    ##
     # Return:
     # 1 - true if an optimum is found
     # 2 - the resolution time
