@@ -8,7 +8,7 @@ TOL = 0.00001
 """
 Solve an instance with CPLEX
 """
-function cplexSolve(t::Array{Int64, 2})
+function cplexSolve(t::Array{Int64, 2}, cellSize::Int64)
 
     # Create the model
     m = Model(CPLEX.Optimizer)
@@ -16,10 +16,16 @@ function cplexSolve(t::Array{Int64, 2})
     # TODO
     #println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
     
-    nr = size(t,1)
-    nc = size(t,2)
+    nc = size(t,1)
+    nr = size(t,2)
     
-    K = nc #number of regions
+    #number of regions
+    
+    if cellSize > 0
+        K=div(nr*nc,cellSize)
+    else
+        K=nc
+    end
     
     @variable(m, 0<= cases[1:nr,1:nc,1:K] <= 1, Int) #cases
     @variable(m, 0<= palissades[1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int) #palissades
@@ -65,14 +71,14 @@ function cplexSolve(t::Array{Int64, 2})
     
     for i in 1:nr
         @constraint(m,palissades[i,1,i+1,1]==1)
-        @constraint(m,palissades[i,nc+1,nc+1,1]==1)
+        @constraint(m,palissades[i,nc+1,i,nc+1]==1)
     end
     
     #une palissade ne se place que dans les directions des 4 points cardinaux
     for i in 1:(nr+1)
         for j in 1:(nc+1)
-            for v in 1:(nr+1)
-                for u in 1:(nc+1)
+            for u in 1:(nr+1)
+                for v in 1:(nc+1)
                     if !( (u,v) in [(i-1,j) (i+1,j) (i,j-1) (i,j+1)] )
                         @constraint(m,palissades[i,j,u,v]==0)
                     end
@@ -113,7 +119,7 @@ function cplexSolve(t::Array{Int64, 2})
     #contraintes sur le nombre de palissades autour des cases
     for i in 1:nr
         for j in 1:nc
-            @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[i,j])
+            @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i+1,j+1,i,j+1] == t[j,i])
         end
     end
     
@@ -211,14 +217,8 @@ function solveDataSet()
         
         println("-- Resolution of ", file)
         t, horiz, vertic,cellSize= readInputFile(dataFolder * file)
-        nr = size(t,1)
-        nc = size(t,2)
         
-        if cellSize>0
-            K = div(nr*nc,cellSize)
-        else
-            K=nc
-        end
+       
         # TODO
         #println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
         
@@ -242,7 +242,7 @@ function solveDataSet()
                     #println("In file resolution.jl, in method solveDataSet(), TODO: fix cplexSolve() arguments and returned values")
                     
                     # Solve it and get the results
-                    isOptimal, resolutionTime, cases, palissades = cplexSolve(t)
+                    isOptimal, resolutionTime, cases, palissades = cplexSolve(t,cellSize)
                     
                     # If a solution is found, write it
                     if isOptimal
@@ -252,7 +252,7 @@ function solveDataSet()
                             for j in 1:nc
                                 for k in 1:K
                                    if cases[i,j,k]!=0
-                                       t[i,j]=k
+                                       t[j,i]=k
                                    end
                                 end  
                             end
@@ -262,7 +262,7 @@ function solveDataSet()
                             for j in 1:(nc+1)
                                 for k in 1:K
                                    if cases[i,j,k]!=0
-                                       t[i,j]=k
+                                       t[j,i]=k
                                    end
                                 end  
                             end
@@ -271,7 +271,7 @@ function solveDataSet()
                         for i in 1:(nr-1)
                             for j in 1:nc
                                 if palissades[1+i,j,1+i,j+1] == 1
-                                    horiz[i,j]=1
+                                    horiz[j,i]=1
                                 end
                             end
                         end
@@ -279,13 +279,13 @@ function solveDataSet()
                         for i in 1:nr
                             for j in 1:(nc-1)
                                 if palissades[i,1+j,i+1,1+j]==1
-                                    vertic[i,j]=1    
+                                    vertic[j,i]=1    
                                 end
                             end
                         end
                     end
                     
-                    writeOutputFile(fout,t,horiz,vertic)
+                    writeOutputFile(fout,t,horiz,vertic,cellSize)
                 # If the method is one of the heuristics
                 else
                     
