@@ -200,7 +200,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
 end
 
 
-function initGrids(t::Arrya{Int64,2}, n::Int64, p::Int64)
+function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
     regions = Array{Int64}(undef, n, p)
     for y in 1:n
         for x in 1:p
@@ -221,6 +221,8 @@ function initGrids(t::Arrya{Int64,2}, n::Int64, p::Int64)
     return regions, sizes, exceed
 end
 
+#sort(list, by=fun)
+#sortperm(list, by=fun)
 
 
 """

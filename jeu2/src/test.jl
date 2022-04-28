@@ -26,10 +26,11 @@ function testInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
     displayGrid(t, horiz, vertic, true)
 end
 
-#=
+
 for i in 1:60
     test_gene(4, 6, 6)
 end
+#=
 testInstance(4, 6, 8, 0.2)
 test_rw(4, 6, 6, "Jean-Claude.txt")
 =#
