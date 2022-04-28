@@ -223,6 +223,14 @@ end
 
 #sort(list, by=fun)
 #sortperm(list, by=fun)
+#Faire liste correspondant a toutes les cases du tableau -> facile de recup voisins + stocker la permutation
+
+function score(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    if exceed[y, x] != 5
+        return maxSize*(exceed[y, x] + numNbEqI(regions, n, p, x, y, regions[y, x])) + sizes[y, x]
+    end
+end
 
 
 """
