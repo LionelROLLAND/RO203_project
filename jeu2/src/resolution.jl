@@ -8,13 +8,13 @@ TOL = 0.00001
 """
 Solve an instance with CPLEX
 """
-function cplexSolve()
+function cplexSolve(t::Array{Int64, 2})
 
     # Create the model
     m = Model(with_optimizer(CPLEX.Optimizer))
 
     # TODO
-    println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
+    #println("In file resolution.jl, in method cplexSolve(), TODO: fix input and output, define the model")
 
     # Start a chronometer
     start = time()
@@ -25,7 +25,11 @@ function cplexSolve()
     # Return:
     # 1 - true if an optimum is found
     # 2 - the resolution time
-    return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start
+    if JuMP.primal_status(m) != NO_SOLUTION
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(x)
+   else
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,0
+   end
     
 end
 

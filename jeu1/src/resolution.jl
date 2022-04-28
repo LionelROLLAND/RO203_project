@@ -135,7 +135,7 @@ function cplexSolve(neighborhood::Array{Int64,2})
    if JuMP.primal_status(m) != NO_SOLUTION
    	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(x)
    else
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,0
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1
    end
    
     
