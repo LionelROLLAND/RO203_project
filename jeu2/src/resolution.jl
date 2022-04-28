@@ -80,28 +80,28 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     #contraintes de placement des palissades
     
-    for i in 2:(nr-1)
-        for j in 2:(nc-1)
+    for i in 2:nr
+        for j in 2:nc
             for k in 1:K
-                @constraint(m,east_pos[i,j,k] - east_neg[i,j,k]== cases[i,j,k] + sum( cases[i,j+1,h] for h in filter(x->x != k, 1:K)) -1 ) # -1 et 1, il faut mettre une palissade; 0, indeterminé
+                @constraint(m,east_pos[i,j,k] - east_neg[i,j,k]== cases[i,j,k] + sum( cases[i-1,j,h] for h in filter(x->x != k, 1:K)) -1 ) # -1 et 1, il faut mettre une palissade; 0, indeterminé
                 @constraint(m,east_pos[i,j,k] + east_neg[i,j,k]<=1)
                 @constraint(m, 1-palissades[i,j,i,j+1] + east_pos[i,j,k] + east_neg[i,j,k] <=1) #condition : -1 ou 1 => palissade
-                @constraint(m, cases[i,j,k] + cases[i,j+1,k] + palissades[i,j,i,j+1] <= 2)# condition : palissade => ij et i(j+1) pas dans la même zone
+                @constraint(m, cases[i,j,k] + cases[i-1,j,k] + palissades[i,j,i,j+1] <= 2)# condition : palissade => ij et i(j+1) pas dans la même zone
                 
-                @constraint(m,north_pos[i,j,k] - north_neg[i,j,k]== cases[i,j,k] + sum( cases[i-1,j,h] for h in filter(x->x != k, 1:K)) -1 )
+                @constraint(m,north_pos[i,j,k] - north_neg[i,j,k]== cases[i-1,j-1,k] + sum( cases[i-1,j,h] for h in filter(x->x != k, 1:K)) -1 )
                 @constraint(m,north_pos[i,j,k] + north_neg[i,j,k]<=1)
                 @constraint(m, 1-palissades[i,j,i-1,j] + north_pos[i,j,k] + north_neg[i,j,k] <=1)
-                @constraint(m, cases[i,j,k] + cases[i-1,j,k] + palissades[i,j,i-1,j] <= 2)
+                @constraint(m, cases[i-1,j-1,k] + cases[i-1,j,k] + palissades[i,j,i-1,j] <= 2)
                 
-                @constraint(m,west_pos[i,j,k] - west_neg[i,j,k]== cases[i,j,k] + sum( cases[i,j-1,h] for h in filter(x->x != k, 1:K)) -1 )
+                @constraint(m,west_pos[i,j,k] - west_neg[i,j,k]== cases[i-1,j-1,k] + sum( cases[i,j-1,h] for h in filter(x->x != k, 1:K)) -1 )
                 @constraint(m,west_pos[i,j,k] + west_neg[i,j,k]<=1)
                 @constraint(m, 1-palissades[i,j,i,j-1] + west_pos[i,j,k] + west_neg[i,j,k] <=1)
-                @constraint(m, cases[i,j,k] + cases[i,j-1,k] + palissades[i,j,i,j-1] <= 2)
+                @constraint(m, cases[i-1,j-1,k] + cases[i,j-1,k] + palissades[i,j,i,j-1] <= 2)
                 
-                @constraint(m,south_pos[i,j,k] - south_neg[i,j,k]== cases[i,j,k] + sum( cases[i+1,j,h] for h in filter(x->x != k, 1:K)) -1 )
+                @constraint(m,south_pos[i,j,k] - south_neg[i,j,k]== cases[i,j,k] + sum( cases[i,j-1,h] for h in filter(x->x != k, 1:K)) -1 )
                 @constraint(m,south_pos[i,j,k] + south_neg[i,j,k]<=1)
                 @constraint(m, 1-palissades[i,j,i+1,j] + south_pos[i,j,k] + south_neg[i,j,k] <=1)
-                @constraint(m, cases[i,j,k] + cases[i+1,j,k] + palissades[i,j,i+1,j] <= 2)
+                @constraint(m, cases[i,j,k] + cases[i,j-1,k] + palissades[i,j,i+1,j] <= 2)
                
             end
         end
