@@ -131,7 +131,7 @@ function cplexSolve(t::Array{Int64, 2})
                                @constraint(m,snakes[k,step,i,j,u,v]==0) #un serpent ne peut se déplacer que sur une case adjacente  
                            end
                            
-                           @constraint(m,2*(1-snakes[k,step,i,j,u,v) + cases[i,j,k] + cases[u,v,k] >=2) # un serpent ne peut pas sortir d'une zone
+                           @constraint(m,2*(1-snakes[k,step,i,j,u,v]) + cases[i,j,k] + cases[u,v,k] >=2) # un serpent ne peut pas sortir d'une zone
                            if step >=2
                                @constraint(m, 1 - snakes[k,step,i,j,u,v] + sum( snakes[k,step-1,x,y,j,u,v] for x in 1:nr for y in 1:nc) >=1) #si un serpent sort d'une case, il doit y être venu
                            end
