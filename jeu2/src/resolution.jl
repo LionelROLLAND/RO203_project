@@ -37,8 +37,8 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     #les serpents servant à vérifier la connexité
     cellSize= div(nr*nc,K)
-    passe = min(4,cellSize-1)
-    @variable(m, 0<=snakes[1:K,1:(cellSize*passe),1:nr, 1:nc, 1:nr, 1:nc]<=1, Int)
+    passage = min(4,cellSize-1)
+    @variable(m, 0<=snakes[1:K,1:(cellSize*passage),1:nr, 1:nc, 1:nr, 1:nc]<=1, Int)
     
     
     ###CONSTRAINTS
@@ -357,7 +357,7 @@ function solveDataSet()
 
             # Display the results obtained with the method on the current instance
             #include(outputFile)
-            displayGrid(t, horiz, vertic, false)
+            displayGrid(t, horiz, vertic, true)
             displayGrid(solved_t, horiz, vertic, false)
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
             println(resolutionMethod[methodId], " time: " * string(round(solveTime, sigdigits=2)) * "s\n")
