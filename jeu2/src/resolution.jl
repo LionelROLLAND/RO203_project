@@ -224,16 +224,6 @@ function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
 end
 
 
-function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
-    n::Int64, p::Int64, x1::Int64, y1::Int64, x2::Int64, y2::Int64)
-    nomOf2Around1
-    connComp(regions, regions, n, p, x2, y2, regions[y2, x2], regions[y1, x1]) #Fusion des regions
-    totSize = size[y1, x1] + size[y2, x2]
-    connComp(regions, sizes, n, p, x1, y1, regions[y1, x1], totSize) #Update des tailles
-end #PAS FINIE
-
-
-
 function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
     n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     res = Array{Int64}(undef, 4, 3)
@@ -264,54 +254,129 @@ function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array
 end
 
 
-#Stocker regions et sizes pour le backtracking
-function updateGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
-    exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Int64, 2}, maxSize::Int64)
+function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
+    n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    tailleFus = Array{Int64}(undef, 0) #tailles rajoutees avec fusion avec region concerne
+    corr_reg = Array{Int64}(undef, 0) #regions correspondantes
+    minusPali = Array{Int64}(undef, 0) #palissades en moins en fusionnant avec region concerne
+    vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
+    for v in vois
+        if v[3] >= 0
+            vx = v[1]
+            vy = v[2]
+            knownReg = indexin(regions[vy, vx], corr_reg)[1]
+            if knownReg === nothing
+                push!(corr_reg, regions[vy, vx])
+                push!(tailleFus, sizes[vy, vx])
+                push!(plusPali, 1)
+            else
+                minusPali[knownReg] += 1
+            end
+        end
+    end
 
+    ordTaille = sortperm(tailleFus)
+    lessPali = 0
+    actTaille = sizes[y, x]
+
+    for i in 1:size(corr_reg, 1)
+
+        realInd = ordTaille[i]
+        if actTaille + tailleFus[realInd] <= maxSize #Si fusion avec region fait pas region trop grande
+            lessPali += minusPali[realInd] #Alors fusion et enlevement des palissades
+            actTaille += tailleFus[realInd]
+        end
+    end
+    return lessPali
+end
+
+
+function oncologist(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
     for y in 1:n #On traque les impossibilites une premiere fois
         for x in 1:p
-            #numNb = numNbEqI(regions, n, p, x, y, regions[y, x])
 
             #Base sur la taille de la region et des regions adjacentes, checke si on pourrait
             #encore supprimer assez de palissades
             if exceed[y, x] != 5
-                tailleFus = Array{Int64}(undef, 0)
-                corr_reg = Array{Int64}(undef, 0)
-                minusPali = Array{Int64}(undef, 0)
-                vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
-                for v in vois
-                    if v[3] >= 0
-                        vx = v[1]
-                        vy = v[2]
-                        knownReg = indexin(regions[vy, vx], corr_reg)[1]
-                        if knownReg === nothing
-                            push!(corr_reg, regions[vy, vx])
-                            push!(tailleFus, sizes[vy, vx])
-                            push!(plusPali, 1)
-                        else
-                            minusPali[knownReg] += 1
-                        end
-                    end
-                end
-                ordTaille = sortperm(tailleFus)
-                lessPali = 0
-                actTaille = sizes[y, x]
-                for i in 1:size(corr_reg, 1)
-                    realInd = ordTaille[i]
-                    if actTaille + tailleFus[realInd] <= maxSize
-                        lessPali += minusPali[realInd]
-                        actTaille += tailleFus[realInd]
-                    end
-                end
-
-                if exceed[y, x] - lessPali > 0
-                    return false
+                lessPali = paliEnlevable(regions, sizes, exceed, n, p, x, y, maxSize)
+                if exceed[y, x] - lessPali > 0 || exceed[y, x] < 0 #Arrive jamais maintenant normalement
+                    return true
                 end
             end
 
-            indice += 1
         end
     end
+    return false
+end
+
+
+function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    n::Int64, p::Int64, x1::Int64, y1::Int64, x2::Int64, y2::Int64)
+    connComp(regions, regions, n, p, x2, y2, regions[y2, x2], regions[y1, x1]) #Fusion des regions
+    totSize = size[y1, x1] + size[y2, x2]
+    connComp(regions, sizes, n, p, x1, y1, regions[y1, x1], totSize) #Update des tailles
+end
+
+
+function fixExceed(t::Array{Int64, 2}, regions::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64)
+    for y in 1:n
+        for x in 1:p
+            if t[y, x] != -1
+                exceed[y, x] = 4 - numNbEqI(regions, n, p, x, y, regions[y, x]) - t[y, x]
+                if exceed[y, x] < 0
+                    return false
+                end
+            end
+        end
+    end
+    return true
+end
+
+
+function fixHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Int64, 2}, maxSize::Int64)
+    for e in states
+        x = e[1]
+        y = e[2]
+        e[3] = firstHeuristic(regions, sizes, exceed, n, p, x, y, maxSize)
+    end
+end
+
+
+function checkSizes(sizes::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
+    for y in 1:n
+        for x in 1:p
+            if sizes[y, x] != maxSize
+                return false
+            end
+        end
+    end
+    return true
+end
+
+function checkExceed(exceed::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
+    for y in 1:n
+        for x in 1:p
+            if exceed[y, x] != 0 && exceed[y, x] != 5
+                return false
+            end
+        end
+    end
+    return true
+end
+
+#Stocker regions et sizes pour le backtracking
+function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Int64, 2}, maxSize::Int64)
+
+    if oncologist(regions, sizes, exceed, n, p, maxSize)
+        return false
+    end
+
+    stoRegions = deepcopy(regions)
+    stoSizes = deepcopy(sizes)
 
     kyloRen = sortperm(states, by=(x->x[3]), rev=true) #aurait du s'appeler firstOrder (on s'amuse comme on peut)
     indice = 1
@@ -325,23 +390,38 @@ function updateGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
             if v[3] >= 0
                 vx = v[1]
                 vy = v[2]
-                numOfVAround_ = numNbEqI(regions, n, p, x, y, regions[vy, vx])
-                numOf_AroundV = numNbEqI(regions, n, p, vx, vy, regions[vy, vx])
-                if sizes[vy, vx] + sizes[y, x] <= maxSize && numNbEqI(regions)
-                    fusion(regions, sizes, exceed, n, p, x, y, vx, vy)
-                    #Arranger states
-                    finished = updateGrids(...)
-                    if finished
-                        return true
+                if sizes[vy, vx] + sizes[y, x] <= maxSize #Fusion a priori permise
+                    fusion(regions, sizes, n, p, x, y, vx, vy)
+                    if fixExceed(t, regions, exceed, n, p)
+                        if sizes[y, x] == maxSize
+                            if checkSizes(sizes, n, p, maxSize) && checkExceed(exceed, n, p, maxSize)
+                                return true
+                            end
+                        end
+                        fixHeuristic(regions, sizes, exceed, n, p, states, maxSize)
+                        finished = updateGrids(t, regions, sizes, exceed, n, p, states, maxSize)
+                        if finished
+                            return true
+                        end
                     end
+                    regions = deepcopy(stoRegions)
+                    sizes = deepcopy(stoSizes)
+                    fixExceed(t, regions, exceed, n, p)
+                    fixHeuristic(regions, sizes, exceed, n, p, states, maxSize)
                 end
             end
         end
-        if exceed[y, x] != 5 && exceed[y, x] > 0 #On ne reussit plus a diminuer le nb de palissades autour de e
+        if exceed[y, x] != 5 && exceed[y, x] > 0 #On ne reussit plus a diminuer le nb de palissades autour de x, y
             return false
         end
+        indice += 1
     end
-end #PAS FINIE
+    if maxSize == 1
+        return checkSizes(sizes, n, p, maxSize) && checkExceed(exceed, n, p, maxSize)
+    else
+        return false
+    end
+end
 
 
 
