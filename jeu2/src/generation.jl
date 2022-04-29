@@ -38,8 +38,11 @@ end
 
 
 #Calcule la composante connexe a laquelle appartient la case (x, y) -> prend les cases vides par défaut
-function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, comp::Int64=-1)
-    t[y,x] = -2
+function connComp(reference::Array{Int64, 2}, t::Array{Int64, 2}, n::Int64, p::Int64,
+    x::Int64, y::Int64, comp::Int64=-1, newVal::Int64=-2)
+    t[y,x] = newVal
+    stoRef = reference[y, x]
+    reference[y, x] = comp + 1
     
     dx = 1
     dy = 0
@@ -52,11 +55,12 @@ function connComp(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, co
         nx = x+dx
         ny = y+dy
         if nx >= 1 && nx <= p && ny >= 1 && ny <= n
-            if t[ny,nx] == comp
-                connComp(t, n, p, nx, ny, comp)
+            if reference[ny,nx] == comp
+                connComp(reference, t, n, p, nx, ny, comp)
             end
         end
     end
+    reference[y, x] = stoRef
 end
 
 
@@ -89,7 +93,7 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
 
     if found
         t_copy[y,x] = -3
-        connComp(t_copy, n, p, nx, ny, -1)
+        connComp(t_copy, t_copy, n, p, nx, ny, -1, -2)
 
         #=
         print("--\n")
