@@ -182,12 +182,167 @@ end
 #sortperm(list, by=fun)
 #Faire liste correspondant a toutes les cases du tableau -> facile de recup voisins + stocker la permutation
 
-function score(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+function firstHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
-    if exceed[y, x] != 5
+    if exceed[y, x] == 0 || sizes[y, x] == maxSize
+        return -1
+    end
+    if exceed[y, x] == 5
+        return sizes[y, x]
+    else
         return maxSize*(exceed[y, x] + numNbEqI(regions, n, p, x, y, regions[y, x])) + sizes[y, x]
     end
 end
+
+
+function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    if exceed[y, x] == 0 || sizes[y, x] == maxSize
+        return -1
+    end
+
+    score = div(firstHeuristic(regions, sizes, exceed, n, p, x, y, maxSize), 2)
+
+    dx = 1
+    dy = 0
+    temp = -1
+
+    for i in 1:4
+        temp = dy
+        dy = dx
+        dx = -temp
+    
+        nx = x+dx
+        ny = y+dy
+        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+            score += sizes[ny, nx]
+        else
+            score += maxSize
+        end
+    end
+    return score
+end
+
+
+function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
+    n::Int64, p::Int64, x1::Int64, y1::Int64, x2::Int64, y2::Int64)
+    nomOf2Around1
+    connComp(regions, regions, n, p, x2, y2, regions[y2, x2], regions[y1, x1]) #Fusion des regions
+    totSize = size[y1, x1] + size[y2, x2]
+    connComp(regions, sizes, n, p, x1, y1, regions[y1, x1], totSize) #Update des tailles
+end #PAS FINIE
+
+
+
+function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
+    n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    res = Array{Int64}(undef, 4, 3)
+
+    dx = 1
+    dy = 0
+    temp = -1
+    for i in 1:4
+        temp = dy
+        dy = dx
+        dx = -temp
+    
+        nx = x+dx
+        ny = y+dy
+        res[i][1] = nx
+        res[i][2] = ny
+        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+            if regions[y, x] == regions[ny, nx]
+                res[i][3] = -1
+            else
+                res[i][3] = secondHeuristic(regions, sizes, exceed, n, p, nx, ny, maxSize)
+            end
+        else
+            res[i][3] = -1
+        end
+    end
+
+end
+
+
+#Stocker regions et sizes pour le backtracking
+function updateGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Int64, 2}, maxSize::Int64)
+
+    for y in 1:n #On traque les impossibilites une premiere fois
+        for x in 1:p
+            #numNb = numNbEqI(regions, n, p, x, y, regions[y, x])
+
+            #Base sur la taille de la region et des regions adjacentes, checke si on pourrait
+            #encore supprimer assez de palissades
+            if exceed[y, x] != 5
+                tailleFus = Array{Int64}(undef, 0)
+                corr_reg = Array{Int64}(undef, 0)
+                minusPali = Array{Int64}(undef, 0)
+                vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
+                for v in vois
+                    if v[3] >= 0
+                        vx = v[1]
+                        vy = v[2]
+                        knownReg = indexin(regions[vy, vx], corr_reg)[1]
+                        if knownReg === nothing
+                            push!(corr_reg, regions[vy, vx])
+                            push!(tailleFus, sizes[vy, vx])
+                            push!(plusPali, 1)
+                        else
+                            minusPali[knownReg] += 1
+                        end
+                    end
+                end
+                ordTaille = sortperm(tailleFus)
+                lessPali = 0
+                actTaille = sizes[y, x]
+                for i in 1:size(corr_reg, 1)
+                    realInd = ordTaille[i]
+                    if actTaille + tailleFus[realInd] <= maxSize
+                        lessPali += minusPali[realInd]
+                        actTaille += tailleFus[realInd]
+                    end
+                end
+
+                if exceed[y, x] - lessPali > 0
+                    return false
+                end
+            end
+
+            indice += 1
+        end
+    end
+
+    kyloRen = sortperm(states, by=(x->x[3]), rev=true) #aurait du s'appeler firstOrder (on s'amuse comme on peut)
+    indice = 1
+    while indice <= n*p
+        e = states[kyloRen[indice]]
+        x = e[1]
+        y = e[2]
+        vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
+        sort!(vois, by=(x->x[3]), rev=true)
+        for v in vois
+            if v[3] >= 0
+                vx = v[1]
+                vy = v[2]
+                numOfVAround_ = numNbEqI(regions, n, p, x, y, regions[vy, vx])
+                numOf_AroundV = numNbEqI(regions, n, p, vx, vy, regions[vy, vx])
+                if sizes[vy, vx] + sizes[y, x] <= maxSize && numNbEqI(regions)
+                    fusion(regions, sizes, exceed, n, p, x, y, vx, vy)
+                    #Arranger states
+                    finished = updateGrids(...)
+                    if finished
+                        return true
+                    end
+                end
+            end
+        end
+        if exceed[y, x] != 5 && exceed[y, x] > 0 #On ne reussit plus a diminuer le nb de palissades autour de e
+            return false
+        end
+    end
+end #PAS FINIE
+
 
 
 """
