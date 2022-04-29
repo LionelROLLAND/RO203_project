@@ -19,21 +19,14 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
 
     
     @variable(m, 0<= cases[1:nr,1:nc,1:K] <= 1, Int) #cases
-    @variable(m, 0<= palissades[1:(nr+1), 1:(nc+1), 1:(nr+1), 1:(nc+1)]<=1, Int) #palissades
+    @variable(m, 0<= horiz[1:(nr+1),1:nc]<=1, Int) #horizontal palisades
+    @variable(m, 0<= vertic[1:nr,1:(nc+1)]<=1, Int) #vertical palisades
     
+    @variable(m, 0<= horiz_test_pos[1:(nr+1),1:nc,1:K]<=1, Int)
+    @variable(m, 0<= horiz_test_neg[1:(nr+1),1:nc,1:K]<=1, Int)
     
-    #variable utilitaire servant à décider où mettre une palissade
-    @variable(m, 0<=east_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-    @variable(m, 0<=east_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-    
-    @variable(m, 0<=north_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-    @variable(m, 0<=north_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-
-    @variable(m, 0<=west_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-    @variable(m, 0<=west_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-  
-    @variable(m, 0<=south_pos[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
-    @variable(m, 0<=south_neg[1:(nr+1), 1:(nc+1), 1:K]<=1, Int)
+    @variable(m, 0<= vertic_test_pos[1:(nr+1),1:nc,1:K]<=1, Int)
+    @variable(m, 0<= vertic_test_neg[1:(nr+1),1:nc,1:K]<=1, Int)
     
     #les serpents servant à vérifier la connexité
     cellSize= div(nr*nc,K)
@@ -59,62 +52,45 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     
     #les bords de la grille
     for j in 1:nc
-        @constraint(m,palissades[1,j,1,j+1]==1)
-        @constraint(m,palissades[nr+1,j,nr+1,j+1]==1)
+        @constraint(m,horiz[1,j]==1)
+        @constraint(m,horiz[nr+1,j]==1)
     end
     
     for i in 1:nr
-        @constraint(m,palissades[i,1,i+1,1]==1)
-        @constraint(m,palissades[i,nc+1,i+1,nc+1]==1)
+        @constraint(m,vertic[i,1]==1)
+        @constraint(m,vertic[i,nc+1]==1)
     end
-    
-    #une palissade ne se place que dans les directions des 4 points cardinaux
-    for i in 1:(nr+1)
-        for j in 1:(nc+1)
-            for u in 1:(nr+1)
-                for v in 1:(nc+1)
-                    if ( (u!=i-1 && u!=i+1) || v!=j ) && ( u!=i || (v!=j-1 && v!=j+1) )        
-                        @constraint(m,palissades[i,j,u,v]==0)
-                    end
-                end
-            end
-        end
-    end
-    
+        
     #contraintes de placement des palissades
     
     for i in 2:nr
-        for j in 2:nc
-            for k in 1:K
-                @constraint(m,east_pos[i,j,k] - east_neg[i,j,k]== cases[i,j,k] + sum( cases[i-1,j,h] for h in filter(x->x != k, 1:K)) -1 ) # -1 et 1, il faut mettre une palissade; 0, indeterminé
-                @constraint(m,east_pos[i,j,k] + east_neg[i,j,k]<=1)
-                @constraint(m, 1-palissades[i,j,i,j+1] + east_pos[i,j,k] + east_neg[i,j,k] <=1) #condition : -1 ou 1 => palissade
-                @constraint(m, cases[i,j,k] + cases[i-1,j,k] + palissades[i,j,i,j+1] <= 2)# condition : palissade => ij et i(j+1) pas dans la même zone
+       for j in 1:nc
+           for k in 1:K
+                @constraint(m, horiz[i,j] + cases[i-1,j,k] + cases[i,j,k] <=2) 
                 
-                @constraint(m,north_pos[i,j,k] - north_neg[i,j,k]== cases[i-1,j-1,k] + sum( cases[i-1,j,h] for h in filter(x->x != k, 1:K)) -1 )
-                @constraint(m,north_pos[i,j,k] + north_neg[i,j,k]<=1)
-                @constraint(m, 1-palissades[i,j,i-1,j] + north_pos[i,j,k] + north_neg[i,j,k] <=1)
-                @constraint(m, cases[i-1,j-1,k] + cases[i-1,j,k] + palissades[i,j,i-1,j] <= 2)
-                
-                @constraint(m,west_pos[i,j,k] - west_neg[i,j,k]== cases[i-1,j-1,k] + sum( cases[i,j-1,h] for h in filter(x->x != k, 1:K)) -1 )
-                @constraint(m,west_pos[i,j,k] + west_neg[i,j,k]<=1)
-                @constraint(m, 1-palissades[i,j,i,j-1] + west_pos[i,j,k] + west_neg[i,j,k] <=1)
-                @constraint(m, cases[i-1,j-1,k] + cases[i,j-1,k] + palissades[i,j,i,j-1] <= 2)
-                
-                @constraint(m,south_pos[i,j,k] - south_neg[i,j,k]== cases[i,j,k] + sum( cases[i,j-1,h] for h in filter(x->x != k, 1:K)) -1 )
-                @constraint(m,south_pos[i,j,k] + south_neg[i,j,k]<=1)
-                @constraint(m, 1-palissades[i,j,i+1,j] + south_pos[i,j,k] + south_neg[i,j,k] <=1)
-                @constraint(m, cases[i,j,k] + cases[i,j-1,k] + palissades[i,j,i+1,j] <= 2)
-               
-            end
-        end
+                @constraint(m, horiz_test_pos[i,j,k] - horiz_test_neg[i,j,k] == cases[i,j,k] + sum( cases[i-1,j,h] for h in filter(x->x !=k, 1:K)) -1 )
+                @constraint(m, horiz_test_pos[i,j,k] + horiz_test_neg[i,j,k] <= 1)
+                @constraint(m, 1-horiz[i,j] + horiz_test_pos[i,j,k] + horiz_test_neg[i,j,k] <=1)
+           end
+       end
     end
     
+    for i in 1:nr
+       for j in 2:nc
+           for k in 1:K
+                @constraint(m, vertic[i,j] + cases[i,j-1,k] + cases[i,j,k] <=2) 
+                
+                @constraint(m, vertic_test_pos[i,j,k] - vertic_test_neg[i,j,k] == cases[i,j,k] + sum( cases[i,j-1,h] for h in filter(x->x !=k, 1:K)) -1 )
+                @constraint(m, vertic_test_pos[i,j,k] + vertic_test_neg[i,j,k] <= 1)
+                @constraint(m, 1-vertic[i,j] + vertic_test_pos[i,j,k] + vertic_test_neg[i,j,k] <=1)
+           end
+       end
+    end
     #contraintes sur le nombre de palissades autour des cases
     for i in 1:nr
         for j in 1:nc
             if(t[i,j] > 0)
-                @constraint(m, palissades[i,j,i,j+1] + palissades[i,j,i+1,j] + palissades[i+1,j,i+1,j+1] + palissades[i,j+1,i+1,j+1] == t[i,j])
+                @constraint(m, vertic[i,j] + vertic[i,j+1] + horiz[i,j] + horiz[i+1,j] == t[i,j])
             end
         end
     end
@@ -168,33 +144,14 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     # Solve the model
     optimize!(m)
     
-    #DEBUG
-     for k in 1:K
-        for step in 1:(cellSize*passage)
-           for i in 1:nr
-               for j in 1:nc
-                   for u in 1:nr
-                       for v in 1:nc
-                            if(snakes[k,step,i,j,u,v]==1) 
-                                display((i,j,u,v))
-                            end
-                       
-                       end
-                   end
-                   
-               end
-          end
-       end
-       
-    end
-    ##
+   
     # Return:
     # 1 - true if an optimum is found
     # 2 - the resolution time
     if JuMP.primal_status(m) != NO_SOLUTION
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(palissades)
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(horiz), JuMP.value.(vertic)
    else
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1
+   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1,-1
    end
     
 end
@@ -315,7 +272,7 @@ function solveDataSet()
                     #println("In file resolution.jl, in method solveDataSet(), TODO: fix cplexSolve() arguments and returned values")
                     
                     # Solve it and get the results
-                    isOptimal, resolutionTime, cases, palissades = cplexSolve(t,nr,nc,K)
+                    isOptimal, resolutionTime, cases, hori, verti = cplexSolve(t,nr,nc,K)
                     
                     # If a solution is found, write it
                     if isOptimal
@@ -333,17 +290,13 @@ function solveDataSet()
 
                         for i in 1:(nr-1)
                             for j in 1:nc
-                                if palissades[1+i,j,1+i,j+1] == 1
-                                    horiz[i,j]=1
-                                end
+                                horiz[i,j]=hori[1+i,j]                                
                             end
                         end
 
                         for i in 1:nr
-                            for j in 1:(nc-1)
-                                if palissades[i,1+j,i+1,1+j]==1
-                                    vertic[i,j]=1    
-                                end
+                            for j in 1:(nc-1)                                
+                                 vertic[i,j]=verti[i,1+j]                                   
                             end
                         end
                     end
