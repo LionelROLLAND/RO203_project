@@ -198,7 +198,7 @@ end
 function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     if exceed[y, x] == 0 || sizes[y, x] == maxSize
-        println("erreur")
+        #println("erreur")
         return -1
     end
 
@@ -263,7 +263,7 @@ function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed:
     corr_reg = Array{Int64}(undef, 0) #regions correspondantes
     minusPali = Array{Int64}(undef, 0) #palissades en moins en fusionnant avec region concerne
     vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
-    println(vois)
+    #println(vois)
     for v in vois
         if v[3] >= 0
             vx = v[1]
@@ -319,7 +319,7 @@ end
 function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     n::Int64, p::Int64, x1::Int64, y1::Int64, x2::Int64, y2::Int64)
     connComp(regions, regions, n, p, x2, y2, regions[y2, x2], regions[y1, x1]) #Fusion des regions
-    totSize = size[y1, x1] + size[y2, x2]
+    totSize = sizes[y1, x1] + sizes[y2, x2]
     connComp(regions, sizes, n, p, x1, y1, regions[y1, x1], totSize) #Update des tailles
 end
 
@@ -372,19 +372,22 @@ function checkExceed(exceed::Array{Int64, 2}, n::Int64, p::Int64)
     return true
 end
 
+
+function debugGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2})
+    printTab(regions)
+    printTab(sizes)
+    printTab(exceed)
+end
+
+
 #Stocker regions et sizes pour le backtracking
 function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Array{Int64, 1}, 1}, maxSize::Int64)
 
     print("+ ")
     if oncologist(regions, sizes, exceed, n, p, maxSize)
-        print("\n")
-        printTab(regions)
-        println("\n")
-        printTab(sizes)
-        println("\n")
-        printTab(exceed)
-        println("Le cancer")
+        println("Le cancer :")
+        debugGrids(regions, sizes, exceed)
         return false
     end
 
@@ -425,7 +428,8 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
             end
         end
         if exceed[y, x] != 5 && exceed[y, x] > 0 #On ne reussit plus a diminuer le nb de palissades autour de x, y
-            println("Impasse ma gueule")
+            println("Impasse ma gueule : y = "*string(y)*", x = "*string(x)*", exc = "*string(exceed[y, x]))
+            debugGrids(regions, sizes, exceed)
             return false
         end
         indice += 1
@@ -433,7 +437,9 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
     if maxSize == 1
         return checkSizes(sizes, n, p, maxSize) && checkExceed(exceed, n, p)
     else
-        println("0 possibilite")
+
+        println("0 possibilite :")
+        debugGrids(regions, sizes, exceed)
         return false
     end
 end
@@ -480,6 +486,7 @@ function heuristicSolve(t::Array{Int64, 2}, regionSize::Int64)
 
     if solved
         println("Instance solved !")
+        debugGrids(regions, sizes, exceed)
         corrige = normalizing(regions)
         horiz, vertic = generatePali(corrige)
         displayGrid(corrige, horiz, vertic)

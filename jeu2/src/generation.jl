@@ -56,7 +56,7 @@ function connComp(reference::Array{Int64, 2}, t::Array{Int64, 2}, n::Int64, p::I
         ny = y+dy
         if nx >= 1 && nx <= p && ny >= 1 && ny <= n
             if reference[ny,nx] == comp
-                connComp(reference, t, n, p, nx, ny, comp)
+                connComp(reference, t, n, p, nx, ny, comp, newVal)
             end
         end
     end
