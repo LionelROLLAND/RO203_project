@@ -333,6 +333,15 @@ function fixExceed(t::Array{Int64, 2}, regions::Array{Int64, 2},
                 if exceed[y, x] < 0
                     return false
                 end
+                #=
+                if exceed[y, x] == 0
+                    println("fixExceed --")
+                    println("numNbEqI = "*string(numNbEqI(regions, n, p, x, y, regions[y, x])))
+                    println("t[y,x] = "*string(t[y, x]))
+                    debugGrids(t, regions, exceed)
+                    println("-- fixExceed")
+                end
+                =#
             end
         end
     end
@@ -420,8 +429,8 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
                             return true
                         end
                     end
-                    regions = deepcopy(stoRegions)
-                    sizes = deepcopy(stoSizes)
+                    copyto!(regions, stoRegions)
+                    copyto!(sizes, stoSizes)
                     fixExceed(t, regions, exceed, n, p)
                     fixHeuristic(regions, sizes, exceed, n, p, states, maxSize)
                 end
