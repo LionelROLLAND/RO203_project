@@ -28,9 +28,14 @@ function testInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
 end
 
 function testHeuristic(fname::String)
+    start = time()
+    println("Tip --")
     t, horiz, vertic, regionSize = readInputFile(fname)
     displayGrid(t, horiz, vertic, true)
     heuristicSolve(t, regionSize)
+    println("\n-- Top")
+    stop = time()
+    println(string(stop-start)*" secondes ecoulees")
 end
 
 
@@ -41,6 +46,7 @@ end
 
 testInstance(4, 6, 8, 0.2)
 test_rw(4, 6, 6, "Jean-Claude.txt")
-generateDataSet(5, 10, ".test_test__", ".txt")
+generateDataSet(10, 10, "big_instance_", ".txt")
 =#
-testHeuristic("../data/instance_5.txt")
+
+testHeuristic("../data/big_instance_1.txt")

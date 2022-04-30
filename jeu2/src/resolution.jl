@@ -178,9 +178,6 @@ function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
     return regions, sizes, exceed
 end
 
-#sort(list, by=fun)
-#sortperm(list, by=fun)
-#Faire liste correspondant a toutes les cases du tableau -> facile de recup voisins + stocker la permutation
 
 function firstHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
@@ -198,7 +195,6 @@ end
 function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     if exceed[y, x] == 0 || sizes[y, x] == maxSize
-        #println("erreur")
         return -1
     end
 
@@ -239,18 +235,15 @@ function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array
     
         nx = x+dx
         ny = y+dy
-        #println("nx : "*string(nx)*", ny : "*string(ny))
         res[i] = [nx, ny, -1]
         if nx >= 1 && nx <= p && ny >= 1 && ny <= n
             if regions[y, x] == regions[ny, nx]
                 res[i][3] = -1
-                #println("erreur 1")
             else
                 res[i][3] = secondHeuristic(regions, sizes, exceed, n, p, nx, ny, maxSize)
             end
         else
             res[i][3] = -1
-            #println("erreur 2")
         end
     end
     return res
@@ -262,8 +255,9 @@ function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed:
     tailleFus = Array{Int64}(undef, 0) #tailles rajoutees avec fusion avec region concerne
     corr_reg = Array{Int64}(undef, 0) #regions correspondantes
     minusPali = Array{Int64}(undef, 0) #palissades en moins en fusionnant avec region concerne
+    indPlus = -1 #Indice d'une region avec plusieurs frontieres communes
+
     vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
-    #println(vois)
     for v in vois
         if v[3] >= 0
             vx = v[1]
@@ -275,23 +269,43 @@ function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed:
                 push!(minusPali, 1)
             else
                 minusPali[knownReg] += 1
+                indPlus = knownReg
             end
         end
     end
 
     ordTaille = sortperm(tailleFus)
-    lessPali = 0
+    lessPali1 = 0
     actTaille = sizes[y, x]
 
     for i in 1:size(corr_reg, 1)
 
         realInd = ordTaille[i]
         if actTaille + tailleFus[realInd] <= maxSize #Si fusion avec region fait pas region trop grande
-            lessPali += minusPali[realInd] #Alors fusion et enlevement des palissades
+            lessPali1 += minusPali[realInd] #Alors fusion et enlevement des palissades
             actTaille += tailleFus[realInd]
         end
     end
-    return lessPali
+
+    lessPali2 = -1
+    if indPlus != -1
+
+        actTaille = sizes[y, x] + tailleFus[indPlus]
+        if actTaille <= maxSize
+
+            lessPali2 = minusPali[indPlus]
+            for i in 1:size(corr_reg, 1)
+
+                realInd = ordTaille[i]
+                if realInd != indPlus && actTaille + tailleFus[realInd] <= maxSize
+                    lessPali2 += minusPali[realInd]
+                    actTaille += tailleFus[realInd]
+                end
+            end
+        end
+    end
+
+    return max(lessPali1, lessPali2)
 end
 
 
@@ -304,7 +318,6 @@ function oncologist(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
             #encore supprimer assez de palissades
             if exceed[y, x] != 5
                 lessPali = paliEnlevable(regions, sizes, exceed, n, p, x, y, maxSize)
-                #println("y : "*string(y)*", x : "*string(x)*", exc : "*string(exceed[y, x])*", lessPali : "*string(lessPali))
                 if exceed[y, x] - lessPali > 0 || exceed[y, x] < 0 #Arrive jamais maintenant normalement
                     return true
                 end
@@ -333,15 +346,6 @@ function fixExceed(t::Array{Int64, 2}, regions::Array{Int64, 2},
                 if exceed[y, x] < 0
                     return false
                 end
-                #=
-                if exceed[y, x] == 0
-                    println("fixExceed --")
-                    println("numNbEqI = "*string(numNbEqI(regions, n, p, x, y, regions[y, x])))
-                    println("t[y,x] = "*string(t[y, x]))
-                    debugGrids(t, regions, exceed)
-                    println("-- fixExceed")
-                end
-                =#
             end
         end
     end
@@ -393,10 +397,7 @@ end
 function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Array{Int64, 1}, 1}, maxSize::Int64)
 
-    print("+ ")
     if oncologist(regions, sizes, exceed, n, p, maxSize)
-        println("Le cancer :")
-        debugGrids(regions, sizes, exceed)
         return false
     end
 
@@ -437,8 +438,6 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
             end
         end
         if exceed[y, x] != 5 && exceed[y, x] > 0 #On ne reussit plus a diminuer le nb de palissades autour de x, y
-            println("Impasse ma gueule : y = "*string(y)*", x = "*string(x)*", exc = "*string(exceed[y, x]))
-            debugGrids(regions, sizes, exceed)
             return false
         end
         indice += 1
@@ -446,9 +445,6 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
     if maxSize == 1
         return checkSizes(sizes, n, p, maxSize) && checkExceed(exceed, n, p)
     else
-
-        println("0 possibilite :")
-        debugGrids(regions, sizes, exceed)
         return false
     end
 end
@@ -495,7 +491,6 @@ function heuristicSolve(t::Array{Int64, 2}, regionSize::Int64)
 
     if solved
         println("Instance solved !")
-        debugGrids(regions, sizes, exceed)
         corrige = normalizing(regions)
         horiz, vertic = generatePali(corrige)
         displayGrid(corrige, horiz, vertic)
