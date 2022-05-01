@@ -47,6 +47,29 @@ function readInputFile(inputFile::String)
 end
 
 
+function writeOutputFile(datafile::IOStream, display_x::Array{String,2})
+
+    # Open the input file
+    nr = size(display_x,1)
+    nc = size(display_x,2)
+   
+    println(datafile,"t = [")
+    
+    for i in 1:nr
+        print(datafile,"[ ")
+        for j in 1:nc
+            print(datafile,"'"*display_x[i,j]*"' ")
+        end
+        if i<nr
+            println(datafile,"];")
+        else
+            println(datafile,"] ]")
+        end
+    end
+end
+
+
+
 """
 Create a pdf file which contains a performance diagram associated to the results of the ../res folder
 Display one curve for each subfolder of the ../res folder.

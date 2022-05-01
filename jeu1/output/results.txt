@@ -1,0 +1,3604 @@
+\documentclass{article}
+
+\usepackage[french]{babel}
+\usepackage [utf8] {inputenc} % utf-8 / latin1 
+\usepackage{multicol}
+
+\setlength{\hoffset}{-18pt}
+\setlength{\oddsidemargin}{0pt} % Marge gauche sur pages impaires
+\setlength{\evensidemargin}{9pt} % Marge gauche sur pages paires
+\setlength{\marginparwidth}{54pt} % Largeur de note dans la marge
+\setlength{\textwidth}{481pt} % Largeur de la zone de texte (17cm)
+\setlength{\voffset}{-18pt} % Bon pour DOS
+\setlength{\marginparsep}{7pt} % Séparation de la marge
+\setlength{\topmargin}{0pt} % Pas de marge en haut
+\setlength{\headheight}{13pt} % Haut de page
+\setlength{\headsep}{10pt} % Entre le haut de page et le texte
+\setlength{\footskip}{27pt} % Bas de page + séparation
+\setlength{\textheight}{668pt} % Hauteur de la zone de texte (25cm)
+
+\begin{document}
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_02D1\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_02D1\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_02D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_02D2\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_02D2\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_02D3\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_02D3\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_02D4\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_02D4\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_001.txt & 0.0 & 
+\\
+instance\_02D5\_002.txt & 0.0 & 
+\\
+instance\_02D5\_003.txt & 0.0 & 
+\\
+instance\_02D5\_004.txt & 0.0 & 
+\\
+instance\_02D5\_005.txt & 0.0 & 
+\\
+instance\_02D5\_006.txt & 0.0 & 
+\\
+instance\_02D5\_007.txt & 0.0 & 
+\\
+instance\_02D5\_008.txt & 0.0 & 
+\\
+instance\_02D5\_009.txt & 0.0 & 
+\\
+instance\_02D5\_010.txt & 0.0 & 
+\\
+instance\_02D5\_011.txt & 0.0 & 
+\\
+instance\_02D5\_012.txt & 0.0 & 
+\\
+instance\_02D5\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_014.txt & 0.0 & 
+\\
+instance\_02D5\_015.txt & 0.0 & 
+\\
+instance\_02D5\_016.txt & 0.0 & 
+\\
+instance\_02D5\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_018.txt & 0.0 & 
+\\
+instance\_02D5\_019.txt & 0.0 & 
+\\
+instance\_02D5\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_02D5\_024.txt & 0.0 & 
+\\
+instance\_02D5\_025.txt & 0.0 & 
+\\
+instance\_02D5\_026.txt & 0.0 & 
+\\
+instance\_02D5\_027.txt & 0.0 & 
+\\
+instance\_02D5\_028.txt & 0.0 & 
+\\
+instance\_02D5\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_02D5\_030.txt & 0.0 & 
+\\
+instance\_03D1\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_03D1\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_03D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_03D2\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_03D2\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_001.txt & 0.0 & 
+\\
+instance\_03D3\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_004.txt & 0.0 & 
+\\
+instance\_03D3\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_006.txt & 0.0 & 
+\\
+instance\_03D3\_007.txt & 0.0 & 
+\\
+instance\_03D3\_008.txt & 0.0 & 
+\\
+instance\_03D3\_009.txt & 0.0 & 
+\\
+instance\_03D3\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_012.txt & 0.0 & 
+\\
+instance\_03D3\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_026.txt & 0.0 & 
+\\
+instance\_03D3\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_03D3\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_03D3\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_001.txt & 0.0 & 
+\\
+instance\_03D4\_002.txt & 0.0 & 
+\\
+instance\_03D4\_003.txt & 0.0 & 
+\\
+instance\_03D4\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_006.txt & 0.0 & 
+\\
+instance\_03D4\_007.txt & 0.0 & 
+\\
+instance\_03D4\_008.txt & 0.0 & 
+\\
+instance\_03D4\_009.txt & 0.0 & 
+\\
+instance\_03D4\_010.txt & 0.0 & 
+\\
+instance\_03D4\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_014.txt & 0.0 & 
+\\
+instance\_03D4\_015.txt & 0.0 & 
+\\
+instance\_03D4\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_017.txt & 0.0 & 
+\\
+instance\_03D4\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_019.txt & 0.0 & 
+\\
+instance\_03D4\_020.txt & 0.0 & 
+\\
+instance\_03D4\_021.txt & 0.0 & 
+\\
+instance\_03D4\_022.txt & 0.0 & 
+\\
+instance\_03D4\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_03D4\_024.txt & 0.0 & 
+\\
+instance\_03D4\_025.txt & 0.0 & 
+\\
+instance\_03D4\_026.txt & 0.0 & 
+\\
+instance\_03D4\_027.txt & 0.0 & 
+\\
+instance\_03D4\_028.txt & 0.0 & 
+\\
+instance\_03D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_03D4\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_03D5\_001.txt & 0.0 & 
+\\
+instance\_03D5\_002.txt & 0.0 & 
+\\
+instance\_03D5\_003.txt & 0.0 & 
+\\
+instance\_03D5\_004.txt & 0.0 & 
+\\
+instance\_03D5\_005.txt & 0.0 & 
+\\
+instance\_03D5\_006.txt & 0.0 & 
+\\
+instance\_03D5\_007.txt & 0.0 & 
+\\
+instance\_03D5\_008.txt & 0.0 & 
+\\
+instance\_03D5\_009.txt & 0.0 & 
+\\
+instance\_03D5\_010.txt & 0.0 & 
+\\
+instance\_03D5\_011.txt & 0.0 & 
+\\
+instance\_03D5\_012.txt & 0.0 & 
+\\
+instance\_03D5\_013.txt & 0.0 & 
+\\
+instance\_03D5\_014.txt & 0.0 & 
+\\
+instance\_03D5\_015.txt & 0.0 & 
+\\
+instance\_03D5\_016.txt & 0.0 & 
+\\
+instance\_03D5\_017.txt & 0.0 & 
+\\
+instance\_03D5\_018.txt & 0.0 & 
+\\
+instance\_03D5\_019.txt & 0.0 & 
+\\
+instance\_03D5\_020.txt & 0.0 & 
+\\
+instance\_03D5\_021.txt & 0.0 & 
+\\
+instance\_03D5\_022.txt & 0.0 & 
+\\
+instance\_03D5\_023.txt & 0.0 & 
+\\
+instance\_03D5\_024.txt & 0.0 & 
+\\
+instance\_03D5\_025.txt & 0.0 & 
+\\
+instance\_03D5\_026.txt & 0.0 & 
+\\
+instance\_03D5\_027.txt & 0.0 & 
+\\
+instance\_03D5\_028.txt & 0.0 & 
+\\
+instance\_03D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_03D5\_030.txt & 0.0 & 
+\\
+instance\_04D1\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_002.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_04D1\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_04D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_001.txt & 0.0 & 
+\\
+instance\_04D2\_002.txt & 0.0 & 
+\\
+instance\_04D2\_003.txt & 0.0 & 
+\\
+instance\_04D2\_004.txt & 0.0 & 
+\\
+instance\_04D2\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_006.txt & 0.0 & 
+\\
+instance\_04D2\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_009.txt & 0.0 & 
+\\
+instance\_04D2\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_012.txt & 0.0 & 
+\\
+instance\_04D2\_013.txt & 0.0 & 
+\\
+instance\_04D2\_014.txt & 0.0 & 
+\\
+instance\_04D2\_015.txt & 0.0 & 
+\\
+instance\_04D2\_016.txt & 0.0 & 
+\\
+instance\_04D2\_017.txt & 0.0 & 
+\\
+instance\_04D2\_018.txt & 0.0 & 
+\\
+instance\_04D2\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_021.txt & 0.0 & 
+\\
+instance\_04D2\_022.txt & 0.0 & 
+\\
+instance\_04D2\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_024.txt & 0.0 & 
+\\
+instance\_04D2\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_026.txt & 0.0 & 
+\\
+instance\_04D2\_027.txt & 0.0 & 
+\\
+instance\_04D2\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_04D2\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_04D2\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_001.txt & 0.0 & 
+\\
+instance\_04D3\_002.txt & 0.0 & 
+\\
+instance\_04D3\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_004.txt & 0.0 & 
+\\
+instance\_04D3\_005.txt & 0.0 & 
+\\
+instance\_04D3\_006.txt & 0.0 & 
+\\
+instance\_04D3\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_009.txt & 0.0 & 
+\\
+instance\_04D3\_010.txt & 0.0 & 
+\\
+instance\_04D3\_011.txt & 0.0 & 
+\\
+instance\_04D3\_012.txt & 0.0 & 
+\\
+instance\_04D3\_013.txt & 0.0 & 
+\\
+instance\_04D3\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_015.txt & 0.0 & 
+\\
+instance\_04D3\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_017.txt & 0.0 & 
+\\
+instance\_04D3\_018.txt & 0.0 & 
+\\
+instance\_04D3\_019.txt & 0.0 & 
+\\
+instance\_04D3\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_021.txt & 0.0 & 
+\\
+instance\_04D3\_022.txt & 0.0 & 
+\\
+instance\_04D3\_023.txt & 0.0 & 
+\\
+instance\_04D3\_024.txt & 0.0 & 
+\\
+instance\_04D3\_025.txt & 0.0 & 
+\\
+instance\_04D3\_026.txt & 0.0 & 
+\\
+instance\_04D3\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_04D3\_028.txt & 0.0 & 
+\\
+instance\_04D3\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_04D3\_030.txt & 0.0 & 
+\\
+instance\_04D4\_001.txt & 0.0 & 
+\\
+instance\_04D4\_002.txt & 0.0 & 
+\\
+instance\_04D4\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_04D4\_004.txt & 0.0 & 
+\\
+instance\_04D4\_005.txt & 0.0 & 
+\\
+instance\_04D4\_006.txt & 0.0 & 
+\\
+instance\_04D4\_007.txt & 0.0 & 
+\\
+instance\_04D4\_008.txt & 0.0 & 
+\\
+instance\_04D4\_009.txt & 0.0 & 
+\\
+instance\_04D4\_010.txt & 0.0 & 
+\\
+instance\_04D4\_011.txt & 0.0 & 
+\\
+instance\_04D4\_012.txt & 0.0 & 
+\\
+instance\_04D4\_013.txt & 0.0 & 
+\\
+instance\_04D4\_014.txt & 0.0 & 
+\\
+instance\_04D4\_015.txt & 0.0 & 
+\\
+instance\_04D4\_016.txt & 0.0 & 
+\\
+instance\_04D4\_017.txt & 0.0 & 
+\\
+instance\_04D4\_018.txt & 0.0 & 
+\\
+instance\_04D4\_019.txt & 0.0 & 
+\\
+instance\_04D4\_020.txt & 0.0 & 
+\\
+instance\_04D4\_021.txt & 0.0 & 
+\\
+instance\_04D4\_022.txt & 0.0 & 
+\\
+instance\_04D4\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_04D4\_024.txt & 0.0 & 
+\\
+instance\_04D4\_025.txt & 0.0 & 
+\\
+instance\_04D4\_026.txt & 0.0 & 
+\\
+instance\_04D4\_027.txt & 0.0 & 
+\\
+instance\_04D4\_028.txt & 0.0 & 
+\\
+instance\_04D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_04D4\_030.txt & 0.0 & 
+\\
+instance\_04D5\_001.txt & 0.0 & 
+\\
+instance\_04D5\_002.txt & 0.0 & 
+\\
+instance\_04D5\_003.txt & 0.0 & 
+\\
+instance\_04D5\_004.txt & 0.0 & 
+\\
+instance\_04D5\_005.txt & 0.0 & 
+\\
+instance\_04D5\_006.txt & 0.0 & 
+\\
+instance\_04D5\_007.txt & 0.0 & 
+\\
+instance\_04D5\_008.txt & 0.0 & 
+\\
+instance\_04D5\_009.txt & 0.0 & 
+\\
+instance\_04D5\_010.txt & 0.0 & 
+\\
+instance\_04D5\_011.txt & 0.0 & 
+\\
+instance\_04D5\_012.txt & 0.0 & 
+\\
+instance\_04D5\_013.txt & 0.0 & 
+\\
+instance\_04D5\_014.txt & 0.0 & 
+\\
+instance\_04D5\_015.txt & 0.0 & 
+\\
+instance\_04D5\_016.txt & 0.0 & 
+\\
+instance\_04D5\_017.txt & 0.0 & 
+\\
+instance\_04D5\_018.txt & 0.0 & 
+\\
+instance\_04D5\_019.txt & 0.0 & 
+\\
+instance\_04D5\_020.txt & 0.0 & 
+\\
+instance\_04D5\_021.txt & 0.0 & 
+\\
+instance\_04D5\_022.txt & 0.0 & 
+\\
+instance\_04D5\_023.txt & 0.0 & 
+\\
+instance\_04D5\_024.txt & 0.0 & 
+\\
+instance\_04D5\_025.txt & 0.0 & 
+\\
+instance\_04D5\_026.txt & 0.0 & 
+\\
+instance\_04D5\_027.txt & 0.0 & 
+\\
+instance\_04D5\_028.txt & 0.0 & 
+\\
+instance\_04D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_04D5\_030.txt & 0.0 & 
+\\
+instance\_05D1\_001.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_002.txt & 0.0 & 
+\\
+instance\_05D1\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_011.txt & 0.0 & 
+\\
+instance\_05D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_014.txt & 0.0 & 
+\\
+instance\_05D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_026.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_05D1\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_05D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_05D2\_001.txt & 0.0 & 
+\\
+instance\_05D2\_002.txt & 0.0 & 
+\\
+instance\_05D2\_003.txt & 0.0 & 
+\\
+instance\_05D2\_004.txt & 0.0 & 
+\\
+instance\_05D2\_005.txt & 0.0 & 
+\\
+instance\_05D2\_006.txt & 0.0 & 
+\\
+instance\_05D2\_007.txt & 0.0 & 
+\\
+instance\_05D2\_008.txt & 0.0 & 
+\\
+instance\_05D2\_009.txt & 0.0 & 
+\\
+instance\_05D2\_010.txt & 0.0 & 
+\\
+instance\_05D2\_011.txt & 0.0 & 
+\\
+instance\_05D2\_012.txt & 0.0 & 
+\\
+instance\_05D2\_013.txt & 0.0 & 
+\\
+instance\_05D2\_014.txt & 0.0 & 
+\\
+instance\_05D2\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_05D2\_016.txt & 0.0 & 
+\\
+instance\_05D2\_017.txt & 0.0 & 
+\\
+instance\_05D2\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_05D2\_019.txt & 0.0 & 
+$\times$
+\\
+instance\_05D2\_020.txt & 0.0 & 
+\\
+instance\_05D2\_021.txt & 0.0 & 
+\\
+instance\_05D2\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_05D2\_023.txt & 0.0 & 
+\\
+instance\_05D2\_024.txt & 0.0 & 
+\\
+instance\_05D2\_025.txt & 0.0 & 
+\\
+instance\_05D2\_026.txt & 0.0 & 
+\\
+instance\_05D2\_027.txt & 0.0 & 
+\\
+instance\_05D2\_028.txt & 0.0 & 
+\\
+instance\_05D2\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_05D2\_030.txt & 0.0 & 
+\\
+instance\_05D3\_001.txt & 0.0 & 
+\\
+instance\_05D3\_002.txt & 0.0 & 
+\\
+instance\_05D3\_003.txt & 0.0 & 
+\\
+instance\_05D3\_004.txt & 0.0 & 
+\\
+instance\_05D3\_005.txt & 0.0 & 
+\\
+instance\_05D3\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_05D3\_007.txt & 0.0 & 
+\\
+instance\_05D3\_008.txt & 0.0 & 
+\\
+instance\_05D3\_009.txt & 0.0 & 
+\\
+instance\_05D3\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_05D3\_011.txt & 0.0 & 
+\\
+instance\_05D3\_012.txt & 0.0 & 
+\\
+instance\_05D3\_013.txt & 0.0 & 
+\\
+instance\_05D3\_014.txt & 0.0 & 
+\\
+instance\_05D3\_015.txt & 0.0 & 
+\\
+instance\_05D3\_016.txt & 0.0 & 
+\\
+instance\_05D3\_017.txt & 0.0 & 
+\\
+instance\_05D3\_018.txt & 0.0 & 
+\\
+instance\_05D3\_019.txt & 0.0 & 
+\\
+instance\_05D3\_020.txt & 0.0 & 
+\\
+instance\_05D3\_021.txt & 0.0 & 
+\\
+instance\_05D3\_022.txt & 0.0 & 
+\\
+instance\_05D3\_023.txt & 0.0 & 
+\\
+instance\_05D3\_024.txt & 0.0 & 
+\\
+instance\_05D3\_025.txt & 0.0 & 
+\\
+instance\_05D3\_026.txt & 0.0 & 
+\\
+instance\_05D3\_027.txt & 0.0 & 
+\\
+instance\_05D3\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_05D3\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_05D3\_030.txt & 0.0 & 
+\\
+instance\_05D4\_001.txt & 0.0 & 
+\\
+instance\_05D4\_002.txt & 0.0 & 
+\\
+instance\_05D4\_003.txt & 0.0 & 
+\\
+instance\_05D4\_004.txt & 0.0 & 
+\\
+instance\_05D4\_005.txt & 0.0 & 
+\\
+instance\_05D4\_006.txt & 0.0 & 
+\\
+instance\_05D4\_007.txt & 0.0 & 
+\\
+instance\_05D4\_008.txt & 0.0 & 
+\\
+instance\_05D4\_009.txt & 0.0 & 
+\\
+instance\_05D4\_010.txt & 0.0 & 
+\\
+instance\_05D4\_011.txt & 0.0 & 
+\\
+instance\_05D4\_012.txt & 0.0 & 
+\\
+instance\_05D4\_013.txt & 0.0 & 
+\\
+instance\_05D4\_014.txt & 0.0 & 
+\\
+instance\_05D4\_015.txt & 0.0 & 
+\\
+instance\_05D4\_016.txt & 0.0 & 
+\\
+instance\_05D4\_017.txt & 0.0 & 
+\\
+instance\_05D4\_018.txt & 0.0 & 
+\\
+instance\_05D4\_019.txt & 0.0 & 
+\\
+instance\_05D4\_020.txt & 0.0 & 
+\\
+instance\_05D4\_021.txt & 0.0 & 
+\\
+instance\_05D4\_022.txt & 0.0 & 
+\\
+instance\_05D4\_023.txt & 0.0 & 
+\\
+instance\_05D4\_024.txt & 0.0 & 
+\\
+instance\_05D4\_025.txt & 0.0 & 
+\\
+instance\_05D4\_026.txt & 0.0 & 
+\\
+instance\_05D4\_027.txt & 0.0 & 
+\\
+instance\_05D4\_028.txt & 0.0 & 
+\\
+instance\_05D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_05D4\_030.txt & 0.0 & 
+\\
+instance\_05D5\_001.txt & 0.0 & 
+\\
+instance\_05D5\_002.txt & 0.0 & 
+\\
+instance\_05D5\_003.txt & 0.0 & 
+\\
+instance\_05D5\_004.txt & 0.0 & 
+\\
+instance\_05D5\_005.txt & 0.0 & 
+\\
+instance\_05D5\_006.txt & 0.0 & 
+\\
+instance\_05D5\_007.txt & 0.0 & 
+\\
+instance\_05D5\_008.txt & 0.0 & 
+\\
+instance\_05D5\_009.txt & 0.0 & 
+\\
+instance\_05D5\_010.txt & 0.0 & 
+\\
+instance\_05D5\_011.txt & 0.0 & 
+\\
+instance\_05D5\_012.txt & 0.0 & 
+\\
+instance\_05D5\_013.txt & 0.0 & 
+\\
+instance\_05D5\_014.txt & 0.0 & 
+\\
+instance\_05D5\_015.txt & 0.0 & 
+\\
+instance\_05D5\_016.txt & 0.0 & 
+\\
+instance\_05D5\_017.txt & 0.0 & 
+\\
+instance\_05D5\_018.txt & 0.0 & 
+\\
+instance\_05D5\_019.txt & 0.0 & 
+\\
+instance\_05D5\_020.txt & 0.0 & 
+\\
+instance\_05D5\_021.txt & 0.0 & 
+\\
+instance\_05D5\_022.txt & 0.0 & 
+\\
+instance\_05D5\_023.txt & 0.0 & 
+\\
+instance\_05D5\_024.txt & 0.0 & 
+\\
+instance\_05D5\_025.txt & 0.0 & 
+\\
+instance\_05D5\_026.txt & 0.0 & 
+\\
+instance\_05D5\_027.txt & 0.0 & 
+\\
+instance\_05D5\_028.txt & 0.0 & 
+\\
+instance\_05D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_05D5\_030.txt & 0.0 & 
+\\
+instance\_06D1\_001.txt & 0.0 & 
+\\
+instance\_06D1\_002.txt & 0.0 & 
+\\
+instance\_06D1\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_007.txt & 0.0 & 
+\\
+instance\_06D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_014.txt & 0.0 & 
+\\
+instance\_06D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_019.txt & 0.0 & 
+\\
+instance\_06D1\_020.txt & 0.0 & 
+\\
+instance\_06D1\_021.txt & 0.0 & 
+\\
+instance\_06D1\_022.txt & 0.0 & 
+\\
+instance\_06D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_024.txt & 0.0 & 
+\\
+instance\_06D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_026.txt & 0.0 & 
+\\
+instance\_06D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_06D1\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_06D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_06D2\_001.txt & 0.0 & 
+\\
+instance\_06D2\_002.txt & 0.0 & 
+\\
+instance\_06D2\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_06D2\_004.txt & 0.0 & 
+\\
+instance\_06D2\_005.txt & 0.0 & 
+\\
+instance\_06D2\_006.txt & 0.0 & 
+\\
+instance\_06D2\_007.txt & 0.0 & 
+\\
+instance\_06D2\_008.txt & 0.0 & 
+\\
+instance\_06D2\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_06D2\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_06D2\_011.txt & 0.0 & 
+\\
+instance\_06D2\_012.txt & 0.0 & 
+\\
+instance\_06D2\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_06D2\_014.txt & 0.0 & 
+\\
+instance\_06D2\_015.txt & 0.0 & 
+\\
+instance\_06D2\_016.txt & 0.0 & 
+\\
+instance\_06D2\_017.txt & 0.0 & 
+\\
+instance\_06D2\_018.txt & 0.0 & 
+\\
+instance\_06D2\_019.txt & 0.0 & 
+\\
+instance\_06D2\_020.txt & 0.0 & 
+\\
+instance\_06D2\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_06D2\_022.txt & 0.0 & 
+\\
+instance\_06D2\_023.txt & 0.0 & 
+\\
+instance\_06D2\_024.txt & 0.0 & 
+\\
+instance\_06D2\_025.txt & 0.0 & 
+\\
+instance\_06D2\_026.txt & 0.0 & 
+\\
+instance\_06D2\_027.txt & 0.0 & 
+\\
+instance\_06D2\_028.txt & 0.0 & 
+\\
+instance\_06D2\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_06D2\_030.txt & 0.0 & 
+\\
+instance\_06D3\_001.txt & 0.0 & 
+\\
+instance\_06D3\_002.txt & 0.0 & 
+\\
+instance\_06D3\_003.txt & 0.0 & 
+\\
+instance\_06D3\_004.txt & 0.0 & 
+\\
+instance\_06D3\_005.txt & 0.0 & 
+\\
+instance\_06D3\_006.txt & 0.0 & 
+\\
+instance\_06D3\_007.txt & 0.0 & 
+\\
+instance\_06D3\_008.txt & 0.0 & 
+\\
+instance\_06D3\_009.txt & 0.0 & 
+\\
+instance\_06D3\_010.txt & 0.0 & 
+\\
+instance\_06D3\_011.txt & 0.0 & 
+\\
+instance\_06D3\_012.txt & 0.0 & 
+\\
+instance\_06D3\_013.txt & 0.0 & 
+\\
+instance\_06D3\_014.txt & 0.0 & 
+\\
+instance\_06D3\_015.txt & 0.0 & 
+\\
+instance\_06D3\_016.txt & 0.0 & 
+\\
+instance\_06D3\_017.txt & 0.0 & 
+\\
+instance\_06D3\_018.txt & 0.0 & 
+\\
+instance\_06D3\_019.txt & 0.0 & 
+\\
+instance\_06D3\_020.txt & 0.0 & 
+\\
+instance\_06D3\_021.txt & 0.0 & 
+\\
+instance\_06D3\_022.txt & 0.0 & 
+\\
+instance\_06D3\_023.txt & 0.0 & 
+\\
+instance\_06D3\_024.txt & 0.0 & 
+\\
+instance\_06D3\_025.txt & 0.0 & 
+\\
+instance\_06D3\_026.txt & 0.0 & 
+\\
+instance\_06D3\_027.txt & 0.0 & 
+\\
+instance\_06D3\_028.txt & 0.0 & 
+\\
+instance\_06D3\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_06D3\_030.txt & 0.0 & 
+\\
+instance\_06D4\_001.txt & 0.0 & 
+\\
+instance\_06D4\_002.txt & 0.0 & 
+\\
+instance\_06D4\_003.txt & 0.0 & 
+\\
+instance\_06D4\_004.txt & 0.0 & 
+\\
+instance\_06D4\_005.txt & 0.0 & 
+\\
+instance\_06D4\_006.txt & 0.0 & 
+\\
+instance\_06D4\_007.txt & 0.0 & 
+\\
+instance\_06D4\_008.txt & 0.0 & 
+\\
+instance\_06D4\_009.txt & 0.0 & 
+\\
+instance\_06D4\_010.txt & 0.0 & 
+\\
+instance\_06D4\_011.txt & 0.0 & 
+\\
+instance\_06D4\_012.txt & 0.0 & 
+\\
+instance\_06D4\_013.txt & 0.0 & 
+\\
+instance\_06D4\_014.txt & 0.0 & 
+\\
+instance\_06D4\_015.txt & 0.0 & 
+\\
+instance\_06D4\_016.txt & 0.0 & 
+\\
+instance\_06D4\_017.txt & 0.0 & 
+\\
+instance\_06D4\_018.txt & 0.0 & 
+\\
+instance\_06D4\_019.txt & 0.0 & 
+\\
+instance\_06D4\_020.txt & 0.0 & 
+\\
+instance\_06D4\_021.txt & 0.0 & 
+\\
+instance\_06D4\_022.txt & 0.0 & 
+\\
+instance\_06D4\_023.txt & 0.0 & 
+\\
+instance\_06D4\_024.txt & 0.0 & 
+\\
+instance\_06D4\_025.txt & 0.0 & 
+\\
+instance\_06D4\_026.txt & 0.0 & 
+\\
+instance\_06D4\_027.txt & 0.0 & 
+\\
+instance\_06D4\_028.txt & 0.0 & 
+\\
+instance\_06D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_06D4\_030.txt & 0.0 & 
+\\
+instance\_06D5\_001.txt & 0.0 & 
+\\
+instance\_06D5\_002.txt & 0.0 & 
+\\
+instance\_06D5\_003.txt & 0.0 & 
+\\
+instance\_06D5\_004.txt & 0.0 & 
+\\
+instance\_06D5\_005.txt & 0.0 & 
+\\
+instance\_06D5\_006.txt & 0.0 & 
+\\
+instance\_06D5\_007.txt & 0.0 & 
+\\
+instance\_06D5\_008.txt & 0.0 & 
+\\
+instance\_06D5\_009.txt & 0.0 & 
+\\
+instance\_06D5\_010.txt & 0.0 & 
+\\
+instance\_06D5\_011.txt & 0.0 & 
+\\
+instance\_06D5\_012.txt & 0.0 & 
+\\
+instance\_06D5\_013.txt & 0.0 & 
+\\
+instance\_06D5\_014.txt & 0.0 & 
+\\
+instance\_06D5\_015.txt & 0.0 & 
+\\
+instance\_06D5\_016.txt & 0.0 & 
+\\
+instance\_06D5\_017.txt & 0.0 & 
+\\
+instance\_06D5\_018.txt & 0.0 & 
+\\
+instance\_06D5\_019.txt & 0.0 & 
+\\
+instance\_06D5\_020.txt & 0.0 & 
+\\
+instance\_06D5\_021.txt & 0.0 & 
+\\
+instance\_06D5\_022.txt & 0.0 & 
+\\
+instance\_06D5\_023.txt & 0.0 & 
+\\
+instance\_06D5\_024.txt & 0.0 & 
+\\
+instance\_06D5\_025.txt & 0.0 & 
+\\
+instance\_06D5\_026.txt & 0.0 & 
+\\
+instance\_06D5\_027.txt & 0.0 & 
+\\
+instance\_06D5\_028.txt & 0.0 & 
+\\
+instance\_06D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_06D5\_030.txt & 0.0 & 
+\\
+instance\_07D1\_001.txt & 0.0 & 
+\\
+instance\_07D1\_002.txt & 0.0 & 
+\\
+instance\_07D1\_003.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_004.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_005.txt & 0.0 & 
+\\
+instance\_07D1\_006.txt & 0.05 & 
+$\times$
+\\
+instance\_07D1\_007.txt & 0.0 & 
+\\
+instance\_07D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_010.txt & 0.0 & 
+\\
+instance\_07D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_013.txt & 0.0 & 
+\\
+instance\_07D1\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_016.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_017.txt & 0.0 & 
+\\
+instance\_07D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_019.txt & 0.0 & 
+\\
+instance\_07D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_021.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_022.txt & 0.0 & 
+\\
+instance\_07D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_026.txt & 0.0 & 
+\\
+instance\_07D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_07D1\_028.txt & 0.0 & 
+\\
+instance\_07D1\_029.txt & 0.0 & 
+$\times$
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_07D1\_030.txt & 0.0 & 
+\\
+instance\_07D2\_001.txt & 0.0 & 
+\\
+instance\_07D2\_002.txt & 0.0 & 
+\\
+instance\_07D2\_003.txt & 0.0 & 
+\\
+instance\_07D2\_004.txt & 0.0 & 
+\\
+instance\_07D2\_005.txt & 0.0 & 
+\\
+instance\_07D2\_006.txt & 0.0 & 
+$\times$
+\\
+instance\_07D2\_007.txt & 0.0 & 
+\\
+instance\_07D2\_008.txt & 0.0 & 
+\\
+instance\_07D2\_009.txt & 0.0 & 
+\\
+instance\_07D2\_010.txt & 0.0 & 
+\\
+instance\_07D2\_011.txt & 0.0 & 
+\\
+instance\_07D2\_012.txt & 0.0 & 
+\\
+instance\_07D2\_013.txt & 0.0 & 
+\\
+instance\_07D2\_014.txt & 0.0 & 
+\\
+instance\_07D2\_015.txt & 0.0 & 
+\\
+instance\_07D2\_016.txt & 0.0 & 
+\\
+instance\_07D2\_017.txt & 0.0 & 
+\\
+instance\_07D2\_018.txt & 0.0 & 
+\\
+instance\_07D2\_019.txt & 0.0 & 
+\\
+instance\_07D2\_020.txt & 0.0 & 
+\\
+instance\_07D2\_021.txt & 0.0 & 
+\\
+instance\_07D2\_022.txt & 0.0 & 
+\\
+instance\_07D2\_023.txt & 0.0 & 
+\\
+instance\_07D2\_024.txt & 0.0 & 
+\\
+instance\_07D2\_025.txt & 0.0 & 
+\\
+instance\_07D2\_026.txt & 0.0 & 
+\\
+instance\_07D2\_027.txt & 0.0 & 
+\\
+instance\_07D2\_028.txt & 0.0 & 
+\\
+instance\_07D2\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_07D2\_030.txt & 0.0 & 
+\\
+instance\_07D3\_001.txt & 0.0 & 
+\\
+instance\_07D3\_002.txt & 0.0 & 
+\\
+instance\_07D3\_003.txt & 0.0 & 
+\\
+instance\_07D3\_004.txt & 0.0 & 
+\\
+instance\_07D3\_005.txt & 0.0 & 
+\\
+instance\_07D3\_006.txt & 0.0 & 
+\\
+instance\_07D3\_007.txt & 0.0 & 
+\\
+instance\_07D3\_008.txt & 0.0 & 
+\\
+instance\_07D3\_009.txt & 0.0 & 
+\\
+instance\_07D3\_010.txt & 0.0 & 
+\\
+instance\_07D3\_011.txt & 0.0 & 
+\\
+instance\_07D3\_012.txt & 0.0 & 
+\\
+instance\_07D3\_013.txt & 0.0 & 
+\\
+instance\_07D3\_014.txt & 0.0 & 
+\\
+instance\_07D3\_015.txt & 0.0 & 
+\\
+instance\_07D3\_016.txt & 0.0 & 
+\\
+instance\_07D3\_017.txt & 0.0 & 
+\\
+instance\_07D3\_018.txt & 0.0 & 
+\\
+instance\_07D3\_019.txt & 0.0 & 
+\\
+instance\_07D3\_020.txt & 0.0 & 
+\\
+instance\_07D3\_021.txt & 0.0 & 
+\\
+instance\_07D3\_022.txt & 0.0 & 
+\\
+instance\_07D3\_023.txt & 0.0 & 
+\\
+instance\_07D3\_024.txt & 0.0 & 
+\\
+instance\_07D3\_025.txt & 0.0 & 
+\\
+instance\_07D3\_026.txt & 0.0 & 
+\\
+instance\_07D3\_027.txt & 0.0 & 
+\\
+instance\_07D3\_028.txt & 0.0 & 
+\\
+instance\_07D3\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_07D3\_030.txt & 0.0 & 
+\\
+instance\_07D4\_001.txt & 0.0 & 
+\\
+instance\_07D4\_002.txt & 0.0 & 
+\\
+instance\_07D4\_003.txt & 0.0 & 
+\\
+instance\_07D4\_004.txt & 0.0 & 
+\\
+instance\_07D4\_005.txt & 0.0 & 
+\\
+instance\_07D4\_006.txt & 0.0 & 
+\\
+instance\_07D4\_007.txt & 0.0 & 
+\\
+instance\_07D4\_008.txt & 0.0 & 
+\\
+instance\_07D4\_009.txt & 0.0 & 
+\\
+instance\_07D4\_010.txt & 0.0 & 
+\\
+instance\_07D4\_011.txt & 0.0 & 
+\\
+instance\_07D4\_012.txt & 0.0 & 
+\\
+instance\_07D4\_013.txt & 0.0 & 
+\\
+instance\_07D4\_014.txt & 0.0 & 
+\\
+instance\_07D4\_015.txt & 0.0 & 
+\\
+instance\_07D4\_016.txt & 0.0 & 
+\\
+instance\_07D4\_017.txt & 0.0 & 
+\\
+instance\_07D4\_018.txt & 0.0 & 
+\\
+instance\_07D4\_019.txt & 0.0 & 
+\\
+instance\_07D4\_020.txt & 0.0 & 
+\\
+instance\_07D4\_021.txt & 0.0 & 
+\\
+instance\_07D4\_022.txt & 0.0 & 
+\\
+instance\_07D4\_023.txt & 0.0 & 
+\\
+instance\_07D4\_024.txt & 0.0 & 
+\\
+instance\_07D4\_025.txt & 0.0 & 
+\\
+instance\_07D4\_026.txt & 0.0 & 
+\\
+instance\_07D4\_027.txt & 0.0 & 
+\\
+instance\_07D4\_028.txt & 0.0 & 
+\\
+instance\_07D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_07D4\_030.txt & 0.0 & 
+\\
+instance\_07D5\_001.txt & 0.0 & 
+\\
+instance\_07D5\_002.txt & 0.0 & 
+\\
+instance\_07D5\_003.txt & 0.0 & 
+\\
+instance\_07D5\_004.txt & 0.0 & 
+\\
+instance\_07D5\_005.txt & 0.0 & 
+\\
+instance\_07D5\_006.txt & 0.0 & 
+\\
+instance\_07D5\_007.txt & 0.0 & 
+\\
+instance\_07D5\_008.txt & 0.0 & 
+\\
+instance\_07D5\_009.txt & 0.0 & 
+\\
+instance\_07D5\_010.txt & 0.0 & 
+\\
+instance\_07D5\_011.txt & 0.0 & 
+\\
+instance\_07D5\_012.txt & 0.0 & 
+\\
+instance\_07D5\_013.txt & 0.0 & 
+\\
+instance\_07D5\_014.txt & 0.0 & 
+\\
+instance\_07D5\_015.txt & 0.0 & 
+\\
+instance\_07D5\_016.txt & 0.0 & 
+\\
+instance\_07D5\_017.txt & 0.0 & 
+\\
+instance\_07D5\_018.txt & 0.0 & 
+\\
+instance\_07D5\_019.txt & 0.0 & 
+\\
+instance\_07D5\_020.txt & 0.0 & 
+\\
+instance\_07D5\_021.txt & 0.0 & 
+\\
+instance\_07D5\_022.txt & 0.0 & 
+\\
+instance\_07D5\_023.txt & 0.0 & 
+\\
+instance\_07D5\_024.txt & 0.0 & 
+\\
+instance\_07D5\_025.txt & 0.0 & 
+\\
+instance\_07D5\_026.txt & 0.0 & 
+\\
+instance\_07D5\_027.txt & 0.0 & 
+\\
+instance\_07D5\_028.txt & 0.0 & 
+\\
+instance\_07D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_07D5\_030.txt & 0.0 & 
+\\
+instance\_08D1\_001.txt & 0.0 & 
+\\
+instance\_08D1\_002.txt & 0.0 & 
+\\
+instance\_08D1\_003.txt & 0.0 & 
+\\
+instance\_08D1\_004.txt & 0.0 & 
+\\
+instance\_08D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_006.txt & 0.0 & 
+\\
+instance\_08D1\_007.txt & 0.0 & 
+\\
+instance\_08D1\_008.txt & 0.0 & 
+\\
+instance\_08D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_010.txt & 0.0 & 
+\\
+instance\_08D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_013.txt & 0.0 & 
+\\
+instance\_08D1\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_015.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_016.txt & 0.0 & 
+\\
+instance\_08D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_018.txt & 0.0 & 
+\\
+instance\_08D1\_019.txt & 0.0 & 
+\\
+instance\_08D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_021.txt & 0.0 & 
+\\
+instance\_08D1\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_024.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_025.txt & 0.0 & 
+\\
+instance\_08D1\_026.txt & 0.0 & 
+\\
+instance\_08D1\_027.txt & 0.0 & 
+\\
+instance\_08D1\_028.txt & 0.0 & 
+$\times$
+\\
+instance\_08D1\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_08D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_08D2\_001.txt & 0.0 & 
+\\
+instance\_08D2\_002.txt & 0.0 & 
+\\
+instance\_08D2\_003.txt & 0.0 & 
+\\
+instance\_08D2\_004.txt & 0.0 & 
+\\
+instance\_08D2\_005.txt & 0.0 & 
+\\
+instance\_08D2\_006.txt & 0.0 & 
+\\
+instance\_08D2\_007.txt & 0.0 & 
+\\
+instance\_08D2\_008.txt & 0.0 & 
+\\
+instance\_08D2\_009.txt & 0.0 & 
+\\
+instance\_08D2\_010.txt & 0.0 & 
+\\
+instance\_08D2\_011.txt & 0.0 & 
+\\
+instance\_08D2\_012.txt & 0.0 & 
+\\
+instance\_08D2\_013.txt & 0.0 & 
+\\
+instance\_08D2\_014.txt & 0.0 & 
+$\times$
+\\
+instance\_08D2\_015.txt & 0.0 & 
+\\
+instance\_08D2\_016.txt & 0.0 & 
+\\
+instance\_08D2\_017.txt & 0.0 & 
+\\
+instance\_08D2\_018.txt & 0.0 & 
+\\
+instance\_08D2\_019.txt & 0.0 & 
+\\
+instance\_08D2\_020.txt & 0.0 & 
+\\
+instance\_08D2\_021.txt & 0.0 & 
+\\
+instance\_08D2\_022.txt & 0.0 & 
+$\times$
+\\
+instance\_08D2\_023.txt & 0.0 & 
+\\
+instance\_08D2\_024.txt & 0.0 & 
+\\
+instance\_08D2\_025.txt & 0.0 & 
+\\
+instance\_08D2\_026.txt & 0.0 & 
+\\
+instance\_08D2\_027.txt & 0.0 & 
+\\
+instance\_08D2\_028.txt & 0.0 & 
+\\
+instance\_08D2\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_08D2\_030.txt & 0.0 & 
+\\
+instance\_08D3\_001.txt & 0.0 & 
+\\
+instance\_08D3\_002.txt & 0.0 & 
+\\
+instance\_08D3\_003.txt & 0.0 & 
+\\
+instance\_08D3\_004.txt & 0.0 & 
+\\
+instance\_08D3\_005.txt & 0.0 & 
+\\
+instance\_08D3\_006.txt & 0.0 & 
+\\
+instance\_08D3\_007.txt & 0.0 & 
+\\
+instance\_08D3\_008.txt & 0.0 & 
+\\
+instance\_08D3\_009.txt & 0.0 & 
+\\
+instance\_08D3\_010.txt & 0.0 & 
+\\
+instance\_08D3\_011.txt & 0.0 & 
+\\
+instance\_08D3\_012.txt & 0.0 & 
+\\
+instance\_08D3\_013.txt & 0.0 & 
+\\
+instance\_08D3\_014.txt & 0.0 & 
+\\
+instance\_08D3\_015.txt & 0.0 & 
+\\
+instance\_08D3\_016.txt & 0.0 & 
+\\
+instance\_08D3\_017.txt & 0.0 & 
+\\
+instance\_08D3\_018.txt & 0.0 & 
+\\
+instance\_08D3\_019.txt & 0.0 & 
+\\
+instance\_08D3\_020.txt & 0.0 & 
+\\
+instance\_08D3\_021.txt & 0.0 & 
+\\
+instance\_08D3\_022.txt & 0.0 & 
+\\
+instance\_08D3\_023.txt & 0.0 & 
+\\
+instance\_08D3\_024.txt & 0.0 & 
+\\
+instance\_08D3\_025.txt & 0.0 & 
+\\
+instance\_08D3\_026.txt & 0.0 & 
+\\
+instance\_08D3\_027.txt & 0.0 & 
+\\
+instance\_08D3\_028.txt & 0.0 & 
+\\
+instance\_08D3\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_08D3\_030.txt & 0.0 & 
+\\
+instance\_08D4\_001.txt & 0.0 & 
+\\
+instance\_08D4\_002.txt & 0.0 & 
+\\
+instance\_08D4\_003.txt & 0.0 & 
+\\
+instance\_08D4\_004.txt & 0.0 & 
+\\
+instance\_08D4\_005.txt & 0.0 & 
+\\
+instance\_08D4\_006.txt & 0.0 & 
+\\
+instance\_08D4\_007.txt & 0.0 & 
+\\
+instance\_08D4\_008.txt & 0.0 & 
+\\
+instance\_08D4\_009.txt & 0.0 & 
+\\
+instance\_08D4\_010.txt & 0.0 & 
+\\
+instance\_08D4\_011.txt & 0.0 & 
+\\
+instance\_08D4\_012.txt & 0.0 & 
+\\
+instance\_08D4\_013.txt & 0.0 & 
+\\
+instance\_08D4\_014.txt & 0.0 & 
+\\
+instance\_08D4\_015.txt & 0.0 & 
+\\
+instance\_08D4\_016.txt & 0.0 & 
+\\
+instance\_08D4\_017.txt & 0.0 & 
+\\
+instance\_08D4\_018.txt & 0.0 & 
+\\
+instance\_08D4\_019.txt & 0.0 & 
+\\
+instance\_08D4\_020.txt & 0.0 & 
+\\
+instance\_08D4\_021.txt & 0.0 & 
+\\
+instance\_08D4\_022.txt & 0.0 & 
+\\
+instance\_08D4\_023.txt & 0.0 & 
+\\
+instance\_08D4\_024.txt & 0.0 & 
+\\
+instance\_08D4\_025.txt & 0.0 & 
+\\
+instance\_08D4\_026.txt & 0.0 & 
+\\
+instance\_08D4\_027.txt & 0.0 & 
+\\
+instance\_08D4\_028.txt & 0.04 & 
+\\
+instance\_08D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_08D4\_030.txt & 0.0 & 
+\\
+instance\_08D5\_001.txt & 0.0 & 
+\\
+instance\_08D5\_002.txt & 0.0 & 
+\\
+instance\_08D5\_003.txt & 0.0 & 
+\\
+instance\_08D5\_004.txt & 0.0 & 
+\\
+instance\_08D5\_005.txt & 0.0 & 
+\\
+instance\_08D5\_006.txt & 0.0 & 
+\\
+instance\_08D5\_007.txt & 0.0 & 
+\\
+instance\_08D5\_008.txt & 0.0 & 
+\\
+instance\_08D5\_009.txt & 0.0 & 
+\\
+instance\_08D5\_010.txt & 0.0 & 
+\\
+instance\_08D5\_011.txt & 0.0 & 
+\\
+instance\_08D5\_012.txt & 0.0 & 
+\\
+instance\_08D5\_013.txt & 0.0 & 
+\\
+instance\_08D5\_014.txt & 0.0 & 
+\\
+instance\_08D5\_015.txt & 0.0 & 
+\\
+instance\_08D5\_016.txt & 0.0 & 
+\\
+instance\_08D5\_017.txt & 0.0 & 
+\\
+instance\_08D5\_018.txt & 0.0 & 
+\\
+instance\_08D5\_019.txt & 0.0 & 
+\\
+instance\_08D5\_020.txt & 0.0 & 
+\\
+instance\_08D5\_021.txt & 0.0 & 
+\\
+instance\_08D5\_022.txt & 0.0 & 
+\\
+instance\_08D5\_023.txt & 0.0 & 
+\\
+instance\_08D5\_024.txt & 0.0 & 
+\\
+instance\_08D5\_025.txt & 0.0 & 
+\\
+instance\_08D5\_026.txt & 0.0 & 
+\\
+instance\_08D5\_027.txt & 0.0 & 
+\\
+instance\_08D5\_028.txt & 0.0 & 
+\\
+instance\_08D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_08D5\_030.txt & 0.0 & 
+\\
+instance\_09D1\_001.txt & 0.0 & 
+\\
+instance\_09D1\_002.txt & 0.0 & 
+\\
+instance\_09D1\_003.txt & 0.0 & 
+\\
+instance\_09D1\_004.txt & 0.0 & 
+\\
+instance\_09D1\_005.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_006.txt & 0.0 & 
+\\
+instance\_09D1\_007.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_008.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_009.txt & 0.0 & 
+\\
+instance\_09D1\_010.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_011.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_012.txt & 0.0 & 
+\\
+instance\_09D1\_013.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_014.txt & 0.0 & 
+\\
+instance\_09D1\_015.txt & 0.0 & 
+\\
+instance\_09D1\_016.txt & 0.0 & 
+\\
+instance\_09D1\_017.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_018.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_019.txt & 0.0 & 
+\\
+instance\_09D1\_020.txt & 0.0 & 
+\\
+instance\_09D1\_021.txt & 0.0 & 
+\\
+instance\_09D1\_022.txt & 0.0 & 
+\\
+instance\_09D1\_023.txt & 0.0 & 
+\\
+instance\_09D1\_024.txt & 0.0 & 
+\\
+instance\_09D1\_025.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_026.txt & 0.0 & 
+\\
+instance\_09D1\_027.txt & 0.0 & 
+$\times$
+\\
+instance\_09D1\_028.txt & 0.0 & 
+\\
+instance\_09D1\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_09D1\_030.txt & 0.0 & 
+\\
+instance\_09D2\_001.txt & 0.0 & 
+\\
+instance\_09D2\_002.txt & 0.0 & 
+\\
+instance\_09D2\_003.txt & 0.0 & 
+\\
+instance\_09D2\_004.txt & 0.0 & 
+\\
+instance\_09D2\_005.txt & 0.0 & 
+\\
+instance\_09D2\_006.txt & 0.0 & 
+\\
+instance\_09D2\_007.txt & 0.0 & 
+\\
+instance\_09D2\_008.txt & 0.0 & 
+\\
+instance\_09D2\_009.txt & 0.0 & 
+\\
+instance\_09D2\_010.txt & 0.0 & 
+\\
+instance\_09D2\_011.txt & 0.0 & 
+\\
+instance\_09D2\_012.txt & 0.0 & 
+\\
+instance\_09D2\_013.txt & 0.0 & 
+\\
+instance\_09D2\_014.txt & 0.0 & 
+\\
+instance\_09D2\_015.txt & 0.0 & 
+\\
+instance\_09D2\_016.txt & 0.0 & 
+\\
+instance\_09D2\_017.txt & 0.0 & 
+\\
+instance\_09D2\_018.txt & 0.0 & 
+\\
+instance\_09D2\_019.txt & 0.0 & 
+\\
+instance\_09D2\_020.txt & 0.0 & 
+\\
+instance\_09D2\_021.txt & 0.0 & 
+\\
+instance\_09D2\_022.txt & 0.0 & 
+\\
+instance\_09D2\_023.txt & 0.0 & 
+\\
+instance\_09D2\_024.txt & 0.0 & 
+\\
+instance\_09D2\_025.txt & 0.0 & 
+\\
+instance\_09D2\_026.txt & 0.0 & 
+\\
+instance\_09D2\_027.txt & 0.0 & 
+\\
+instance\_09D2\_028.txt & 0.0 & 
+\\
+instance\_09D2\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_09D2\_030.txt & 0.0 & 
+\\
+instance\_09D3\_001.txt & 0.0 & 
+\\
+instance\_09D3\_002.txt & 0.0 & 
+\\
+instance\_09D3\_003.txt & 0.0 & 
+\\
+instance\_09D3\_004.txt & 0.0 & 
+\\
+instance\_09D3\_005.txt & 0.0 & 
+\\
+instance\_09D3\_006.txt & 0.0 & 
+\\
+instance\_09D3\_007.txt & 0.0 & 
+\\
+instance\_09D3\_008.txt & 0.0 & 
+\\
+instance\_09D3\_009.txt & 0.0 & 
+\\
+instance\_09D3\_010.txt & 0.0 & 
+\\
+instance\_09D3\_011.txt & 0.0 & 
+\\
+instance\_09D3\_012.txt & 0.0 & 
+\\
+instance\_09D3\_013.txt & 0.0 & 
+\\
+instance\_09D3\_014.txt & 0.0 & 
+\\
+instance\_09D3\_015.txt & 0.0 & 
+\\
+instance\_09D3\_016.txt & 0.0 & 
+\\
+instance\_09D3\_017.txt & 0.0 & 
+\\
+instance\_09D3\_018.txt & 0.0 & 
+\\
+instance\_09D3\_019.txt & 0.0 & 
+\\
+instance\_09D3\_020.txt & 0.0 & 
+\\
+instance\_09D3\_021.txt & 0.0 & 
+\\
+instance\_09D3\_022.txt & 0.0 & 
+\\
+instance\_09D3\_023.txt & 0.0 & 
+\\
+instance\_09D3\_024.txt & 0.0 & 
+\\
+instance\_09D3\_025.txt & 0.0 & 
+\\
+instance\_09D3\_026.txt & 0.0 & 
+\\
+instance\_09D3\_027.txt & 0.0 & 
+\\
+instance\_09D3\_028.txt & 0.0 & 
+\\
+instance\_09D3\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_09D3\_030.txt & 0.0 & 
+\\
+instance\_09D4\_001.txt & 0.0 & 
+\\
+instance\_09D4\_002.txt & 0.0 & 
+\\
+instance\_09D4\_003.txt & 0.0 & 
+\\
+instance\_09D4\_004.txt & 0.0 & 
+\\
+instance\_09D4\_005.txt & 0.0 & 
+\\
+instance\_09D4\_006.txt & 0.0 & 
+\\
+instance\_09D4\_007.txt & 0.0 & 
+\\
+instance\_09D4\_008.txt & 0.0 & 
+\\
+instance\_09D4\_009.txt & 0.0 & 
+\\
+instance\_09D4\_010.txt & 0.0 & 
+\\
+instance\_09D4\_011.txt & 0.0 & 
+\\
+instance\_09D4\_012.txt & 0.0 & 
+\\
+instance\_09D4\_013.txt & 0.0 & 
+\\
+instance\_09D4\_014.txt & 0.0 & 
+\\
+instance\_09D4\_015.txt & 0.0 & 
+\\
+instance\_09D4\_016.txt & 0.0 & 
+\\
+instance\_09D4\_017.txt & 0.0 & 
+\\
+instance\_09D4\_018.txt & 0.0 & 
+\\
+instance\_09D4\_019.txt & 0.0 & 
+\\
+instance\_09D4\_020.txt & 0.0 & 
+\\
+instance\_09D4\_021.txt & 0.0 & 
+\\
+instance\_09D4\_022.txt & 0.0 & 
+\\
+instance\_09D4\_023.txt & 0.0 & 
+\\
+instance\_09D4\_024.txt & 0.0 & 
+\\
+instance\_09D4\_025.txt & 0.0 & 
+\\
+instance\_09D4\_026.txt & 0.0 & 
+\\
+instance\_09D4\_027.txt & 0.0 & 
+\\
+instance\_09D4\_028.txt & 0.0 & 
+\\
+instance\_09D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_09D4\_030.txt & 0.0 & 
+\\
+instance\_09D5\_001.txt & 0.0 & 
+\\
+instance\_09D5\_002.txt & 0.0 & 
+\\
+instance\_09D5\_003.txt & 0.0 & 
+\\
+instance\_09D5\_004.txt & 0.0 & 
+\\
+instance\_09D5\_005.txt & 0.0 & 
+\\
+instance\_09D5\_006.txt & 0.0 & 
+\\
+instance\_09D5\_007.txt & 0.0 & 
+\\
+instance\_09D5\_008.txt & 0.0 & 
+\\
+instance\_09D5\_009.txt & 0.0 & 
+\\
+instance\_09D5\_010.txt & 0.0 & 
+\\
+instance\_09D5\_011.txt & 0.0 & 
+\\
+instance\_09D5\_012.txt & 0.0 & 
+\\
+instance\_09D5\_013.txt & 0.0 & 
+\\
+instance\_09D5\_014.txt & 0.0 & 
+\\
+instance\_09D5\_015.txt & 0.0 & 
+\\
+instance\_09D5\_016.txt & 0.0 & 
+\\
+instance\_09D5\_017.txt & 0.0 & 
+\\
+instance\_09D5\_018.txt & 0.0 & 
+\\
+instance\_09D5\_019.txt & 0.0 & 
+\\
+instance\_09D5\_020.txt & 0.0 & 
+\\
+instance\_09D5\_021.txt & 0.0 & 
+\\
+instance\_09D5\_022.txt & 0.0 & 
+\\
+instance\_09D5\_023.txt & 0.0 & 
+\\
+instance\_09D5\_024.txt & 0.0 & 
+\\
+instance\_09D5\_025.txt & 0.0 & 
+\\
+instance\_09D5\_026.txt & 0.0 & 
+\\
+instance\_09D5\_027.txt & 0.0 & 
+\\
+instance\_09D5\_028.txt & 0.0 & 
+\\
+instance\_09D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_09D5\_030.txt & 0.0 & 
+\\
+instance\_10D1\_001.txt & 0.0 & 
+\\
+instance\_10D1\_002.txt & 0.0 & 
+\\
+instance\_10D1\_003.txt & 0.0 & 
+\\
+instance\_10D1\_004.txt & 0.0 & 
+\\
+instance\_10D1\_005.txt & 0.0 & 
+\\
+instance\_10D1\_006.txt & 0.0 & 
+\\
+instance\_10D1\_007.txt & 0.0 & 
+\\
+instance\_10D1\_008.txt & 0.0 & 
+\\
+instance\_10D1\_009.txt & 0.0 & 
+$\times$
+\\
+instance\_10D1\_010.txt & 0.0 & 
+\\
+instance\_10D1\_011.txt & 0.0 & 
+\\
+instance\_10D1\_012.txt & 0.0 & 
+$\times$
+\\
+instance\_10D1\_013.txt & 0.0 & 
+\\
+instance\_10D1\_014.txt & 0.0 & 
+\\
+instance\_10D1\_015.txt & 0.0 & 
+\\
+instance\_10D1\_016.txt & 0.0 & 
+\\
+instance\_10D1\_017.txt & 0.0 & 
+\\
+instance\_10D1\_018.txt & 0.0 & 
+\\
+instance\_10D1\_019.txt & 0.0 & 
+\\
+instance\_10D1\_020.txt & 0.0 & 
+$\times$
+\\
+instance\_10D1\_021.txt & 0.0 & 
+\\
+instance\_10D1\_022.txt & 0.0 & 
+\\
+instance\_10D1\_023.txt & 0.0 & 
+$\times$
+\\
+instance\_10D1\_024.txt & 0.0 & 
+\\
+instance\_10D1\_025.txt & 0.0 & 
+\\
+instance\_10D1\_026.txt & 0.0 & 
+\\
+instance\_10D1\_027.txt & 0.0 & 
+\\
+instance\_10D1\_028.txt & 0.0 & 
+\\
+instance\_10D1\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_10D1\_030.txt & 0.0 & 
+$\times$
+\\
+instance\_10D2\_001.txt & 0.0 & 
+\\
+instance\_10D2\_002.txt & 0.0 & 
+\\
+instance\_10D2\_003.txt & 0.0 & 
+\\
+instance\_10D2\_004.txt & 0.0 & 
+\\
+instance\_10D2\_005.txt & 0.0 & 
+\\
+instance\_10D2\_006.txt & 0.0 & 
+\\
+instance\_10D2\_007.txt & 0.0 & 
+\\
+instance\_10D2\_008.txt & 0.0 & 
+\\
+instance\_10D2\_009.txt & 0.0 & 
+\\
+instance\_10D2\_010.txt & 0.0 & 
+\\
+instance\_10D2\_011.txt & 0.0 & 
+\\
+instance\_10D2\_012.txt & 0.0 & 
+\\
+instance\_10D2\_013.txt & 0.0 & 
+\\
+instance\_10D2\_014.txt & 0.0 & 
+\\
+instance\_10D2\_015.txt & 0.0 & 
+\\
+instance\_10D2\_016.txt & 0.0 & 
+\\
+instance\_10D2\_017.txt & 0.0 & 
+\\
+instance\_10D2\_018.txt & 0.0 & 
+\\
+instance\_10D2\_019.txt & 0.0 & 
+\\
+instance\_10D2\_020.txt & 0.0 & 
+\\
+instance\_10D2\_021.txt & 0.0 & 
+\\
+instance\_10D2\_022.txt & 0.0 & 
+\\
+instance\_10D2\_023.txt & 0.0 & 
+\\
+instance\_10D2\_024.txt & 0.0 & 
+\\
+instance\_10D2\_025.txt & 0.0 & 
+\\
+instance\_10D2\_026.txt & 0.0 & 
+\\
+instance\_10D2\_027.txt & 0.0 & 
+\\
+instance\_10D2\_028.txt & 0.0 & 
+\\
+instance\_10D2\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_10D2\_030.txt & 0.0 & 
+\\
+instance\_10D3\_001.txt & 0.0 & 
+\\
+instance\_10D3\_002.txt & 0.0 & 
+\\
+instance\_10D3\_003.txt & 0.0 & 
+\\
+instance\_10D3\_004.txt & 0.0 & 
+\\
+instance\_10D3\_005.txt & 0.0 & 
+\\
+instance\_10D3\_006.txt & 0.0 & 
+\\
+instance\_10D3\_007.txt & 0.0 & 
+\\
+instance\_10D3\_008.txt & 0.0 & 
+\\
+instance\_10D3\_009.txt & 0.0 & 
+\\
+instance\_10D3\_010.txt & 0.0 & 
+\\
+instance\_10D3\_011.txt & 0.0 & 
+\\
+instance\_10D3\_012.txt & 0.0 & 
+\\
+instance\_10D3\_013.txt & 0.0 & 
+\\
+instance\_10D3\_014.txt & 0.0 & 
+\\
+instance\_10D3\_015.txt & 0.0 & 
+\\
+instance\_10D3\_016.txt & 0.0 & 
+\\
+instance\_10D3\_017.txt & 0.0 & 
+\\
+instance\_10D3\_018.txt & 0.0 & 
+\\
+instance\_10D3\_019.txt & 0.0 & 
+\\
+instance\_10D3\_020.txt & 0.0 & 
+\\
+instance\_10D3\_021.txt & 0.0 & 
+\\
+instance\_10D3\_022.txt & 0.0 & 
+\\
+instance\_10D3\_023.txt & 0.0 & 
+\\
+instance\_10D3\_024.txt & 0.0 & 
+\\
+instance\_10D3\_025.txt & 0.0 & 
+\\
+instance\_10D3\_026.txt & 0.0 & 
+\\
+instance\_10D3\_027.txt & 0.0 & 
+\\
+instance\_10D3\_028.txt & 0.0 & 
+\\
+instance\_10D3\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_10D3\_030.txt & 0.0 & 
+\\
+instance\_10D4\_001.txt & 0.0 & 
+\\
+instance\_10D4\_002.txt & 0.0 & 
+\\
+instance\_10D4\_003.txt & 0.0 & 
+\\
+instance\_10D4\_004.txt & 0.0 & 
+\\
+instance\_10D4\_005.txt & 0.0 & 
+\\
+instance\_10D4\_006.txt & 0.0 & 
+\\
+instance\_10D4\_007.txt & 0.0 & 
+\\
+instance\_10D4\_008.txt & 0.0 & 
+\\
+instance\_10D4\_009.txt & 0.0 & 
+\\
+instance\_10D4\_010.txt & 0.0 & 
+\\
+instance\_10D4\_011.txt & 0.0 & 
+\\
+instance\_10D4\_012.txt & 0.0 & 
+\\
+instance\_10D4\_013.txt & 0.0 & 
+\\
+instance\_10D4\_014.txt & 0.0 & 
+\\
+instance\_10D4\_015.txt & 0.0 & 
+\\
+instance\_10D4\_016.txt & 0.0 & 
+\\
+instance\_10D4\_017.txt & 0.0 & 
+\\
+instance\_10D4\_018.txt & 0.0 & 
+\\
+instance\_10D4\_019.txt & 0.0 & 
+\\
+instance\_10D4\_020.txt & 0.0 & 
+\\
+instance\_10D4\_021.txt & 0.0 & 
+\\
+instance\_10D4\_022.txt & 0.0 & 
+\\
+instance\_10D4\_023.txt & 0.0 & 
+\\
+instance\_10D4\_024.txt & 0.0 & 
+\\
+instance\_10D4\_025.txt & 0.0 & 
+\\
+instance\_10D4\_026.txt & 0.0 & 
+\\
+instance\_10D4\_027.txt & 0.0 & 
+\\
+instance\_10D4\_028.txt & 0.0 & 
+\\
+instance\_10D4\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_10D4\_030.txt & 0.0 & 
+\\
+instance\_10D5\_001.txt & 0.0 & 
+\\
+instance\_10D5\_002.txt & 0.0 & 
+\\
+instance\_10D5\_003.txt & 0.0 & 
+\\
+instance\_10D5\_004.txt & 0.0 & 
+\\
+instance\_10D5\_005.txt & 0.0 & 
+\\
+instance\_10D5\_006.txt & 0.0 & 
+\\
+instance\_10D5\_007.txt & 0.0 & 
+\\
+instance\_10D5\_008.txt & 0.0 & 
+\\
+instance\_10D5\_009.txt & 0.0 & 
+\\
+instance\_10D5\_010.txt & 0.0 & 
+\\
+instance\_10D5\_011.txt & 0.0 & 
+\\
+instance\_10D5\_012.txt & 0.0 & 
+\\
+instance\_10D5\_013.txt & 0.0 & 
+\\
+instance\_10D5\_014.txt & 0.0 & 
+\\
+instance\_10D5\_015.txt & 0.0 & 
+\\
+instance\_10D5\_016.txt & 0.0 & 
+\\
+instance\_10D5\_017.txt & 0.0 & 
+\\
+instance\_10D5\_018.txt & 0.0 & 
+\\
+instance\_10D5\_019.txt & 0.0 & 
+\\
+instance\_10D5\_020.txt & 0.0 & 
+\\
+instance\_10D5\_021.txt & 0.0 & 
+\\
+instance\_10D5\_022.txt & 0.0 & 
+\\
+instance\_10D5\_023.txt & 0.0 & 
+\\
+instance\_10D5\_024.txt & 0.0 & 
+\\
+instance\_10D5\_025.txt & 0.0 & 
+\\
+instance\_10D5\_026.txt & 0.0 & 
+\\
+instance\_10D5\_027.txt & 0.0 & 
+\\
+instance\_10D5\_028.txt & 0.0 & 
+\\
+instance\_10D5\_029.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+\newpage
+\begin{center}
+\renewcommand{\arraystretch}{1.4} 
+ \begin{tabular}{lrr}
+	\hline
+ & \multicolumn{2}{c}{\textbf{cplex}}\\
+\textbf{Instance}  & \textbf{Temps (s)} & \textbf{Optimal ?} \\\hline
+
+instance\_10D5\_030.txt & 0.0 & 
+\\
+\hline\end{tabular}
+\end{center}
+
+
+\end{document}

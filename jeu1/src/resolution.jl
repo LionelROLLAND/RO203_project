@@ -237,14 +237,7 @@ function solveDataSet()
                     if isOptimal
                         # TODO
                         #println("In file resolution.jl, in method solveDataSet(), TODO: write cplex solution in fout")
-                        for i in 1:nr
-                           print(fout,display_x[i,1])
-                           for j in 2:nc
-                               print(fout," ",display_x[i,j])
-                           end
-                           print(fout,"\n")
-                         end                       
-                      	print(fout,"\n")
+                        writeOutputFile(fout,display_x)
                         
                     end
 
