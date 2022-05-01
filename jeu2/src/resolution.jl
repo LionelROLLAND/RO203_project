@@ -556,9 +556,9 @@ function solveDataSet()
        #number of regions
     
         if cellSize > 0
-          K=div(nr*nc,cellSize)
+            K=div(nr*nc,cellSize)
         else
-          K=nc
+            K=nc
         end
         resolutionTime = -1
         

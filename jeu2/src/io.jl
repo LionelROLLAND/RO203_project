@@ -51,7 +51,6 @@ function readInputFile(inputFile::String)
         t[y,x] = v
         k += 1
         line = remComment(data[k])
-        println(line)
     end
     k += 1
     line = remComment(data[k])
