@@ -149,11 +149,10 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     # 1 - true if an optimum is found
     # 2 - the resolution time
     if JuMP.primal_status(m) != NO_SOLUTION
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(horiz), JuMP.value.(vertic)
-   else
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1,-1
-   end
-    
+   	    return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(horiz), JuMP.value.(vertic)
+    else
+   	    return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1,-1
+    end
 end
 
 
@@ -527,8 +526,8 @@ function solveDataSet()
     resFolder = "../res/"
 
     # Array which contains the name of the resolution methods
-    resolutionMethod = ["cplex"]
-    #resolutionMethod = ["cplex", "heuristique"]
+    #resolutionMethod = ["cplex"]
+    resolutionMethod = ["cplex", "heuristique"]
 
     # Array which contains the result folder of each resolution method
     resolutionFolder = resFolder .* resolutionMethod
@@ -540,7 +539,7 @@ function solveDataSet()
         end
     end
             
-    global isOptimal = false
+    isOptimal = false
     global solveTime = -1
 
     # For each instance
@@ -556,13 +555,13 @@ function solveDataSet()
     
        #number of regions
     
-       if cellSize > 0
+        if cellSize > 0
           K=div(nr*nc,cellSize)
-       else
+        else
           K=nc
-       end
+        end
+        resolutionTime = -1
         
-       
         # TODO
         #println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
         
@@ -578,7 +577,6 @@ function solveDataSet()
                 fout = open(outputFile, "w")
                 sout = open(solFile, "w")
 
-                resolutionTime = -1
                 isOptimal = false
                 
                 # If the method is cplex
@@ -660,7 +658,7 @@ function solveDataSet()
             displayGrid(t, horiz, vertic, true)
             displayGrid(solved_t, horiz, vertic, false)
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
-            println(resolutionMethod[methodId], " time: " * string(round(solveTime, sigdigits=2)) * "s\n")
+            println(resolutionMethod[methodId], " time: " * string(round(resolutionTime, sigdigits=2)) * "s\n")
         end         
     end 
 end

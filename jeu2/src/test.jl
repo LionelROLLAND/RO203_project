@@ -48,6 +48,7 @@ end
 testInstance(4, 6, 8, 0.2)
 test_rw(4, 6, 6, "Jean-Claude.txt")
 generateDataSet(10, 10, "big_instance_", ".txt")
+testHeuristic("../data/big_instance_1.txt")
 =#
 
-testHeuristic("../data/big_instance_1.txt")
+solveDataSet()
