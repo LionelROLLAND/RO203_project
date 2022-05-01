@@ -53,12 +53,12 @@ test_rw(4, 6, 6, "Jean-Claude.txt")
 generateDataSet(10, 10, "big_instance_", ".txt")
 testHeuristic("../data/big_instance_1.txt")
 
-
-solveDataSet()
 resultsArray("../resultsArray.tex")
 performanceDiagram("../results.png")
-generateDataSet(10, 6, "more_instance_", ".txt")
 testSize(5, 0.5, "sizeInstance_", ".txt")
 =#
+generateDataSet(5, 6, "instance_", ".txt")
+solveDataSet()
 
-testHeuristic("../data_test/instance_expl.txt")
+
+#testHeuristic("../data_test/instance_expl.txt")
