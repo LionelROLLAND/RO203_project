@@ -32,10 +32,11 @@ function testHeuristic(fname::String)
     println("Tip --")
     t, horiz, vertic, regionSize = readInputFile(fname)
     displayGrid(t, horiz, vertic, true)
-    heuristicSolve(t, regionSize)
+    isOpti, regions, horiz, vertic = heuristicSolve(t, regionSize)
     println("\n-- Top")
     stop = time()
     println(string(stop-start)*" secondes ecoulees")
+    displayGrid(regions, horiz, vertic)
 end
 
 
