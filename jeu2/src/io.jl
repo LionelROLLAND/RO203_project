@@ -238,7 +238,7 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
     end
 
     for y in 1:n-1
-        for x in 1:p-1 #cT[2*y+1, 2*x+1]
+        for x in 1:p-1
             g = 1 + b_to_i(cT[2*y+1, 2*x] == "─")
             d = 1 + b_to_i(cT[2*y+1, 2*x+2] == "─")
             h = 1 + b_to_i(cT[2*y, 2*x+1] == "│")
@@ -349,7 +349,7 @@ function performanceDiagram(outputFile::String)
             fileCount = 0
 
             # For each text file in the subfolder
-            for resultFile in filter(x->occursin(".txt", x), readdir(path))
+            for resultFile in filter(x->occursin("stats_", x), readdir(path))
 
                 fileCount += 1
                 include(path * "/" * resultFile)
@@ -503,7 +503,7 @@ function resultsArray(outputFile::String)
             folderSize = size(readdir(path), 1)
 
             # Add all its files in the solvedInstances array
-            for file2 in filter(x->occursin(".txt", x), readdir(path))
+            for file2 in filter(x->occursin("stats_", x), readdir(path))
                 solvedInstances = vcat(solvedInstances, file2)
             end 
 

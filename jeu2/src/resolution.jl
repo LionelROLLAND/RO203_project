@@ -569,12 +569,14 @@ function solveDataSet()
         # For each resolution method
         for methodId in 1:size(resolutionMethod, 1)
             
-            outputFile = resolutionFolder[methodId] * "/" * file
+            outputFile = resolutionFolder[methodId] * "/stats_" * file
+            solFile = resolutionFolder[methodId] * "/res_" * file
 
             # If the instance has not already been solved by this method
             if !isfile(outputFile)
                 
-                fout = open(outputFile, "w")  
+                fout = open(outputFile, "w")
+                sout = open(solFile, "w")
 
                 resolutionTime = -1
                 isOptimal = false
@@ -615,7 +617,7 @@ function solveDataSet()
                         end
                     end
                     
-                    writeOutputFile(fout, solved_t, horiz, vertic, cellSize)
+                    writeOutputFile(sout, solved_t, horiz, vertic, cellSize)
                 # If the method is one of the heuristics
                 else
                     
@@ -639,16 +641,17 @@ function solveDataSet()
 
                         # TODO
                         # println("In file resolution.jl, in method solveDataSet(), TODO: write the heuristic solution in fout")
-                        writeOutputFile(fout, solved_t, horiz, vertic, cellSize)
+                        writeOutputFile(sout, solved_t, horiz, vertic, cellSize)
                     end 
                 end
 
-                println(fout, "# solveTime = ", resolutionTime) 
-                println(fout, "# isOptimal = ", isOptimal)
+                println(fout, "solveTime = ", resolutionTime) 
+                println(fout, "isOptimal = ", isOptimal)
                 
                 # TODO
                 # println("In file resolution.jl, in method solveDataSet(), TODO: write the solution in fout") 
                 close(fout)
+                close(sout)
             end
 
 
