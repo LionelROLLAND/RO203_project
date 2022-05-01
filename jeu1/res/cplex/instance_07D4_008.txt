@@ -1,2 +1,2 @@
-solveTime = 0.0013158321380615234
+solveTime = 0.001132965087890625
 isOptimal = false

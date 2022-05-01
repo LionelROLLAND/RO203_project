@@ -5,5 +5,5 @@ t = [
 [ 'O' 'O' 'O' 'O' 'O' 'O' ];
 [ 'X' 'X' 'O' 'O' 'O' 'O' ];
 [ 'X' 'O' 'O' 'O' 'O' 'O' ] ]
-solveTime = 0.0009539127349853516
+solveTime = 0.0011889934539794922
 isOptimal = true

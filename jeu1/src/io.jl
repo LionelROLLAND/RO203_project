@@ -68,7 +68,28 @@ function writeOutputFile(datafile::IOStream, display_x::Array{String,2})
     end
 end
 
-
+function nb_solvable_data()
+    total = 0
+    count = 0
+    
+    resultFolder="../res/cplex/"
+    
+    for file in readdir(resultFolder)
+        path = resultFolder*file
+        total+=1
+        
+        
+        include(path)
+        
+       
+        if isOptimal
+            count+=1
+        end
+        
+    end
+    
+    return count, total
+end
 
 """
 Create a pdf file which contains a performance diagram associated to the results of the ../res folder
@@ -154,9 +175,9 @@ function performanceDiagram(outputFile::String)
 
     # Sort each row increasingly
     results = sort(results, dims=2)
-
+	
     println("Max solve time: ", maxSolveTime)
-
+    
     # For each line to plot
     for dim in 1: size(results, 1)
 
@@ -201,18 +222,20 @@ function performanceDiagram(outputFile::String)
 
         append!(x, maxSolveTime)
         append!(y, currentId - 1)
+	
 
         # If it is the first subfolder
         if dim == 1
-
-            # Draw a new plot
-            plot(x, y, label = folderName[dim], legend = :bottomright, xaxis = "Time (s)", yaxis = "Solved instances",linewidth=3)
-
+            
+            # Draw a new plot         
+        
+	    plot(x, y, label = folderName[dim], legend = :bottomright, xaxis = "Time (s)", yaxis = "Solved instances",linewidth=3)
         # Otherwise 
         else
             # Add the new curve to the created plot
             savefig(plot!(x, y, label = folderName[dim], linewidth=3), outputFile)
         end 
+        
     end
 end 
 
