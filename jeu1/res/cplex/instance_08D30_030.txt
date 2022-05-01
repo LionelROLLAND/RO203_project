@@ -1,0 +1,2 @@
+solveTime = 0.0011501312255859375
+isOptimal = false

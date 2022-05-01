@@ -407,5 +407,45 @@ end
 
 ###Misc
 
-function stats()
+function stats(nb_dim::Int64 = 9,nb_dens::Int64=14, nb_repet::Int64 = 30) #only works for dataset with original parameters
+    
+    nb_per_dimension = nb_dens * nb_repet
+    dataframe = Array{Int64,2}(undef,nb_dim,nb_dens) ##dimension VS density
+    for i in 1:nb_dim
+        for j in 1:nb_dens
+             dataframe[i,j]=0
+        end
+    end 
+    
+    
+    
+    compteur = -1
+    curr_dim = 1 
+    curr_dens= 0
+    
+    resultFolder="../res/cplex/"
+    
+    for file in readdir(resultFolder)
+        path = resultFolder*file
+        compteur+=1
+        if compteur%nb_per_dimension == 0
+            curr_dim +=1
+        end
+        
+        if compteur%nb_repet == 0
+            curr_dens = curr_dens%nb_dens +1 
+        end
+	     
+        
+        include(path)
+        if isOptimal
+            dataframe[curr_dim-1,curr_dens] +=1
+        end
+        
+    end
+    
+    
+    return dataframe
+    
+end
 

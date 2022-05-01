@@ -1,0 +1,5 @@
+t = [
+[ 'X' 'O' ];
+[ 'O' 'O' ] ]
+solveTime = 0.0008769035339355469
+isOptimal = true

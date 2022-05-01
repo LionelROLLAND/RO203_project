@@ -1,8 +1,0 @@
-t = [
-[ 'X' 'X' 'O' 'O' 'O' ];
-[ 'X' 'O' 'O' 'X' 'X' ];
-[ 'O' 'O' 'O' 'X' 'O' ];
-[ 'O' 'O' 'O' 'X' 'O' ];
-[ 'O' 'O' 'O' 'O' 'O' ] ]
-solveTime = 0.001032114028930664
-isOptimal = true

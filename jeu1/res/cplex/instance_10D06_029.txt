@@ -1,0 +1,13 @@
+t = [
+[ 'O' 'O' 'O' 'O' 'O' 'X' 'X' 'X' 'O' 'O' ];
+[ 'X' 'X' 'X' 'O' 'O' 'X' 'X' 'X' 'O' 'O' ];
+[ 'X' 'X' 'X' 'O' 'O' 'X' 'O' 'O' 'O' 'O' ];
+[ 'X' 'X' 'X' 'O' 'O' 'O' 'O' 'O' 'O' 'O' ];
+[ 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' ];
+[ 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' ];
+[ 'X' 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' 'O' ];
+[ 'O' 'O' 'O' 'X' 'X' 'X' 'O' 'O' 'O' 'O' ];
+[ 'O' 'O' 'X' 'X' 'X' 'O' 'O' 'O' 'O' 'O' ];
+[ 'O' 'O' 'X' 'X' 'X' 'O' 'O' 'O' 'O' 'O' ] ]
+solveTime = 0.0013599395751953125
+isOptimal = true

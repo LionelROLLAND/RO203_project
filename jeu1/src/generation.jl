@@ -55,8 +55,9 @@ function generateDataSet()
     #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
     dim_min = 2
     dim_max = 10
-    step_density = 0.1
-    nb_repetition = 1
+    
+    
+    nb_repetition = 30
     
     
     
@@ -69,10 +70,15 @@ function generateDataSet()
         instance_name_n= "instance_"* string(n) * "D"
         end
         
-        for d in 0.1:step_density:0.5
+        for d in cat(0.01:0.01:0.09,0.1:0.1:0.5,dims=1)
         
             ##Naming the file##
-            instance_name_d = instance_name_n * string(Int64(d*10))*"_"
+            density = Int64(floor(d*100))
+            if density < 10
+               instance_name_d = instance_name_n * "0" * string(density)*"_"
+            else
+                instance_name_d = instance_name_n * string(density)*"_"
+            end
             for k in 1:nb_repetition
                 if k<10
                     instance_name = instance_name_d *"00"*string(k)

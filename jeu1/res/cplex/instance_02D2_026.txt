@@ -1,5 +1,0 @@
-t = [
-[ 'O' 'O' ];
-[ 'O' 'O' ] ]
-solveTime = 0.001009225845336914
-isOptimal = true

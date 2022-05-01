@@ -1,2 +1,0 @@
-solveTime = 0.001361846923828125
-isOptimal = false
