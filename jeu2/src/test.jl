@@ -52,3 +52,6 @@ testHeuristic("../data/big_instance_1.txt")
 =#
 
 solveDataSet()
+#resultsArray("../resultsArray.tex")
+#performanceDiagram("../results.png")
+#generateDataSet(10, 6, "more_instance_", ".txt")
