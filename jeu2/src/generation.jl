@@ -37,7 +37,8 @@ function numNbEqI(t::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, i_
 end
 
 
-#Calcule la composante connexe a laquelle appartient la case (x, y) -> prend les cases vides par défaut
+#Traite t selon la composante connexe (basee sur reference, cases egales a comp)
+#a laquelle appartient la case (x, y) 
 function connComp(reference::Array{Int64, 2}, t::Array{Int64, 2}, n::Int64, p::Int64,
     x::Int64, y::Int64, comp::Int64=-1, newVal::Int64=-2)
     t[y,x] = newVal
@@ -63,7 +64,7 @@ function connComp(reference::Array{Int64, 2}, t::Array{Int64, 2}, n::Int64, p::I
     reference[y, x] = stoRef
 end
 
-
+#Verifie que c'est legal (pas casser la connexite des cases vides) de placer une case a cet endroit
 function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
     t_copy = deepcopy(t)
     
@@ -77,7 +78,7 @@ function isValidPlace(t::Array{Int64,2}, n::Int64, p::Int64, x::Int64, y::Int64)
     nx = -1
     ny = -1
     while i < 4 && !found #On chope une case vide autour de l'emplacement prevu
-        temp = dy
+        temp = dy #On fait "tourner" (dx, dy)
         dy = dx
         dx = -temp
         
@@ -153,7 +154,7 @@ function recRegion(t::Array{Int64, 2}, n::Int64, p::Int64, full_size::Int64, rem
             deleteat!(new_y_adj, next_cell)
             new_n_adj = n_adj-1
 
-            for i in 1:4
+            for i in 1:4 #Rajoute les nouvelles cases adjacentes
                 temp = dy
                 dy = dx
                 dx = -temp
@@ -282,16 +283,6 @@ function countPali(t::Array{Int64,2})
 end
 
 
-"""
-Generate an n*p grid with a given density
-
-Argument
-- n: height of the grid
-- p: width of the grid
-- size: size of each region (number of cells)
-- density: probability in [0, 1] of a cell to have an initial value in the grid
-"""
-
 function diviseurs(n::Int64)
     if n == 0
         return [-1], -1
@@ -319,6 +310,17 @@ function diviseurs(n::Int64)
     end
     return res, (p+1)*new_n
 end
+
+
+"""
+Generate an n*p grid with a given density
+
+Argument
+- n: height of the grid
+- p: width of the grid
+- size: size of each region (number of cells)
+- density: probability in [0, 1] of a cell to have an initial value in the grid
+"""
 
 function generateInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
 
@@ -416,6 +418,7 @@ function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instan
     
 end
 
+#Genere des instances pour des tests specifiques
 function testDensity(nbInstance::Int64=15, pref::String="densInstance_", suff::String=".txt")
     print("\n0 % done")
     for i in 1:nbInstance
@@ -430,6 +433,7 @@ function testDensity(nbInstance::Int64=15, pref::String="densInstance_", suff::S
     #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
 end
 
+#Genere des instances pour des tests specifiques
 function testSize(nbInstance::Int64, density::Float64, pref::String="sizeInstance_", suff::String=".txt")
     print("\n0 % done")
     for i in 1:nbInstance

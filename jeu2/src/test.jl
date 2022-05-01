@@ -2,6 +2,7 @@ include("io.jl")
 include("generation.jl")
 include("resolution.jl")
 
+#Teste la generation d'instances
 function test_gene(n::Int64, p::Int64, regionSize::Int64)
     t = Array{Int64}(undef, n, p)
     fill!(t, -1)
@@ -12,6 +13,7 @@ function test_gene(n::Int64, p::Int64, regionSize::Int64)
     return t, horiz, vertic
 end
 
+#teste l'ecriture/lecture d'instances
 function test_rw(n::Int64, p::Int64, regionSize::Int64, fname::String)
     t, horiz, vertic = test_gene(n, p, regionSize)
     writeOutputFile(fname, t, horiz, vertic)
@@ -22,11 +24,13 @@ function test_rw(n::Int64, p::Int64, regionSize::Int64, fname::String)
     displayGrid(r_t, r_horiz, r_vertic)
 end
 
+#teste la generation d'instance
 function testInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
     t, horiz, vertic = generateInstance(n, p, regionSize, density)
     displayGrid(t, horiz, vertic, true)
 end
 
+#teste la resolution heuristique
 function testHeuristic(fname::String)
     start = time()
     println("Tip --")
@@ -48,10 +52,13 @@ testInstance(4, 6, 8, 0.2)
 test_rw(4, 6, 6, "Jean-Claude.txt")
 generateDataSet(10, 10, "big_instance_", ".txt")
 testHeuristic("../data/big_instance_1.txt")
-=#
+
 
 solveDataSet()
-#resultsArray("../resultsArray.tex")
-#performanceDiagram("../results.png")
-#generateDataSet(10, 6, "more_instance_", ".txt")
-#testSize(5, 0.5, "sizeInstance_", ".txt")
+resultsArray("../resultsArray.tex")
+performanceDiagram("../results.png")
+generateDataSet(10, 6, "more_instance_", ".txt")
+testSize(5, 0.5, "sizeInstance_", ".txt")
+=#
+
+testHeuristic("../data_test/instance_expl.txt")

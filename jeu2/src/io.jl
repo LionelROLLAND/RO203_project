@@ -172,7 +172,7 @@ function writeOutputFile(file_des::IOStream, t::Array{Int64, 2}, horiz::Array{In
     end
 end
 
-
+#bool to int
 function b_to_i(b::Bool)
     if b
         return 1
@@ -182,7 +182,7 @@ function b_to_i(b::Bool)
 end
 
 function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{Int64, 2}, w_limits::Bool=false)
-    #GDHB
+    #GDHB -> Gauche Droite Haut Bas (facon dont il faut lire le tableau ci-dessous)
     if w_limits
         smartTab = [[[["┼", "?"], ["?", "┼"]], [["?", "┼"], ["┼", "┼"]]], [[["?", "┼"], ["┼", "┼"]], [["┼", "┼"], ["┼", "┼"]]]]
     else

@@ -155,7 +155,7 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     end
 end
 
-
+#Initialisation des grilles utiles pour heuristique
 function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
     regions = Array{Int64}(undef, n, p) #Stocke les regions : un numero par region
     for y in 1:n
@@ -177,7 +177,7 @@ function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
     return regions, sizes, exceed
 end
 
-
+#Premier score
 function firstHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     if exceed[y, x] == 0 || sizes[y, x] == maxSize
@@ -190,7 +190,7 @@ function firstHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     end
 end
 
-
+#Deuxieme score
 function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     if exceed[y, x] == 0 || sizes[y, x] == maxSize
@@ -219,7 +219,7 @@ function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     return score
 end
 
-
+#Liste des voisins avec deuxieme score
 function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
     n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     res = Array{Array{Int64, 1}}(undef, 4)
@@ -248,7 +248,7 @@ function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array
     return res
 end
 
-
+#nombre de palissades encore enlevables theoriquement autour de la case
 function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
     n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
     tailleFus = Array{Int64}(undef, 0) #tailles rajoutees avec fusion avec region concerne
@@ -307,7 +307,7 @@ function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed:
     return max(lessPali1, lessPali2)
 end
 
-
+#Detecte les impossibilites (nombre de palissades n'est plus diminuables la ou il faut)
 function oncologist(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
     for y in 1:n #On traque les impossibilites une premiere fois
@@ -327,7 +327,7 @@ function oncologist(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     return false
 end
 
-
+#fusionne 2 regions a partir de 2 cases
 function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     n::Int64, p::Int64, x1::Int64, y1::Int64, x2::Int64, y2::Int64)
     connComp(regions, regions, n, p, x2, y2, regions[y2, x2], regions[y1, x1]) #Fusion des regions
@@ -335,7 +335,7 @@ function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     connComp(regions, sizes, n, p, x1, y1, regions[y1, x1], totSize) #Update des tailles
 end
 
-
+#recalcule les exces
 function fixExceed(t::Array{Int64, 2}, regions::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64)
     for y in 1:n
@@ -351,7 +351,7 @@ function fixExceed(t::Array{Int64, 2}, regions::Array{Int64, 2},
     return true
 end
 
-
+#recalcule le premier score
 function fixHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Array{Int64, 1}, 1}, maxSize::Int64)
     for e in states
@@ -361,7 +361,7 @@ function fixHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     end
 end
 
-
+#verifie que les regions ont la bonne taille finale
 function checkSizes(sizes::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
     for y in 1:n
         for x in 1:p
@@ -373,6 +373,7 @@ function checkSizes(sizes::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
     return true
 end
 
+#verifie que les exces sont a 0 la ou il faut
 function checkExceed(exceed::Array{Int64, 2}, n::Int64, p::Int64)
     for y in 1:n
         for x in 1:p
@@ -384,7 +385,7 @@ function checkExceed(exceed::Array{Int64, 2}, n::Int64, p::Int64)
     return true
 end
 
-
+#Affichage de debug
 function debugGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2})
     printTab(regions)
     printTab(sizes)
@@ -392,7 +393,7 @@ function debugGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Ar
 end
 
 
-#Stocker regions et sizes pour le backtracking
+#Fonction recursive qui va tout mettre en place pour fusionner 2 regions et enclencher la suite
 function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Array{Int64, 1}, 1}, maxSize::Int64)
 
@@ -429,7 +430,7 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
                             return true
                         end
                     end
-                    copyto!(regions, stoRegions)
+                    copyto!(regions, stoRegions) #Retour a la case depart
                     copyto!(sizes, stoSizes)
                     fixExceed(t, regions, exceed, n, p)
                     fixHeuristic(regions, sizes, exceed, n, p, states, maxSize)
@@ -449,6 +450,7 @@ function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{
 end
 
 
+#Remets des numeros de regions normaux
 function normalizing(t::Array{Int64})
     n = size(t, 1)
     p = size(t, 2)
