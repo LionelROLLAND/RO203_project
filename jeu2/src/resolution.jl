@@ -149,11 +149,10 @@ function cplexSolve(t::Array{Int64, 2}, nr::Int64,nc::Int64,K::Int64)
     # 1 - true if an optimum is found
     # 2 - the resolution time
     if JuMP.primal_status(m) != NO_SOLUTION
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(horiz), JuMP.value.(vertic)
-   else
-   	return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1,-1
-   end
-    
+   	    return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,JuMP.value.(cases), JuMP.value.(horiz), JuMP.value.(vertic)
+    else
+   	    return JuMP.primal_status(m) == JuMP.MathOptInterface.FEASIBLE_POINT, time() - start,-1,-1,-1
+    end
 end
 
 
@@ -165,7 +164,7 @@ function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
         end
     end
     sizes = Array{Int64}(undef, n, p)
-    fill!(sizes, -1)
+    fill!(sizes, 1)
     exceed = Array{Int64}(undef, n, p)
     fill!(exceed, 5)
     for y in 1:n
@@ -178,27 +177,341 @@ function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
     return regions, sizes, exceed
 end
 
-#sort(list, by=fun)
-#sortperm(list, by=fun)
-#Faire liste correspondant a toutes les cases du tableau -> facile de recup voisins + stocker la permutation
 
-function score(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+function firstHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
     exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
-    if exceed[y, x] != 5
+    if exceed[y, x] == 0 || sizes[y, x] == maxSize
+        return -1
+    end
+    if exceed[y, x] == 5
+        return sizes[y, x]
+    else
         return maxSize*(exceed[y, x] + numNbEqI(regions, n, p, x, y, regions[y, x])) + sizes[y, x]
     end
+end
+
+
+function secondHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    if exceed[y, x] == 0 || sizes[y, x] == maxSize
+        return -1
+    end
+
+    score = div(firstHeuristic(regions, sizes, exceed, n, p, x, y, maxSize), 2)
+
+    dx = 1
+    dy = 0
+    temp = -1
+
+    for i in 1:4
+        temp = dy
+        dy = dx
+        dx = -temp
+    
+        nx = x+dx
+        ny = y+dy
+        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+            score += sizes[ny, nx]
+        else
+            score += maxSize
+        end
+    end
+    return score
+end
+
+
+function voisins(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
+    n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    res = Array{Array{Int64, 1}}(undef, 4)
+
+    dx = 1
+    dy = 0
+    temp = -1
+    for i in 1:4
+        temp = dy
+        dy = dx
+        dx = -temp
+    
+        nx = x+dx
+        ny = y+dy
+        res[i] = [nx, ny, -1]
+        if nx >= 1 && nx <= p && ny >= 1 && ny <= n
+            if regions[y, x] == regions[ny, nx]
+                res[i][3] = -1
+            else
+                res[i][3] = secondHeuristic(regions, sizes, exceed, n, p, nx, ny, maxSize)
+            end
+        else
+            res[i][3] = -1
+        end
+    end
+    return res
+end
+
+
+function paliEnlevable(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2},
+    n::Int64, p::Int64, x::Int64, y::Int64, maxSize::Int64)
+    tailleFus = Array{Int64}(undef, 0) #tailles rajoutees avec fusion avec region concerne
+    corr_reg = Array{Int64}(undef, 0) #regions correspondantes
+    minusPali = Array{Int64}(undef, 0) #palissades en moins en fusionnant avec region concerne
+    indPlus = -1 #Indice d'une region avec plusieurs frontieres communes
+
+    vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
+    for v in vois
+        if v[3] >= 0
+            vx = v[1]
+            vy = v[2]
+            knownReg = indexin(regions[vy, vx], corr_reg)[1]
+            if knownReg === nothing
+                push!(corr_reg, regions[vy, vx])
+                push!(tailleFus, sizes[vy, vx])
+                push!(minusPali, 1)
+            else
+                minusPali[knownReg] += 1
+                indPlus = knownReg
+            end
+        end
+    end
+
+    ordTaille = sortperm(tailleFus)
+    lessPali1 = 0
+    actTaille = sizes[y, x]
+
+    for i in 1:size(corr_reg, 1)
+
+        realInd = ordTaille[i]
+        if actTaille + tailleFus[realInd] <= maxSize #Si fusion avec region fait pas region trop grande
+            lessPali1 += minusPali[realInd] #Alors fusion et enlevement des palissades
+            actTaille += tailleFus[realInd]
+        end
+    end
+
+    lessPali2 = -1
+    if indPlus != -1
+
+        actTaille = sizes[y, x] + tailleFus[indPlus]
+        if actTaille <= maxSize
+
+            lessPali2 = minusPali[indPlus]
+            for i in 1:size(corr_reg, 1)
+
+                realInd = ordTaille[i]
+                if realInd != indPlus && actTaille + tailleFus[realInd] <= maxSize
+                    lessPali2 += minusPali[realInd]
+                    actTaille += tailleFus[realInd]
+                end
+            end
+        end
+    end
+
+    return max(lessPali1, lessPali2)
+end
+
+
+function oncologist(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
+    for y in 1:n #On traque les impossibilites une premiere fois
+        for x in 1:p
+
+            #Base sur la taille de la region et des regions adjacentes, checke si on pourrait
+            #encore supprimer assez de palissades
+            if exceed[y, x] != 5
+                lessPali = paliEnlevable(regions, sizes, exceed, n, p, x, y, maxSize)
+                if exceed[y, x] - lessPali > 0 || exceed[y, x] < 0 #Arrive jamais maintenant normalement
+                    return true
+                end
+            end
+
+        end
+    end
+    return false
+end
+
+
+function fusion(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    n::Int64, p::Int64, x1::Int64, y1::Int64, x2::Int64, y2::Int64)
+    connComp(regions, regions, n, p, x2, y2, regions[y2, x2], regions[y1, x1]) #Fusion des regions
+    totSize = sizes[y1, x1] + sizes[y2, x2]
+    connComp(regions, sizes, n, p, x1, y1, regions[y1, x1], totSize) #Update des tailles
+end
+
+
+function fixExceed(t::Array{Int64, 2}, regions::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64)
+    for y in 1:n
+        for x in 1:p
+            if t[y, x] != -1
+                exceed[y, x] = 4 - numNbEqI(regions, n, p, x, y, regions[y, x]) - t[y, x]
+                if exceed[y, x] < 0
+                    return false
+                end
+            end
+        end
+    end
+    return true
+end
+
+
+function fixHeuristic(regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Array{Int64, 1}, 1}, maxSize::Int64)
+    for e in states
+        x = e[1]
+        y = e[2]
+        e[3] = firstHeuristic(regions, sizes, exceed, n, p, x, y, maxSize)
+    end
+end
+
+
+function checkSizes(sizes::Array{Int64, 2}, n::Int64, p::Int64, maxSize::Int64)
+    for y in 1:n
+        for x in 1:p
+            if sizes[y, x] != maxSize
+                return false
+            end
+        end
+    end
+    return true
+end
+
+function checkExceed(exceed::Array{Int64, 2}, n::Int64, p::Int64)
+    for y in 1:n
+        for x in 1:p
+            if exceed[y, x] != 0 && exceed[y, x] != 5
+                return false
+            end
+        end
+    end
+    return true
+end
+
+
+function debugGrids(regions::Array{Int64, 2}, sizes::Array{Int64, 2}, exceed::Array{Int64, 2})
+    printTab(regions)
+    printTab(sizes)
+    printTab(exceed)
+end
+
+
+#Stocker regions et sizes pour le backtracking
+function updateGrids(t::Array{Int64, 2}, regions::Array{Int64, 2}, sizes::Array{Int64, 2},
+    exceed::Array{Int64, 2}, n::Int64, p::Int64, states::Array{Array{Int64, 1}, 1}, maxSize::Int64)
+
+    if oncologist(regions, sizes, exceed, n, p, maxSize)
+        return false
+    end
+
+    stoRegions = deepcopy(regions)
+    stoSizes = deepcopy(sizes)
+
+    kyloRen = sortperm(states, by=(x->x[3]), rev=true) #aurait du s'appeler firstOrder (on s'amuse comme on peut)
+    indice = 1
+    while indice <= n*p
+        e = states[kyloRen[indice]]
+        x = e[1]
+        y = e[2]
+        vois = voisins(regions, sizes, exceed, n, p, x, y, maxSize)
+        sort!(vois, by=(x->x[3]), rev=true)
+        for v in vois
+            if v[3] >= 0
+                vx = v[1]
+                vy = v[2]
+                if sizes[vy, vx] + sizes[y, x] <= maxSize #Fusion a priori permise
+                    fusion(regions, sizes, n, p, x, y, vx, vy)
+                    if fixExceed(t, regions, exceed, n, p)
+                        if sizes[y, x] == maxSize
+                            if checkSizes(sizes, n, p, maxSize) && checkExceed(exceed, n, p)
+                                return true
+                            end
+                        end
+                        fixHeuristic(regions, sizes, exceed, n, p, states, maxSize)
+                        finished = updateGrids(t, regions, sizes, exceed, n, p, states, maxSize)
+                        if finished
+                            return true
+                        end
+                    end
+                    copyto!(regions, stoRegions)
+                    copyto!(sizes, stoSizes)
+                    fixExceed(t, regions, exceed, n, p)
+                    fixHeuristic(regions, sizes, exceed, n, p, states, maxSize)
+                end
+            end
+        end
+        if exceed[y, x] != 5 && exceed[y, x] > 0 #On ne reussit plus a diminuer le nb de palissades autour de x, y
+            return false
+        end
+        indice += 1
+    end
+    if maxSize == 1
+        return checkSizes(sizes, n, p, maxSize) && checkExceed(exceed, n, p)
+    else
+        return false
+    end
+end
+
+
+function normalizing(t::Array{Int64})
+    n = size(t, 1)
+    p = size(t, 2)
+    corres = Array{Int64}(undef, 0)
+    res = Array{Int64}(undef, n, p)
+    for y in 1:n
+        for x in 1:p
+            numReg = indexin(t[y, x], corres)[1]
+            if numReg === nothing
+                push!(corres, t[y, x])
+                numReg = size(corres, 1)
+            end
+            res[y, x] = numReg
+        end
+    end
+    return res
 end
 
 
 """
 Heuristically solve an instance
 """
-function heuristicSolve()
+function heuristicSolve(t::Array{Int64, 2}, regionSize::Int64)
+    n = size(t, 1)
+    p = size(t, 2)
+    regions, sizes, exceed = initGrids(t, n, p)
+
+    states = Array{Array{Int64, 1}}(undef, n*p)
+
+    for y in 1:n
+        for x in 1:p
+            indice = (y-1)*p + x
+            states[indice] = [x, y, -1]
+        end
+    end
+    fixHeuristic(regions, sizes, exceed, n, p, states, regionSize)
+
+    solved = updateGrids(t, regions, sizes, exceed, n, p, states, regionSize)
+
+    isOpti = false
+    if solved
+        isOpti = true
+        #println("Instance solved !")
+    else
+        #println("Not solved :/")
+    end
+
+
+    corrige = normalizing(regions)
+    horiz, vertic = generatePali(corrige)
+    #displayGrid(corrige, horiz, vertic)
+    return isOpti, corrige, horiz, vertic
 
     # TODO
-    println("In file resolution.jl, in method heuristicSolve(), TODO: fix input and output, define the model")
+    # println("In file resolution.jl, in method heuristicSolve(), TODO: fix input and output, define the model")
     
-end 
+end
+
+
+function wrapSolve(fname::String)
+    t, horiz, vertic, regionSize = readInputFile(fname)
+    return heuristicSolve(t, regionSize)
+end
 
 """
 Solve all the instances contained in "../data" through CPLEX and heuristics
@@ -213,8 +526,8 @@ function solveDataSet()
     resFolder = "../res/"
 
     # Array which contains the name of the resolution methods
-    resolutionMethod = ["cplex"]
-    #resolutionMethod = ["cplex", "heuristique"]
+    #resolutionMethod = ["cplex"]
+    resolutionMethod = ["cplex", "heuristique"]
 
     # Array which contains the result folder of each resolution method
     resolutionFolder = resFolder .* resolutionMethod
@@ -226,7 +539,7 @@ function solveDataSet()
         end
     end
             
-    global isOptimal = false
+    isOptimal = false
     global solveTime = -1
 
     # For each instance
@@ -234,7 +547,7 @@ function solveDataSet()
     for file in filter(x->occursin(".txt", x), readdir(dataFolder))  
         
         println("-- Resolution of ", file)
-        t, horiz, vertic,cellSize= readInputFile(dataFolder * file)
+        t, horiz, vertic, cellSize= readInputFile(dataFolder * file)
         
         solved_t = copy(t)
         nr = size(t,1)
@@ -242,27 +555,28 @@ function solveDataSet()
     
        #number of regions
     
-       if cellSize > 0
+        if cellSize > 0
           K=div(nr*nc,cellSize)
-       else
+        else
           K=nc
-       end
+        end
+        resolutionTime = -1
         
-       
         # TODO
         #println("In file resolution.jl, in method solveDataSet(), TODO: read value returned by readInputFile()")
         
         # For each resolution method
         for methodId in 1:size(resolutionMethod, 1)
             
-            outputFile = resolutionFolder[methodId] * "/" * file
+            outputFile = resolutionFolder[methodId] * "/stats_" * file
+            solFile = resolutionFolder[methodId] * "/res_" * file
 
             # If the instance has not already been solved by this method
             if !isfile(outputFile)
                 
-                fout = open(outputFile, "w")  
+                fout = open(outputFile, "w")
+                sout = open(solFile, "w")
 
-                resolutionTime = -1
                 isOptimal = false
                 
                 # If the method is cplex
@@ -296,12 +610,12 @@ function solveDataSet()
 
                         for i in 1:nr
                             for j in 1:(nc-1)                                
-                                 vertic[i,j]=verti[i,1+j]                                   
+                                vertic[i,j]=verti[i,1+j]                                   
                             end
                         end
                     end
                     
-                    writeOutputFile(fout,solved_t,horiz,vertic,cellSize)
+                    writeOutputFile(sout, solved_t, horiz, vertic, cellSize)
                 # If the method is one of the heuristics
                 else
                     
@@ -310,26 +624,22 @@ function solveDataSet()
                     # Start a chronometer 
                     startingTime = time()
                     
-                    # While the grid is not solved and less than 100 seconds are elapsed
-                    while !isOptimal && resolutionTime < 100
-                        
-                        # TODO 
-                        println("In file resolution.jl, in method solveDataSet(), TODO: fix heuristicSolve() arguments and returned values")
-                        
-                        # Solve it and get the results
-                        isOptimal, resolutionTime = heuristicSolve()
-
-                        # Stop the chronometer
-                        resolutionTime = time() - startingTime
-                        
-                    end
+                    
+                    # TODO 
+                    #println("In file resolution.jl, in method solveDataSet(), TODO: fix heuristicSolve() arguments and returned values")
+                    
+                    # Solve it and get the results
+                    isOptimal, solved_t, horiz, vertic = heuristicSolve(t, cellSize)
+                    
+                    # Stop the chronometer
+                    resolutionTime = time() - startingTime
 
                     # Write the solution (if any)
                     if isOptimal
 
                         # TODO
-                        println("In file resolution.jl, in method solveDataSet(), TODO: write the heuristic solution in fout")
-                        
+                        # println("In file resolution.jl, in method solveDataSet(), TODO: write the heuristic solution in fout")
+                        writeOutputFile(sout, solved_t, horiz, vertic, cellSize)
                     end 
                 end
 
@@ -337,8 +647,9 @@ function solveDataSet()
                 println(fout, "isOptimal = ", isOptimal)
                 
                 # TODO
-                println("In file resolution.jl, in method solveDataSet(), TODO: write the solution in fout") 
+                # println("In file resolution.jl, in method solveDataSet(), TODO: write the solution in fout") 
                 close(fout)
+                close(sout)
             end
 
 
@@ -347,7 +658,7 @@ function solveDataSet()
             displayGrid(t, horiz, vertic, true)
             displayGrid(solved_t, horiz, vertic, false)
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
-            println(resolutionMethod[methodId], " time: " * string(round(solveTime, sigdigits=2)) * "s\n")
+            println(resolutionMethod[methodId], " time: " * string(round(resolutionTime, sigdigits=2)) * "s\n")
         end         
     end 
 end

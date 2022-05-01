@@ -1,5 +1,6 @@
 include("io.jl")
 include("generation.jl")
+include("resolution.jl")
 
 function test_gene(n::Int64, p::Int64, regionSize::Int64)
     t = Array{Int64}(undef, n, p)
@@ -26,12 +27,28 @@ function testInstance(n::Int64, p::Int64, regionSize::Int64, density::Float64)
     displayGrid(t, horiz, vertic, true)
 end
 
+function testHeuristic(fname::String)
+    start = time()
+    println("Tip --")
+    t, horiz, vertic, regionSize = readInputFile(fname)
+    displayGrid(t, horiz, vertic, true)
+    isOpti, regions, horiz, vertic = heuristicSolve(t, regionSize)
+    println("\n-- Top")
+    stop = time()
+    println(string(stop-start)*" secondes ecoulees")
+    displayGrid(regions, horiz, vertic)
+end
 
+
+#=
 for i in 1:60
     test_gene(4, 6, 6)
 end
-#=
+
 testInstance(4, 6, 8, 0.2)
 test_rw(4, 6, 6, "Jean-Claude.txt")
+generateDataSet(10, 10, "big_instance_", ".txt")
+testHeuristic("../data/big_instance_1.txt")
 =#
-generateDataSet(5, 10, ".test_test__", ".txt")
+
+solveDataSet()

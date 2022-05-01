@@ -1,6 +1,6 @@
 Format données :
 
-5 5  #dimensions de la grille : h l
+5 5 5 #dimensions de la grille et taille des regions : h l n
 1 2 2 #Remplissage des cases : x y v
 1 5 2
 2 1 2

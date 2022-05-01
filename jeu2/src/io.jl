@@ -4,6 +4,15 @@ using JuMP
 using Plots
 import GR
 
+function remComment(line)
+    indComm = findfirst(isequal('#'), line)
+    if indComm === nothing
+        return line
+    else
+        return line[1:indComm-1]
+    end
+end
+
 """
 Read an instance from an input file
 
@@ -17,7 +26,7 @@ function readInputFile(inputFile::String)
 
     data = readlines(datafile)
     close(datafile)
-    line = data[1]
+    line = remComment(data[1])
     ls = split(line, " ")
     n = parse(Int64, ls[1])
     p = parse(Int64, ls[2])
@@ -31,7 +40,7 @@ function readInputFile(inputFile::String)
 
     # For each line of the input file
     k = 2
-    line = data[k]
+    line = remComment(data[k])
     while line != ""
         #println(k)
         #println(line)
@@ -41,24 +50,28 @@ function readInputFile(inputFile::String)
         v = parse(Int64, ls[3])
         t[y,x] = v
         k += 1
-        line = data[k]
+        line = remComment(data[k])
+        println(line)
     end
     k += 1
-    line = data[k]
+    line = remComment(data[k])
     while line != ""
         ls = split(line, " ")
         x = parse(Int64, ls[1])
         y = parse(Int64, ls[2])
         horiz[y, x] = 1
         k += 1
-        line = data[k]
+        line = remComment(data[k])
     end
     k += 1
     for line in data[k:end]
-        ls = split(line, " ")
-        x = parse(Int64, ls[1])
-        y = parse(Int64, ls[2])
-        vertic[y, x] = 1
+        line = remComment(line)
+        if line != ""
+            ls = split(line, " ")
+            x = parse(Int64, ls[1])
+            y = parse(Int64, ls[2])
+            vertic[y, x] = 1
+        end
     end
     
     #println("In file io.jl, in method readInputFile(), TODO: read a line of the input file")
@@ -225,7 +238,7 @@ function displayGrid(t::Array{Int64, 2}, horiz::Array{Int64, 2}, vertic::Array{I
     end
 
     for y in 1:n-1
-        for x in 1:p-1 #cT[2*y+1, 2*x+1]
+        for x in 1:p-1
             g = 1 + b_to_i(cT[2*y+1, 2*x] == "─")
             d = 1 + b_to_i(cT[2*y+1, 2*x+2] == "─")
             h = 1 + b_to_i(cT[2*y, 2*x+1] == "│")
@@ -336,7 +349,7 @@ function performanceDiagram(outputFile::String)
             fileCount = 0
 
             # For each text file in the subfolder
-            for resultFile in filter(x->occursin(".txt", x), readdir(path))
+            for resultFile in filter(x->occursin("stats_", x), readdir(path))
 
                 fileCount += 1
                 include(path * "/" * resultFile)
@@ -490,7 +503,7 @@ function resultsArray(outputFile::String)
             folderSize = size(readdir(path), 1)
 
             # Add all its files in the solvedInstances array
-            for file2 in filter(x->occursin(".txt", x), readdir(path))
+            for file2 in filter(x->occursin("stats_", x), readdir(path))
                 solvedInstances = vcat(solvedInstances, file2)
             end 
 
