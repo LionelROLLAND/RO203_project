@@ -416,5 +416,29 @@ function generateDataSet(nbInstance::Int64, sizeMax::Int64, pref::String="instan
     
 end
 
+function testDensity(nbInstance::Int64=15, pref::String="densInstance_", suff::String=".txt")
+    print("\n0 % done")
+    for i in 1:nbInstance
+        n = 3
+        p = 5
+        cellSize = 3
+        t, horiz, vertic = generateInstance(n, p, cellSize, i/nbInstance)
+        writeOutputFile("../data/"*pref * string(i) * suff, t, horiz, vertic, cellSize)
+        print("\r"*string(div(100*i, nbInstance))*" % done")
+    end
+    print("\n")
+    #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
+end
 
-
+function testSize(nbInstance::Int64, density::Float64, pref::String="sizeInstance_", suff::String=".txt")
+    print("\n0 % done")
+    for i in 1:nbInstance
+        n = 5
+        p = 5
+        cellSize = 5
+        t, horiz, vertic = generateInstance(n, p, cellSize, density)
+        writeOutputFile("../data/"*pref * string(i) * suff, t, horiz, vertic, cellSize)
+        print("\r"*string(div(100*i, nbInstance))*" % done")
+    end
+    print("\n")
+end

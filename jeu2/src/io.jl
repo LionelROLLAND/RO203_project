@@ -51,7 +51,6 @@ function readInputFile(inputFile::String)
         t[y,x] = v
         k += 1
         line = remComment(data[k])
-        println(line)
     end
     k += 1
     line = remComment(data[k])
@@ -349,7 +348,7 @@ function performanceDiagram(outputFile::String)
             fileCount = 0
 
             # For each text file in the subfolder
-            for resultFile in filter(x->occursin("stats_", x), readdir(path))
+            for resultFile in filter(x->!occursin("res_", x), readdir(path))
 
                 fileCount += 1
                 include(path * "/" * resultFile)
@@ -503,9 +502,9 @@ function resultsArray(outputFile::String)
             folderSize = size(readdir(path), 1)
 
             # Add all its files in the solvedInstances array
-            for file2 in filter(x->occursin("stats_", x), readdir(path))
+            for file2 in filter(x->!occursin("res_", x), readdir(path))
                 solvedInstances = vcat(solvedInstances, file2)
-            end 
+            end
 
             if maxSize < folderSize
                 maxSize = folderSize
@@ -514,7 +513,7 @@ function resultsArray(outputFile::String)
     end
 
     # Only keep one string for each instance solved
-    unique(solvedInstances)
+    solvedInstances = unique(solvedInstances)
 
     # For each resolution method, add two columns in the array
     for folder in folderName
@@ -569,7 +568,7 @@ function resultsArray(outputFile::String)
 
                 include(path)
 
-                println(fout, " & ", round(solveTime, digits=2), " & ")
+                println(fout, " & ", round(solveTime, digits=5), " & ")
 
                 if isOptimal
                     println(fout, "\$\\times\$")

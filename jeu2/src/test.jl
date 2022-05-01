@@ -39,7 +39,6 @@ function testHeuristic(fname::String)
     displayGrid(regions, horiz, vertic)
 end
 
-
 #=
 for i in 1:60
     test_gene(4, 6, 6)
@@ -52,3 +51,7 @@ testHeuristic("../data/big_instance_1.txt")
 =#
 
 solveDataSet()
+#resultsArray("../resultsArray.tex")
+#performanceDiagram("../results.png")
+#generateDataSet(10, 6, "more_instance_", ".txt")
+#testSize(5, 0.5, "sizeInstance_", ".txt")

@@ -157,15 +157,15 @@ end
 
 
 function initGrids(t::Array{Int64,2}, n::Int64, p::Int64)
-    regions = Array{Int64}(undef, n, p)
+    regions = Array{Int64}(undef, n, p) #Stocke les regions : un numero par region
     for y in 1:n
         for x in 1:p
             regions[y,x] = (y-1)*p + x
         end
     end
-    sizes = Array{Int64}(undef, n, p)
+    sizes = Array{Int64}(undef, n, p) #Stocke la surface de la region de chaque case
     fill!(sizes, 1)
-    exceed = Array{Int64}(undef, n, p)
+    exceed = Array{Int64}(undef, n, p) #Stocke "l'exces" de palissades de chaque case (5 si aucun nombre impose)
     fill!(exceed, 5)
     for y in 1:n
         for x in 1:p
@@ -556,9 +556,9 @@ function solveDataSet()
        #number of regions
     
         if cellSize > 0
-          K=div(nr*nc,cellSize)
+            K=div(nr*nc,cellSize)
         else
-          K=nc
+            K=nc
         end
         resolutionTime = -1
         
@@ -568,7 +568,7 @@ function solveDataSet()
         # For each resolution method
         for methodId in 1:size(resolutionMethod, 1)
             
-            outputFile = resolutionFolder[methodId] * "/stats_" * file
+            outputFile = resolutionFolder[methodId] * "/" * file
             solFile = resolutionFolder[methodId] * "/res_" * file
 
             # If the instance has not already been solved by this method
@@ -658,7 +658,7 @@ function solveDataSet()
             displayGrid(t, horiz, vertic, true)
             displayGrid(solved_t, horiz, vertic, false)
             println(resolutionMethod[methodId], " optimal: ", isOptimal)
-            println(resolutionMethod[methodId], " time: " * string(round(resolutionTime, sigdigits=2)) * "s\n")
+            println(resolutionMethod[methodId], " time: " * string(round(resolutionTime, sigdigits=5)) * "s\n")
         end         
     end 
 end
