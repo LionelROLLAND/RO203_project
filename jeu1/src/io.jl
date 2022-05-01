@@ -404,3 +404,8 @@ function resultsArray(outputFile::String)
     close(fout)
     
 end 
+
+###Misc
+
+function stats()
+

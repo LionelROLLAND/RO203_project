@@ -53,8 +53,8 @@ function generateDataSet()
 
     # TODO
     #println("In file generation.jl, in method generateDataSet(), TODO: generate an instance")
-    dim_min = 99
-    dim_max = 99
+    dim_min = 2
+    dim_max = 10
     step_density = 0.1
     nb_repetition = 1
     
