@@ -56,9 +56,9 @@ testHeuristic("../data/big_instance_1.txt")
 resultsArray("../resultsArray.tex")
 performanceDiagram("../results.png")
 testSize(5, 0.5, "sizeInstance_", ".txt")
-=#
 generateDataSet(5, 6, "instance_", ".txt")
 solveDataSet()
+=#
 
 
-#testHeuristic("../data_test/instance_expl.txt")
+testHeuristic("../data_test/instance_expl.txt")
